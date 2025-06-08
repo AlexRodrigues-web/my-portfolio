@@ -1,14 +1,20 @@
-# Usa a imagem oficial do PHP com Apache
 FROM php:8.2-apache
 
-# Copia todo seu código para a pasta padrão do apache
-COPY . /var/www/html/
+# Instala dependências e extensões necessárias
+RUN apt-get update && apt-get install -y \
+    default-mysql-client \
+    libonig-dev \
+    libzip-dev \
+    unzip \
+    && docker-php-ext-install pdo pdo_mysql mysqli
 
-# Ativa mod_rewrite do apache (útil para urls amigáveis)
+# Ativa mod_rewrite do apache
 RUN a2enmod rewrite
 
-# Exponha a porta 80
+# Copia seu código para o Apache
+COPY . /var/www/html/
+
+# Expõe a porta 80
 EXPOSE 80
 
-# Comando para rodar o apache em primeiro plano
 CMD ["apache2-foreground"]
