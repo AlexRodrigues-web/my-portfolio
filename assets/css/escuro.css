@@ -1,0 +1,116 @@
+/* =========================================================
+   escuro.css — Tema Escuro COMPLETO
+   Mantém compatibilidade com todas as páginas
+   ========================================================= */
+
+/* 1)  SOBRE-ESCREVE APENAS OS TOKENS DE COR
+----------------------------------------------------------- */
+body[data-tema="escuro"]{
+  /* plano de fundo + cor de texto “global” */
+  --bg:            #121212;
+  --bg-color:      #121212;
+  --text-color:    #eaeaea;
+
+  /* cores de realce */
+  --accent:        #a38c74;   /* tom principal (botões, links, títulos)  */
+  --accent-dk:     #8d7963;   /* hover/active                            */
+  --light-accent:  #2a2a2a;   /* cartões, botões suaves                  */
+
+  /* links, botões e bordas */
+  --link-color:    var(--accent);
+  --button-bg:     var(--accent);
+  --button-text:   #000;
+  --border-color:  #444;
+
+  /* cabeçalho / rodapé */
+  --header-bg:     #1b1b1b;
+  --footer-bg:     #1b1b1b;
+  --footer-text:   #aaaaaa;
+
+  /* sombras (um pouco mais fortes no dark) */
+  --shadow:        0 4px 14px rgba(0,0,0,.55);
+  --shadow-hov:    0 8px 28px rgba(0,0,0,.70);
+}
+
+/* 2)  ELEMENTOS QUE USAM FUNDO SEMITRANSPARENTE
+----------------------------------------------------------- */
+/* laterais da “dupla-face” + frase central */
+body[data-tema="escuro"] .lado,
+body[data-tema="escuro"] .dupla-face .designer,
+body[data-tema="escuro"] .dupla-face .coder,
+body[data-tema="escuro"] .centro-imagem .frase{
+  color:#f1f1f1;
+}
+
+/* cartões/resumos (já puxam --light-accent) */
+body[data-tema="escuro"] .resumo-bloco,
+body[data-tema="escuro"] .card{
+  background-color:var(--light-accent);
+  color:#eaeaea;
+  box-shadow:var(--shadow);
+}
+
+/* posts de vagas / profissionais */
+body[data-tema="escuro"] .post-vaga{background:#1d1d1d;border-left-color:var(--accent-dk)}
+body[data-tema="escuro"] .post-profissional{background:#1a1a1a;border-left-color:var(--accent)}
+
+/* 3)  BOTÕES, ÍCONES & INTERAÇÕES
+----------------------------------------------------------- */
+body[data-tema="escuro"] .btn,
+body[data-tema="escuro"] .btn-mini{
+  background:var(--button-bg);
+  color:var(--button-text);
+}
+body[data-tema="escuro"] .btn:hover,
+body[data-tema="escuro"] .btn-mini:hover{
+  background:var(--accent-dk);
+  color:#fff;
+}
+body[data-tema="escuro"] .modos-icones button{
+  border-color:var(--text-color);color:var(--text-color);
+}
+body[data-tema="escuro"] .modos-icones button:hover{
+  background:var(--accent-dk);color:#fff;
+}
+
+/* 4)  CABEÇALHO, MENU E SOMBRA ESPECIAL
+----------------------------------------------------------- */
+body[data-tema="escuro"] .topo{
+  background-color:var(--header-bg);
+  box-shadow:var(--shadow);
+  border-bottom:3px solid var(--accent);
+}
+body[data-tema="escuro"] .topo::after{
+  background:linear-gradient(90deg,var(--accent),var(--accent-dk));
+}
+body[data-tema="escuro"] .logo a{color:var(--text-color)}
+body[data-tema="escuro"] .menu a{color:var(--text-color)}
+body[data-tema="escuro"] .menu a:hover{color:var(--link-color)}
+
+/* 5)  RODAPÉ
+----------------------------------------------------------- */
+body[data-tema="escuro"] .rodape{
+  background-color:var(--footer-bg);
+  color:var(--footer-text);
+  border-top:4px solid var(--accent);
+  box-shadow:0 -2px 8px rgba(0,0,0,.5);
+}
+body[data-tema="escuro"] .icones-sociais a{color:#ccc}
+body[data-tema="escuro"] .icones-sociais a:hover{color:var(--accent)}
+
+/* 6)  DUPLA-FACE — fundo gradiente da HERO no dark
+----------------------------------------------------------- */
+body[data-tema="escuro"] .dupla-face{
+  background:linear-gradient(135deg,#2c2c2c 0%,#202020 100%);
+}
+
+/* 7)  RESPONSIVE AJUSTES (≤768 px)
+----------------------------------------------------------- */
+@media(max-width:768px){
+  body[data-tema="escuro"] .header-flex{flex-direction:column;text-align:center}
+  body[data-tema="escuro"] .menu ul{flex-direction:column;gap:1rem;margin-top:.8rem}
+  body[data-tema="escuro"] .dupla-face{flex-direction:column;text-align:center}
+  body[data-tema="escuro"] .resumos{grid-template-columns:1fr}
+  body[data-tema="escuro"] .rodape{font-size:.9rem}
+  body[data-tema="escuro"] .icones-sociais a{font-size:1.15rem}
+}

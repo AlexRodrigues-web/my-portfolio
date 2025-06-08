@@ -1,0 +1,19 @@
+# Ativa o mod_rewrite
+RewriteEngine On
+
+# Define base se necessário (ajuste para sua pasta, se não estiver na raiz do Apache)
+RewriteBase /
+
+# Redireciona URLs amigáveis
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+
+# Impede listagem de diretórios
+Options -Indexes
+
+# Bloqueia acesso a arquivos sensíveis
+<FilesMatch "\.(env|htaccess|ini|log|sql|sh|bak)$">
+  Require all denied
+</FilesMatch>
+ErrorDocument 404 /404.php
