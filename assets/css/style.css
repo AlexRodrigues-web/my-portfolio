@@ -701,3 +701,26 @@ body[data-tema="coloradd"] {
 .btn-mini:hover {
   background: #005fa3;
 }
+@media(max-width: 768px) {
+  .dupla-face {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .designer {
+    order: 1;
+  }
+
+  .centro-imagem {
+    order: 2;
+    margin: 2rem 0;
+  }
+
+  .coder {
+    order: 3;
+  }
+
+  .conteudo-centro {
+    margin-top: 1rem;
+  }
+}
