@@ -218,12 +218,11 @@ ul {
 
 /* DUPLA FACE */
 .dupla-face {
-  display: flex;
-  justify-content: space-between; /* Empurra as laterais para as bordas */
-  min-height: 100vh;
-  position: relative;
-  text-align: center;
+  max-width: 100vw;
+  overflow-x: hidden;
+  padding: 2rem 1rem; /* reduzido para evitar overflow */
 }
+
 
 /* Cada “lado” ocupa 30% da largura e fica alinhado às bordas */
 .dupla-face .lado {
