@@ -92,4 +92,4 @@ Included in this project:
 ## 📄 License
 
 This project is licensed under the MIT License.  
-ColorADD® symbols used with educational/non-commercial intent.
+ColorADD® symbols used with educational/non-commercial intent."# meu-portf�lio"  
