@@ -53,10 +53,36 @@ if (preg_match("/[\r\n]/", $nome) || preg_match("/[\r\n]/", $email_raw)) {
     exit;
 }
 
-// Monta o corpo do e-mail
-$destinatario = 'alexrroliver200@gmail.com';
-$titulo = "Formulário do site: $assunto";
-$corpo = <<<MSG
+// Import PHPMailer classes via Composer autoload
+require __DIR__ . '/vendor/autoload.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+$mail = new PHPMailer(true);
+
+try {
+    // Configurações SMTP Gmail
+    $mail->isSMTP();
+    $mail->Host = 'smtp.gmail.com';
+    $mail->SMTPAuth = true;
+    $mail->Username = 'alexrroliver200@gmail.com';          // Seu email Gmail
+    $mail->Password = 'djzp hgbh utlk tiej';                // Sua senha de app aqui
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;    // TLS
+    $mail->Port = 587;
+
+    // Remetente e destinatário
+    $mail->setFrom('alexrroliver200@gmail.com', 'Site Meu Portfolio');
+    $mail->addAddress('alexrroliver200@gmail.com');         // Para quem vai o email (você mesmo)
+
+    // Responder para o usuário que enviou o formulário
+    $mail->addReplyTo($email, $nome);
+
+    // Conteúdo do email
+    $mail->isHTML(false);
+    $mail->Subject = "Formulário do site: $assunto";
+
+    $corpo = <<<MSG
 Nome: $nome
 Email: $email
 Assunto: $assunto
@@ -65,17 +91,16 @@ Mensagem:
 $mensagem
 MSG;
 
-$headers = "From: $nome <$email>\r\n";
-$headers .= "Reply-To: $email\r\n";
-$headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
+    $mail->Body = $corpo;
 
-// Envia e-mail
-if (mail($destinatario, $titulo, $corpo, $headers)) {
+    // Enviar
+    $mail->send();
+
     echo "<script>alert('Mensagem enviada com sucesso!'); window.location.href='../contato.php';</script>";
     exit;
-} else {
-    error_log("Erro ao enviar e-mail de contato de $email");
+
+} catch (Exception $e) {
+    error_log("Erro ao enviar e-mail de contato: {$mail->ErrorInfo}");
     echo "<script>alert('Erro ao enviar a mensagem. Tente novamente mais tarde.'); history.back();</script>";
     exit;
 }
-?>
