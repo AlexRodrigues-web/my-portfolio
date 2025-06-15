@@ -7,7 +7,7 @@ ini_set('log_errors', 1);
 ini_set('error_log', __DIR__ . '/log_erros.txt');
 error_reporting(E_ALL);
 
-// Tempo mínimo entre envios: 15s
+// Tempo mínimo entre envios: 15 segundos
 if (isset($_SESSION['last_submit']) && time() - $_SESSION['last_submit'] < 15) {
     echo "<script>alert('Aguarde alguns segundos antes de reenviar.'); history.back();</script>";
     exit;
@@ -16,7 +16,8 @@ $_SESSION['last_submit'] = time();
 
 // Verifica se é um envio via POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    echo "<script>alert('Acesso inválido.'); window.location.href='../';</script>";
+    // Redireciona para página inicial
+    header('Location: ../');
     exit;
 }
 
@@ -27,23 +28,23 @@ if (empty($csrf_token) || $csrf_token !== ($_SESSION['csrf_token'] ?? '')) {
     exit;
 }
 
-// Sanitização e validação
+// Sanitização dos dados
 $nome = htmlspecialchars(trim($_POST['nome'] ?? ''), ENT_QUOTES, 'UTF-8');
 $email_raw = trim($_POST['email'] ?? '');
-$email = filter_var($email_raw, FILTER_VALIDATE_EMAIL);
 $assunto = htmlspecialchars(trim($_POST['assunto'] ?? 'Sem assunto'), ENT_QUOTES, 'UTF-8');
 $mensagem = htmlspecialchars(trim($_POST['mensagem'] ?? ''), ENT_QUOTES, 'UTF-8');
 $verificacao = trim($_POST['verificacao'] ?? '');
 
-// Verificação antispam
+// Verificação antispam (campo simples)
 if ($verificacao !== '12') {
     echo "<script>alert('Resposta incorreta para verificação antispam.'); history.back();</script>";
     exit;
 }
 
-// Verificação de campos obrigatórios
-if (empty($nome) || !$email || empty($mensagem)) {
-    echo "<script>alert('Preencha todos os campos obrigatórios.'); history.back();</script>";
+// Valida email antes da proteção contra header injection
+$email = filter_var($email_raw, FILTER_VALIDATE_EMAIL);
+if (!$email) {
+    echo "<script>alert('Email inválido.'); history.back();</script>";
     exit;
 }
 
@@ -53,7 +54,13 @@ if (preg_match("/[\r\n]/", $nome) || preg_match("/[\r\n]/", $email_raw)) {
     exit;
 }
 
-// Import PHPMailer classes via Composer autoload
+// Verificação de campos obrigatórios
+if (empty($nome) || empty($mensagem)) {
+    echo "<script>alert('Preencha todos os campos obrigatórios.'); history.back();</script>";
+    exit;
+}
+
+// Import PHPMailer via Composer
 require __DIR__ . '/vendor/autoload.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
@@ -66,19 +73,25 @@ try {
     $mail->isSMTP();
     $mail->Host = 'smtp.gmail.com';
     $mail->SMTPAuth = true;
-    $mail->Username = 'alexrroliver200@gmail.com';          // Seu email Gmail
-    $mail->Password = 'djzp hgbh utlk tiej';                // Sua senha de app aqui
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;    // TLS
+
+    // Use variáveis de ambiente para usuário e senha do SMTP
+    $smtpUser = getenv('SMTP_USERNAME') ?: 'alexrroliver200@gmail.com';
+    $smtpPass = getenv('SMTP_PASSWORD') ?: 'djzp hgbh utlk tiej';
+
+    $mail->Username = $smtpUser;
+    $mail->Password = $smtpPass;
+
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
     $mail->Port = 587;
 
     // Remetente e destinatário
     $mail->setFrom('alexrroliver200@gmail.com', 'Site Meu Portfolio');
-    $mail->addAddress('alexrroliver200@gmail.com');         // Para quem vai o email (você mesmo)
+    $mail->addAddress('alexrroliver200@gmail.com'); // Destino
 
-    // Responder para o usuário que enviou o formulário
+    // Responder para quem enviou o formulário
     $mail->addReplyTo($email, $nome);
 
-    // Conteúdo do email
+    // Conteúdo do email (texto simples)
     $mail->isHTML(false);
     $mail->Subject = "Formulário do site: $assunto";
 

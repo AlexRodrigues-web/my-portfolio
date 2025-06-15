@@ -1,0 +1,23 @@
+# Ignorar arquivos de log
+log_erros.txt
+
+# Ignorar a pasta vendor (dependências do Composer)
+vendor/
+
+# Ignorar pasta composer (se existir)
+composer/
+
+# Ignorar arquivos temporários do sistema
+*.log
+*.cache
+
+# Ignorar arquivos de sistema do Windows
+Thumbs.db
+Desktop.ini
+
+# Ignorar arquivos do editor
+.vscode/
+.idea/
+
+# Ignorar arquivos temporários do PHPStorm
+*.iml
