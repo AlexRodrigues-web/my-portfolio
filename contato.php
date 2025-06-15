@@ -1,8 +1,17 @@
 <?php
-try {
-    include('includes/header.php');
-} catch (Exception $e) {
-    error_log("Header include failed: " . $e->getMessage());
+// Inicie a sessão se ainda não estiver ativa
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Inclui header e detecta falha com if e @
+if (!@include('includes/header.php')) {
+    error_log("Header include failed");
+}
+
+// Gera token CSRF seguro se não existir
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 ?>
 
@@ -198,34 +207,38 @@ try {
       <div class="title">Full Stack Web Developer</div>
       <div class="contact"><i class="fas fa-envelope"></i> alexrroliver200@gmail.com</div>
       <div class="contact"><i class="fab fa-whatsapp"></i> +351 932 121 766</div>
-      <div class="contact"><i class="fas fa-map-marker-alt"></i> Vila Nova de Gaia, Portugal</div>
+      <div class="contact"><i class="fab fa-instagram"></i> @alexroliver</div>
+      <div class="contact"><i class="fab fa-github"></i> @alexroliver</div>
+      <div class="contact"><i class="fab fa-linkedin"></i> /alexroliver</div>
+      <div class="contact"><i class="fas fa-map-marker-alt"></i> Lisbon, Portugal</div>
     </div>
     <div class="photo">
-      <img src="assets/img/alex.png" alt="Alex Oliveira">
+      <img src="imgs/foto.png" alt="Alex Oliveira">
     </div>
   </section>
 
   <!-- Additional Info -->
   <section id="additional-info">
-    <h2><i class="fas fa-info-circle"></i> Additional Info</h2>
-    <p><strong>Response Time:</strong> Within 24 business hours</p>
-    <p><a href="politica.php">Privacy Policy</a> | <a href="ajuda.php">Help Center / FAQ</a></p>
+    <h2>Professional Info</h2>
+    <p>Location: Lisbon, Portugal</p>
+    <p>Phone: +351 932 121 766</p>
+    <p>Email: alexrroliver200@gmail.com</p>
+    <p>LinkedIn: /alexroliver</p>
+    <p>GitHub: @alexroliver</p>
+    <p>Instagram: @alexroliver</p>
   </section>
 
   <!-- Call to Action -->
   <section id="cta">
-    <h2><i class="fas fa-comments"></i> Let’s Talk!</h2>
-    <p>I love turning ideas into reality. Click below and let’s start a conversation.</p>
-    <button class="btn-cta" onclick="location.href='https://wa.me/351912345678'">
-      <i class="fab fa-whatsapp"></i> Chat on WhatsApp
-    </button>
+    <h2>Let's Work Together!</h2>
+    <p>If you want a professional web developer, contact me today.</p>
+    <a href="mailto:alexrroliver200@gmail.com" class="btn-cta">Hire Me</a>
   </section>
 </div>
 
 <?php
-try {
-    include('includes/footer.php');
-} catch (Exception $e) {
-    error_log("Footer include failed: " . $e->getMessage());
+// Inclui footer com mesma verificação
+if (!@include('includes/footer.php')) {
+    error_log("Footer include failed");
 }
 ?>
