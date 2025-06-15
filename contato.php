@@ -12,12 +12,12 @@ try {
 
 <style>
  :root{
-  --dark:          #141414;   /* nearly-black for icons/strong text */
-  --accent:        #8b735d;   /* deep earthy beige */
-  --accent-dk:     #715d4b;   /* hover shade */
-  --light-accent:  #c6b8a9;   /* subtle card/button bg */
-  --bg:            #d7d9dd;   /* medium-gray page bg */
-  --text:          #e9e5df;   /* text on dark surfaces */
+  --dark:          #141414;
+  --accent:        #8b735d;
+  --accent-dk:     #715d4b;
+  --light-accent:  #c6b8a9;
+  --bg:            #d7d9dd;
+  --text:          #e9e5df;
   --radius:        20px;
   --transition:    0.3s ease;
   --shadow:        0 4px 14px rgba(0,0,0,.15);
@@ -44,7 +44,6 @@ try {
   h1 { font-size: 2.2rem; }
   h2 { font-size: 1.6rem; }
 
-  /* BUSINESS CARD */
   #business-card {
     position: relative;
     background: var(--dark);
@@ -57,7 +56,6 @@ try {
     padding: 2rem;
     margin: 2rem 0;
   }
-  /* decorative circles */
   #business-card::before {
     content: '';
     position: absolute;
@@ -74,7 +72,6 @@ try {
     background: var(--light-accent);
     border-radius: 50%;
   }
-  /* left info */
   #business-card .info {
     flex: 1 1 220px;
     z-index: 1;
@@ -103,7 +100,6 @@ try {
     width: 20px;
     text-align: center;
   }
-  /* right photo */
   #business-card .photo {
     flex: 0 0 120px;
     margin-left: auto;
@@ -117,7 +113,6 @@ try {
     box-shadow: 0 4px 12px rgba(0,0,0,0.3);
   }
 
-  /* rest of page */
   section.form-section {
     background: #fff;
     padding: 2rem;
@@ -159,7 +154,6 @@ try {
     background: var(--light-accent); transform:translateY(-2px);
   }
 
-  /* ADDITIONAL INFO & CTA */
   #additional-info, #cta { text-align:center; margin-bottom:2rem; }
   #additional-info h2, #cta h2 { font-size:1.4rem; }
   #additional-info p, #cta p { margin-bottom:1rem; color:#555; }
@@ -180,7 +174,7 @@ try {
 </style>
 
 <div class="container">
-    <!-- Contact Form -->
+  <!-- Contact Form -->
   <section class="form-section">
     <h2><i class="fas fa-envelope"></i> Send a Message</h2>
     <form method="post" action="enviar.php">
@@ -189,11 +183,15 @@ try {
       <div class="form-group full"><i class="fas fa-heading"></i><input type="text" name="assunto" placeholder="Subject"></div>
       <div class="form-group full"><i class="fas fa-comment-dots"></i><textarea name="mensagem" placeholder="Your Message*" required></textarea></div>
       <div class="form-group full"><i class="fas fa-shield-alt"></i><input type="text" name="verificacao" placeholder="Anti-spam: 5 + 7 = ?" required></div>
+      
+      <!-- CSRF Token -->
+      <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token'] ?? ''); ?>">
+
       <button type="submit" class="btn-submit">Send Message</button>
     </form>
   </section>
 
-<!-- Business Card -->
+  <!-- Business Card -->
   <section id="business-card">
     <div class="info">
       <div class="name">Alex Oliveira</div>

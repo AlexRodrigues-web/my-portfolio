@@ -45,13 +45,32 @@ $year = date('Y');
     </div>
   </div>
 
-  <!-- 4 ▸ Tech credit -->
+  <!-- 4 ▸ Certificados (colapsável) -->
+  <div class="certificados">
+    <button class="cert-btn" onclick="toggleCertificados()">📜 Ver Certificados</button>
+    <ul id="cert-list" class="cert-list">
+      <li><a href="https://media.networkme.io/simulatorcertificate/70024d54-3e56-411f-92b1-f6c56f1cde0f/e076b7da-61e0-4ee1-9092-2ae9e9c55cae/application_support_engineer_natixis_alex_oliveira.pdf" target="_blank">Application Support Engineer – Natixis</a></li>
+      <li><a href="https://media.networkme.io/simulatorcertificate/660f70f4-403b-4052-bc21-f5e79b6964b8/e076b7da-61e0-4ee1-9092-2ae9e9c55cae/big_data_engineer_natixis_alex_oliveira.pdf" target="_blank">Big Data Engineer – Natixis</a></li>
+      <li><a href="https://media.networkme.io/simulatorcertificate/e163bd78-4ae0-4c61-8bd0-973b5c7f1339/e076b7da-61e0-4ee1-9092-2ae9e9c55cae/.net_developer_decode_alex_oliveira.pdf" target="_blank">.NET Developer – Decode</a></li>
+      <li><a href="https://media.networkme.io/simulatorcertificate/58cd5beb-448b-4306-a651-3f26d512597d/e076b7da-61e0-4ee1-9092-2ae9e9c55cae/azure_developer_microsoft_education_alex_oliveira.pdf" target="_blank">Azure Developer – Microsoft Education</a></li>
+      <li><a href="https://media.networkme.io/simulatorcertificate/cbb94fa0-85e1-42c7-97cf-367440294a08/e076b7da-61e0-4ee1-9092-2ae9e9c55cae/_engenheiro_de_sistemas_the_navigator_company_alex_oliveira.pdf" target="_blank">Engenheiro de Sistemas – Navigator Company</a></li>
+      <li><a href="https://media.networkme.io/simulatorcertificate/b70f384d-25de-48db-821c-4400a21db37e/e076b7da-61e0-4ee1-9092-2ae9e9c55cae/kyc_vetting_analyst_natixis_alex_oliveira.pdf" target="_blank">KYC Vetting Analyst – Natixis</a></li>
+      <li><a href="https://media.networkme.io/simulatorcertificate/2fe11775-0ae4-4b25-a434-4119bd8076f0/e076b7da-61e0-4ee1-9092-2ae9e9c55cae/s&e_transaction_monitoring_analyst_natixis_alex_oliveira.pdf" target="_blank">S&E Transaction Monitoring Analyst – Natixis</a></li>
+      <li><a href="https://www.hackerrank.com/certificates/iframe/5e29101ecc7e" target="_blank">HackerRank Cert 1</a></li>
+      <li><a href="https://www.hackerrank.com/certificates/iframe/2fec96019b4a" target="_blank">HackerRank Cert 2</a></li>
+      <li><a href="https://www.hackerrank.com/certificates/iframe/05e10170531d" target="_blank">HackerRank Cert 3</a></li>
+      <li><a href="https://www.hackerrank.com/certificates/iframe/e3d8f2ca2846" target="_blank">HackerRank Cert 4</a></li>
+      <li><a href="https://www.hackerrank.com/certificates/1def17ab3966" target="_blank">HackerRank Cert 5</a></li>
+    </ul>
+  </div>
+
+  <!-- 5 ▸ Tech credit -->
   <p class="credit">
     Built with PHP · HTML · CSS · JavaScript
     <i data-lucide="heart" class="heart" aria-hidden="true"></i>
   </p>
 
-  <!-- 5 ▸ Back-to-top -->
+  <!-- 6 ▸ Back-to-top -->
   <button id="topBtn" class="top-btn" aria-label="Back to top">
     <i data-lucide="arrow-up"></i>
   </button>
@@ -73,81 +92,111 @@ $year = date('Y');
   window.addEventListener('scroll', () =>
     topBtn.classList.toggle('show', window.scrollY > 300)
   );
+
+  /* toggle certificados */
+  function toggleCertificados() {
+    document.getElementById("cert-list").classList.toggle("show");
+  }
 </script>
 
-<!--  —— Footer-specific styles — uses global CSS variables  ——  -->
+<!--  —— Footer-specific styles ——  -->
 <style>
-.footer{
-  background:var(--dark);
-  color:var(--text);
-  padding:3rem 1rem 2rem;
-  border-top:6px solid var(--accent);
-  position:relative;
-  overflow:hidden;
+.footer {
+  background: var(--dark);
+  color: var(--text);
+  padding: 3rem 1rem 2rem;
+  border-top: 6px solid var(--accent);
+  position: relative;
+  overflow: hidden;
 }
-.footer::before{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,transparent 70%,rgba(0,0,0,.12));
-  pointer-events:none;
+.footer::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, transparent 70%, rgba(0,0,0,.12));
+  pointer-events: none;
 }
-.footer-grid{
-  display:flex;flex-wrap:wrap;gap:2.5rem;
-  justify-content:space-between;align-items:flex-start;
+.footer-grid {
+  display: flex; flex-wrap: wrap; gap: 2.5rem;
+  justify-content: space-between; align-items: flex-start;
 }
+.logo {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.6rem; font-weight: 500;
+  display: flex; align-items: center; gap: .4rem;
+  color: var(--accent);
+}
+.logo i { font-size: 1.3rem }
+.reg { font-size: .7rem; vertical-align: super; margin-left: 1px }
+.small {
+  font-size: .85rem; color: var(--light-accent);
+  margin-top: .35rem; line-height: 1.4;
+}
+.quick a {
+  display: flex; align-items: center; gap: .35rem;
+  color: var(--text); font-size: .95rem; margin: .15rem 0;
+  transition: color .3s;
+}
+.quick a:hover { color: var(--accent) }
+.quick i { font-size: 1rem }
+.social a {
+  font-size: 1.5rem; margin-right: .9rem;
+  color: var(--light-accent); transition: color .3s;
+}
+.social a:hover { color: var(--accent) }
+.credit {
+  text-align: center; margin: 1.8rem 0 0;
+  font-size: .9rem; color: var(--light-accent);
+}
+.heart { color: #e45858; vertical-align: middle }
+.top-btn {
+  position: fixed; right: 1.2rem; bottom: 1.2rem;
+  background: var(--accent); border: none; color: #fff;
+  width: 44px; height: 44px; border-radius: 50%; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: var(--shadow);
+  opacity: 0; visibility: hidden; transform: translateY(20px);
+  transition: .3s;
+}
+.top-btn i { font-size: 1.2rem }
+.top-btn.show { opacity: 1; visibility: visible; transform: translateY(0) }
 
-.logo{
-  font-family:'Oswald',sans-serif;
-  font-size:1.6rem;font-weight:500;
-  display:flex;align-items:center;gap:.4rem;
-  color:var(--accent);
+/* certificados */
+.certificados {
+  text-align: center;
+  margin-top: 2rem;
 }
-.logo i{font-size:1.3rem}
-.reg{font-size:.7rem;vertical-align:super;margin-left:1px}
-
-.small{
-  font-size:.85rem;color:var(--light-accent);
-  margin-top:.35rem;line-height:1.4;
+.cert-btn {
+  background: none;
+  color: var(--light-accent);
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  text-decoration: underline;
+  padding: 0.5rem;
 }
-
-/* quick links */
-.quick a{
-  display:flex;align-items:center;gap:.35rem;
-  color:var(--text);font-size:.95rem;margin:.15rem 0;
-  transition:color .3s;
+.cert-list {
+  display: none;
+  margin-top: 0.8rem;
+  list-style: none;
+  padding: 0;
+  font-size: 0.88rem;
 }
-.quick a:hover{color:var(--accent)}
-.quick i{font-size:1rem}
-
-/* social */
-.social a{
-  font-size:1.5rem;margin-right:.9rem;
-  color:var(--light-accent);transition:color .3s;
+.cert-list li {
+  margin: 0.4rem 0;
 }
-.social a:hover{color:var(--accent)}
-
-/* tech credit */
-.credit{
-  text-align:center;margin:1.8rem 0 0;
-  font-size:.9rem;color:var(--light-accent)
+.cert-list li a {
+  color: var(--accent);
+  text-decoration: none;
 }
-.heart{color:#e45858;vertical-align:middle}
-
-/* back-to-top */
-.top-btn{
-  position:fixed;right:1.2rem;bottom:1.2rem;
-  background:var(--accent);border:none;color:#fff;
-  width:44px;height:44px;border-radius:50%;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:var(--shadow);
-  opacity:0;visibility:hidden;transform:translateY(20px);
-  transition:.3s;
+.cert-list li a:hover {
+  text-decoration: underline;
 }
-.top-btn i{font-size:1.2rem}
-.top-btn.show{opacity:1;visibility:visible;transform:translateY(0)}
+.cert-list.show {
+  display: block;
+}
 
 @media (max-width:700px){
-  .footer-grid{flex-direction:column;align-items:center;text-align:center}
-  .quick{margin:1rem 0}
-  .credit{font-size:.8rem}
+  .footer-grid { flex-direction: column; align-items: center; text-align: center }
+  .quick { margin: 1rem 0 }
+  .credit { font-size: .8rem }
 }
 </style>
