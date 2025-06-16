@@ -165,10 +165,10 @@ try {
     </p>
     <div class="d-flex justify-content-center flex-wrap gap-3">
       <a href="contato.php" class="btn btn-success px-4 py-2" aria-label="Ir para página de contato">
-        <i class="fa fa-envelope me-2"></i> Falar via Formulário
+        <i class="fa fa-envelope me-2"></i> Contato
       </a>
       <a href="mailto:contato@seudominio.com" class="btn btn-outline-primary px-4 py-2" aria-label="Enviar e-mail">
-        <i class="fa fa-paper-plane me-2"></i> contato@seudominio.com
+        <i class="fa fa-paper-plane me-2"></i> email
       </a>
     </div>
   </section>

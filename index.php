@@ -251,7 +251,7 @@ main, section {
   <!-- Exemplo de conteúdo centro, pode adaptar -->
   <div class="centro-imagem">
     <div class="imagem-dividida">
-      <img src="caminho/para/sua-imagem.jpg" alt="Descrição da imagem">
+      <img src="/meu-portfolio/assets/img/alex-perfil.png" alt="Descrição da imagem">
     </div>
     <div class="conteudo-centro">
       <p class="frase"><strong>Uma frase ou citação no estilo index.</strong></p>
