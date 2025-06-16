@@ -25,6 +25,7 @@ $year = date('Y');
       <a href="sobre.php"><i data-lucide="user-circle"></i> About</a>
       <a href="projetos.php"><i data-lucide="folders"></i> Projects</a>
       <a href="contato.php"><i data-lucide="mail"></i> Contact</a>
+      <a href="templates.php"><i data-lucide="layers"></i> Templates</a>
       <a href="politica.php"><i data-lucide="shield-check"></i> Privacy</a>
       <a href="ajuda.php"><i data-lucide="help-circle"></i> Help</a>
     </nav>

@@ -108,6 +108,7 @@ error_log('Header loaded (' . date('c') . ')');
       <a href="projetos.php">Projects</a>
       <a href="oportunidades.php">Opportunities</a>
       <a href="contato.php">Contact</a>
+      <a href="templates.php">Templates</a>
     </nav>
 
     <!-- Theme buttons -->

@@ -4,6 +4,11 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
+if (!empty($_SESSION['msg_sucesso'])) {
+    echo "<script>alert('{$_SESSION['msg_sucesso']}');</script>";
+    unset($_SESSION['msg_sucesso']);
+}
+
 // Inclui header e detecta falha com if e @
 if (!@include('includes/header.php')) {
     error_log("Header include failed");
@@ -207,13 +212,10 @@ if (empty($_SESSION['csrf_token'])) {
       <div class="title">Full Stack Web Developer</div>
       <div class="contact"><i class="fas fa-envelope"></i> alexrroliver200@gmail.com</div>
       <div class="contact"><i class="fab fa-whatsapp"></i> +351 932 121 766</div>
-      <div class="contact"><i class="fab fa-instagram"></i> @alexroliver</div>
-      <div class="contact"><i class="fab fa-github"></i> @alexroliver</div>
-      <div class="contact"><i class="fab fa-linkedin"></i> /alexroliver</div>
-      <div class="contact"><i class="fas fa-map-marker-alt"></i> Lisbon, Portugal</div>
+      <div class="contact"><i class="fas fa-map-marker-alt"></i> Vila Nova de Gaia, Portugal</div>
     </div>
     <div class="photo">
-      <img src="imgs/foto.png" alt="Alex Oliveira">
+      <img src="assets/img/alex.png" alt="Alex Oliveira">
     </div>
   </section>
 
@@ -223,9 +225,8 @@ if (empty($_SESSION['csrf_token'])) {
     <p>Location: Lisbon, Portugal</p>
     <p>Phone: +351 932 121 766</p>
     <p>Email: alexrroliver200@gmail.com</p>
-    <p>LinkedIn: /alexroliver</p>
-    <p>GitHub: @alexroliver</p>
-    <p>Instagram: @alexroliver</p>
+    <p>LinkedIn: /www.linkedin.com/in/alex-rodrigues-dev</p>
+    <p>GitHub: @https://github.com/AlexRodrigues-web</p>
   </section>
 
   <!-- Call to Action -->

@@ -6,12 +6,12 @@ try {
 }
 ?>
 
-<!-- Meta tag necessária para responsividade -->
+<!-- Meta tag para responsividade -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- Google Fonts & Font Awesome -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnH2N2..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <style>
 :root {
@@ -117,10 +117,30 @@ main, section {
   font-weight: 600;
   text-decoration: none;
   transition: background var(--transition), transform var(--transition);
+  cursor: pointer;
+  border: none;
 }
 
 .btn:hover {
   background: var(--accent-dk);
+  transform: translateY(-2px);
+}
+
+.btn-mini {
+  display: inline-block;
+  background: var(--light-accent);
+  color: var(--dark);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: background var(--transition), transform var(--transition);
+  cursor: pointer;
+  border: none;
+}
+
+.btn-mini:hover {
+  background: #e2d8ce;
   transform: translateY(-2px);
 }
 
@@ -156,22 +176,6 @@ main, section {
 .resumo-bloco p {
   color: #555;
   margin-bottom: 1rem;
-}
-
-.btn-mini {
-  display: inline-block;
-  background: var(--light-accent);
-  color: var(--dark);
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  text-decoration: none;
-  transition: background var(--transition), transform var(--transition);
-}
-
-.btn-mini:hover {
-  background: #e2d8ce;
-  transform: translateY(-2px);
 }
 
 .fade-in {
@@ -235,49 +239,52 @@ main, section {
 }
 </style>
 
-<main id="topo" class="dupla-face fade-in">
+<main class="dupla-face fade-in">
+  <!-- Exemplo de conteúdo lado esquerdo -->
   <div class="lado designer">
     <i class="fas fa-palette"></i>
-    <h2>UI-Focused Developer</h2>
-    <p>Crafting performant interfaces &amp; cohesive design systems.</p>
+    <h2>Seu título aqui</h2>
+    <p>Descrição ou texto com a mesma cor e estilo do index.</p>
+    <button class="btn" type="button">Botão Primário</button>
   </div>
 
+  <!-- Exemplo de conteúdo centro, pode adaptar -->
   <div class="centro-imagem">
     <div class="imagem-dividida">
-      <img src="assets/img/alex-perfil.png" alt="Alex Oliveira portrait">
+      <img src="caminho/para/sua-imagem.jpg" alt="Descrição da imagem">
     </div>
     <div class="conteudo-centro">
-      <p class="frase"><strong>“Focused on smart solutions with analytical thinking and adaptability.”</strong></p>
-      <a href="assets/documents/mini-guide-web.pdf" class="btn" target="_blank" download aria-label="Mini-Guia Performance">
-        <i class="fas fa-file-download"></i>&nbsp;Mini-Guide Performance
-      </a>
+      <p class="frase"><strong>Uma frase ou citação no estilo index.</strong></p>
+      <a href="#" class="btn" aria-label="Link principal">Link com estilo botão</a>
     </div>
   </div>
 
+  <!-- Exemplo de conteúdo lado direito -->
   <div class="lado coder">
     <i class="fas fa-code"></i>
-    <h2>&lt;coder&gt;</h2>
-    <p>Skilled in PHP, JavaScript &amp; MySQL — logic-driven &amp; performance-minded.</p>
+    <h2>Outro título</h2>
+    <p>Texto com a cor cinza #555, tamanho 1rem, alinhado ao centro.</p>
+    <button class="btn" type="button">Outro botão</button>
   </div>
 </main>
 
 <section class="resumos fade-in">
   <div class="resumo-bloco">
-    <h3><i class="fas fa-user"></i>&nbsp; About Me</h3>
-    <p>Web developer passionate about building clean, functional, user-first apps.</p>
-    <a href="sobre.php" class="btn-mini" aria-label="Read more about me">Read more</a>
+    <h3><i class="fas fa-user"></i>&nbsp; Resumo 1</h3>
+    <p>Texto do resumo um, mantendo o padrão do index.</p>
+    <a href="#" class="btn-mini" aria-label="Link resumo 1">Ver mais</a>
   </div>
 
   <div class="resumo-bloco">
-    <h3><i class="fas fa-rocket"></i>&nbsp; Projects</h3>
-    <p>Explore PHP &amp; JS projects — responsive, accessible &amp; fast.</p>
-    <a href="projetos.php" class="btn-mini" aria-label="See portfolio projects">See projects</a>
+    <h3><i class="fas fa-rocket"></i>&nbsp; Resumo 2</h3>
+    <p>Texto do resumo dois, mantendo o padrão do index.</p>
+    <a href="#" class="btn-mini" aria-label="Link resumo 2">Ver mais</a>
   </div>
 
   <div class="resumo-bloco">
-    <h3><i class="fas fa-envelope"></i>&nbsp; Contact</h3>
-    <p>Reach me via email, GitHub or LinkedIn.</p>
-    <a href="contato.php" class="btn-mini" aria-label="Go to contact page">Contact me</a>
+    <h3><i class="fas fa-envelope"></i>&nbsp; Resumo 3</h3>
+    <p>Texto do resumo três, mantendo o padrão do index.</p>
+    <a href="#" class="btn-mini" aria-label="Link resumo 3">Ver mais</a>
   </div>
 </section>
 
