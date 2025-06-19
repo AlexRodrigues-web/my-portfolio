@@ -1,10 +1,10 @@
 # Alex Oliveira - Web Dev Project
 
-A modern, responsive, and accessible web project built with **PHP**, **HTML**, **CSS**, and **JavaScript**, designed for performance, modularity, and clarity.
+Um projeto web moderno, responsivo e acessível, desenvolvido com **PHP**, **HTML**, **CSS** e **JavaScript**, focado em performance, modularidade e clareza.
 
+---
 
-
-## Project Structure
+## 📁 Estrutura do Projeto
 
 root/
 ├── index.php
@@ -13,6 +13,15 @@ root/
 ├── contato.php
 ├── politica.php
 ├── ajuda.php
+├── oportunidades.php
+├── templates.php
+├── templates/
+│ ├── padaria-pastelaria.php
+│ ├── petshop_veterinaria.php
+│ ├── consultor_coach.php
+│ ├── servicosgerais.php
+│ ├── oficina.php
+│ └── clinica-dentaria.php
 ├── includes/
 │ ├── header.php
 │ └── footer.php
@@ -23,44 +32,71 @@ root/
 └── README.md
 
 
+---
 
-## Technologies Used
+## 🚀 Tecnologias Utilizadas
 
-- **PHP** (server-side logic)  
-- **HTML5** & Semantic Tags  
-- **CSS3** with Variables and Grid  
-- **JavaScript** for interactivity  
-- **Lucide Icons** for clean SVG icons  
+- **PHP** (lógica de servidor)  
+- **HTML5** com tags semânticas  
+- **CSS3** com variáveis e layout em Grid  
+- **JavaScript** para interatividade  
+- **Lucide Icons** para ícones SVG limpos  
 - **Google Fonts**: Oswald & Poppins  
-- **ColorADD®** compliance (inclusive design)  
+- **ColorADD®** para design inclusivo  
 
 ---
 
-## Performance & Accessibility Best Practices
+## ⚡ Boas Práticas de Performance e Acessibilidade
 
-Included in this project:
-
-- Lazy-loading images  
-- Minified CSS & JS  
-- Semantic HTML structure  
-- Accessible labels & icons  
-- Light/dark theme toggle  
-- Back-to-top button  
-- Smooth scrolling & keyboard navigation  
-- Optimized for Core Web Vitals  
+- Imagens com lazy-loading  
+- CSS e JS minificados  
+- Estrutura HTML semântica  
+- Labels e ícones acessíveis  
+- Modo claro/escuro  
+- Botão de voltar ao topo  
+- Scroll suave e navegação via teclado  
+- Otimizado para Core Web Vitals  
 
 ---
 
-## Privacy & Policy Pages
+## 🧩 Templates Gratuitos
 
-- Privacy Policy: `politica.php`  
-- Help & Docs: `ajuda.php`  
-These follow legal compliance and are ready to be updated with custom data.
+Disponibilização de templates prontos e gratuitos que podem ser adaptados conforme a necessidade do usuário. Exemplos:
+
+- Petshop e Veterinária  
+- Padaria e Pastelaria  
+- Coach e Consultoria  
+- Clínica Dentária  
+- Serviços Gerais  
+- Oficina Mecânica  
+
+Acesse a página de templates: `templates.php`
 
 ---
 
-## How to Use
+## 💼 Oportunidades
 
-1. Clone the project:  
-   ```bash
-   git clone https://github.com/AlexRodrigues-web/seu-repo.git
+Página aberta ao público para:
+
+- Divulgação de **vagas**  
+- Compartilhamento de **currículos (CVs)**  
+- Busca por **oportunidades em tecnologia** e **estágios**  
+- Apoio à **comunidade dev** e estudantes em início de carreira
+
+Acesse: `oportunidades.php`
+
+---
+
+## 🔐 Páginas de Política e Ajuda
+
+- Política de Privacidade: `politica.php`  
+- Central de Ajuda e Dúvidas Frequentes: `ajuda.php`  
+
+---
+
+## 📥 Como Usar
+
+1. Clone este repositório:
+
+```bash
+git clone https://github.com/AlexRodrigues-web/my-portfolio.git
