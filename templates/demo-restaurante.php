@@ -14,6 +14,8 @@
   <!-- Icons (Bootstrap Icons CDN) -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
   <style>
     /* Reset */
     * {
@@ -406,7 +408,7 @@
           'descricao' => 'Salmão fresco picado com cubos de abacate e toque cítrico.',
           'ingredientes' => ['Salmão fresco', 'Abacate', 'Limão siciliano', 'Ervas'],
           'preco' => '89,00',
-          'imagem' => 'https://images.unsplash.com/photo-1555992336-03a23c13a9de?auto=format&fit=crop&w=600&q=80',
+          'imagem' => 'https://www.oitedi.com.br/_next/image?url=https%3A%2F%2Ftedi-production.s3.amazonaws.com%2Fcooking_recipes%2Ffood_description%2F2409a419517ee0c400535c4eff4706f206743cb2.png&w=1080&q=70',
         ],
         // Adicione mais pratos conforme necessidade
       ];
@@ -495,25 +497,67 @@
   </section>
 
   <!-- Galeria -->
-  <section id="galeria" class="mb-5">
-    <h2>Galeria</h2>
-    <div class="gallery">
-      <?php
-      $imagens = [
-        'https://images.unsplash.com/photo-1496417263034-38ec4f0b665a?auto=format&fit=crop&w=600&q=80',
-        'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600&q=80',
-        'https://images.unsplash.com/photo-1555992336-03a23c13a9de?auto=format&fit=crop&w=600&q=80',
-        'https://images.unsplash.com/photo-1556910103-1e564a41f72f?auto=format&fit=crop&w=600&q=80',
-        'https://images.unsplash.com/photo-1543349686-c63f24435d4b?auto=format&fit=crop&w=600&q=80',
-        'https://images.unsplash.com/photo-1551218808-94e220e084d2?auto=format&fit=crop&w=600&q=80',
-      ];
-      foreach ($imagens as $idx => $img): ?>
-      <div class="gallery-item" tabindex="0" role="button" aria-label="Ver imagem <?=($idx+1)?>" data-bs-toggle="modal" data-bs-target="#modalGallery" data-img="<?=htmlspecialchars($img)?>">
-        <img src="<?=htmlspecialchars($img)?>" alt="Imagem do restaurante <?=($idx+1)?>" loading="lazy" />
+ <section id="galeria" class="mb-5" style="padding: 60px 0; background-color: #f9f9f9;">
+  <div class="container">
+    <h2 style="text-align: center; font-size: 2rem; margin-bottom: 30px;">🎞️ Galeria </h2>
+
+    <!-- Swiper -->
+    <div class="swiper galeriaSwiper">
+      <div class="swiper-wrapper">
+        <?php
+        $imagens = [
+          'https://s2.glbimg.com/yMm6fdrGUMMFzPsmRyaKO90tV8A=/smart/e.glbimg.com/og/ed/f/original/2017/11/16/11901261524_33db8b7040_k.jpg',
+          'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600&q=80',
+          'https://cms-cdn.saipos.com/assets/2024/08/08/Tamanho-Banner-HTML-38-1_uid_66b4be9718096.png',
+          'https://cdn.goomer.com.br/website/base/9b8/619/251/6-dicas-para-deixar-o-seu-restaurante-moderno.jpeg',
+          'https://valenciapremium.com/wp-content/uploads/2023/01/Restaurante-Vertical-Valencia-1-450x450.jpg',
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4bfvKc4eayVOIRYyD9RdihuWnMeC69nJVfQ&s',
+        ];
+        foreach ($imagens as $idx => $img): ?>
+          <div class="swiper-slide">
+            <img src="<?= htmlspecialchars($img) ?>" alt="Imagem <?= ($idx + 1) ?>" style="width: 100%; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);" loading="lazy">
+          </div>
+        <?php endforeach; ?>
       </div>
-      <?php endforeach; ?>
+
+      <!-- Setas -->
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+
+      <!-- Paginação -->
+      <div class="swiper-pagination"></div>
     </div>
-  </section>
+  </div>
+</section>
+
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<!-- Inicialização -->
+<script>
+  const swiper = new Swiper('.galeriaSwiper', {
+    loop: true,
+    spaceBetween: 30,
+    centeredSlides: true,
+    autoplay: {
+      delay: 3000,
+      disableOnInteraction: false,
+    },
+    slidesPerView: 1,
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+    breakpoints: {
+      768: { slidesPerView: 2 },
+      992: { slidesPerView: 3 },
+    }
+  });
+</script>
 
 </main>
 
