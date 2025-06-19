@@ -13,6 +13,9 @@
   <!-- Google Fonts - Poppins -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet" />
 
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+
   <style>
     /* Reset e base */
     body {
@@ -373,7 +376,52 @@
         form.classList.add('was-validated');
       }, false);
     })();
-  </script>
+  </script>~
+
+  <!-- FOOTER PADRÃO PROFISSIONAL -->
+<footer style="background-color: #f8f9fa; border-top: 1px solid #e0e0e0; font-family: 'Poppins', sans-serif;">
+  <div class="container py-4">
+    <div class="row align-items-start gy-4">
+
+      <!-- Logo e descrição -->
+      <div class="col-md-4">
+        <h5 class="fw-bold text-uppercase" style="color: #d6336c;">SalãoPremium</h5>
+        <p class="text-muted small">
+          Especialistas em beleza e bem-estar. Atendimento profissional, personalizado e com agendamento rápido.
+        </p>
+        <p class="text-muted small mb-0">&copy; <?php echo date('Y'); ?> SalãoPremium. Todos os direitos reservados.</p>
+        <p class="text-muted small">Desenvolvido por <strong>Alex Olivira</strong>.</p>
+      </div>
+
+      <!-- Informações de contato -->
+      <div class="col-md-4">
+        <h6 class="fw-bold mb-3">Contacto</h6>
+        <ul class="list-unstyled text-muted small">
+          <li class="mb-2"><i class="bi bi-telephone me-2 text-danger"></i><a href="tel:+351912345678" class="text-decoration-none text-dark">+351 912 345 678</a></li>
+          <li class="mb-2"><i class="bi bi-envelope me-2 text-danger"></i><a href="mailto:geral@salaopremium.pt" class="text-decoration-none text-dark">geral@salaopremium.pt</a></li>
+          <li><i class="bi bi-geo-alt me-2 text-danger"></i>Rua das Flores, 123 - Lisboa, Portugal</li>
+        </ul>
+      </div>
+
+      <!-- Links rápidos e redes sociais -->
+      <div class="col-md-4 text-md-end">
+        <h6 class="fw-bold mb-3">Links úteis</h6>
+        <ul class="list-inline mb-3">
+          <li class="list-inline-item"><a href="#servicos" class="text-decoration-none text-dark small">Serviços</a></li>
+          <li class="list-inline-item"><a href="#agendamento" class="text-decoration-none text-dark small">Agendamento</a></li>
+          <li class="list-inline-item"><a href="#contato" class="text-decoration-none text-dark small">Contacto</a></li>
+        </ul>
+        <div class="d-flex justify-content-md-end justify-content-center gap-3">
+          <a href="#" class="text-muted fs-5" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="text-muted fs-5" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="text-muted fs-5" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</footer>
+
 
 </body>
 

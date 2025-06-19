@@ -13,9 +13,6 @@ try {
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnH2N2..." crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-<!-- AOS - Animate on Scroll -->
-<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
-
 <style>
 :root {
   --dark: #141414;
@@ -47,6 +44,7 @@ main, section {
   width: 100%;
 }
 
+/* Layout principal */
 .dupla-face {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -185,11 +183,13 @@ main, section {
   to { opacity: 1; }
 }
 
+/* Responsivo extra */
 @media (max-width: 900px) {
   .imagem-dividida img {
     width: 200px;
     height: 200px;
   }
+
   .conteudo-centro .frase {
     font-size: 0.95rem;
   }
@@ -235,14 +235,14 @@ main, section {
 }
 </style>
 
-<main id="topo" class="dupla-face">
-  <div class="lado designer" data-aos="fade-right">
+<main id="topo" class="dupla-face fade-in">
+  <div class="lado designer">
     <i class="fas fa-palette"></i>
     <h2>UI-Focused Developer</h2>
     <p>Crafting performant interfaces &amp; cohesive design systems.</p>
   </div>
 
-  <div class="centro-imagem" data-aos="zoom-in">
+  <div class="centro-imagem">
     <div class="imagem-dividida">
       <img src="assets/img/alex-perfil.png" alt="Alex Oliveira portrait">
     </div>
@@ -254,38 +254,32 @@ main, section {
     </div>
   </div>
 
-  <div class="lado coder" data-aos="fade-left">
+  <div class="lado coder">
     <i class="fas fa-code"></i>
     <h2>&lt;coder&gt;</h2>
     <p>Skilled in PHP, JavaScript &amp; MySQL — logic-driven &amp; performance-minded.</p>
   </div>
 </main>
 
-<section class="resumos">
-  <div class="resumo-bloco" data-aos="fade-up" data-aos-delay="100">
+<section class="resumos fade-in">
+  <div class="resumo-bloco">
     <h3><i class="fas fa-user"></i>&nbsp; About Me</h3>
     <p>Web developer passionate about building clean, functional, user-first apps.</p>
     <a href="sobre.php" class="btn-mini" aria-label="Read more about me">Read more</a>
   </div>
 
-  <div class="resumo-bloco" data-aos="fade-up" data-aos-delay="200">
+  <div class="resumo-bloco">
     <h3><i class="fas fa-rocket"></i>&nbsp; Projects</h3>
     <p>Explore PHP &amp; JS projects — responsive, accessible &amp; fast.</p>
     <a href="projetos.php" class="btn-mini" aria-label="See portfolio projects">See projects</a>
   </div>
 
-  <div class="resumo-bloco" data-aos="fade-up" data-aos-delay="300">
+  <div class="resumo-bloco">
     <h3><i class="fas fa-envelope"></i>&nbsp; Contact</h3>
     <p>Reach me via email, GitHub or LinkedIn.</p>
     <a href="contato.php" class="btn-mini" aria-label="Go to contact page">Contact me</a>
   </div>
 </section>
-
-<!-- Script do AOS -->
-<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-<script>
-  AOS.init({ duration: 1000, once: true });
-</script>
 
 <?php
 try {

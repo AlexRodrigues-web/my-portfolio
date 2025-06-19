@@ -33,7 +33,7 @@ error_log('Header loaded (' . date('c') . ')');
       position:sticky;top:0;z-index:1000;
       background:var(--dark);color:var(--text);
       border-bottom:4px solid var(--accent);
-      box-shadow:0 3px 14px rgba(0,0,0,.13);
+      box-shadow:0 3px 14px rgba(255, 240, 240, 0.99);
       padding:1rem 1.4rem;
     }
     .hdr{max-width:1200px;margin:auto;

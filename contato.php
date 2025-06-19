@@ -212,21 +212,11 @@ if (empty($_SESSION['csrf_token'])) {
       <div class="title">Full Stack Web Developer</div>
       <div class="contact"><i class="fas fa-envelope"></i> alexrroliver200@gmail.com</div>
       <div class="contact"><i class="fab fa-whatsapp"></i> +351 932 121 766</div>
-      <div class="contact"><i class="fas fa-map-marker-alt"></i> Vila Nova de Gaia, Portugal</div>
+      <div class="contact"><i class="fas fa-map-marker-alt"></i> Portugal</div>
     </div>
     <div class="photo">
       <img src="assets/img/alex.png" alt="Alex Oliveira">
     </div>
-  </section>
-
-  <!-- Additional Info -->
-  <section id="additional-info">
-    <h2>Professional Info</h2>
-    <p>Location: Lisbon, Portugal</p>
-    <p>Phone: +351 932 121 766</p>
-    <p>Email: alexrroliver200@gmail.com</p>
-    <p>LinkedIn: /www.linkedin.com/in/alex-rodrigues-dev</p>
-    <p>GitHub: @https://github.com/AlexRodrigues-web</p>
   </section>
 
   <!-- Call to Action -->

@@ -525,7 +525,9 @@
     <a href="#" aria-label="Twitter" target="_blank" rel="noopener"><i class="bi bi-twitter"></i></a>
   </div>
   <p>© 2025 Restaurante Étoile - Todos os direitos reservados.</p>
+  <p class="text-muted small">Desenvolvido por <strong>Alex Oliveira</strong>.</p>
 </footer>
+
 
 <!-- Modal Galeria -->
 <div class="modal fade" id="modalGallery" tabindex="-1" aria-labelledby="modalGalleryLabel" aria-hidden="true">
