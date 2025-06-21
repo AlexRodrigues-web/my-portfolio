@@ -372,6 +372,20 @@ try {
       </div>
     </article>
 
+     <article class="card" role="article" tabindex="0">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBbFunnXqB8UEcD7MfZ3mHGLZrd3oLSpoQgA&s" 
+           alt="Consultant or coach in session" class="card-img-top" loading="lazy" />
+      <div class="card-body">
+        <h2 class="card-title">Consultant / Coach</h2>
+        <p class="card-text">
+          Ideal for coaches and independent consultants. Service pages, testimonials, and online scheduling.
+        </p>
+        <a href="templates/barbearia.php" class="btn btn-primary" target="_blank" rel="noopener">
+          View Demo
+        </a>
+      </div>
+    </article>
+
   </section>
 
   <section class="cta" aria-label="Call to Action to Explore More Templates">
