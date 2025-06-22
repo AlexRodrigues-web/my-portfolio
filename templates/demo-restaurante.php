@@ -318,7 +318,7 @@
     /* Footer */
     footer {
       background: #111;
-      color: #eee;
+      color: #ccc;
       padding: 3rem 1rem;
       text-align: center;
       font-size: 0.95rem;
@@ -370,6 +370,7 @@
         <li class="nav-item"><a class="nav-link" href="#reserva">Reserva</a></li>
         <li class="nav-item"><a class="nav-link" href="#galeria">Galeria</a></li>
         <li class="nav-item"><a class="nav-link" href="#contato">Contato</a></li>
+        <li class="nav-item"><a class="nav-link" href="#localizacao">Localização</a></li>
       </ul>
     </div>
   </nav>
@@ -393,21 +394,21 @@
           'nome' => 'Magret de Pato ao Molho de Laranja',
           'descricao' => 'Peito de pato grelhado com molho cítrico e guarnições finas.',
           'ingredientes' => ['Peito de pato', 'Molho de laranja', 'Batatas douradas', 'Ervas finas'],
-          'preco' => '129,00',
+          'preco' => '59,00',
           'imagem' => 'https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=600&q=80',
         ],
         [
           'nome' => 'Ravioli de Lagosta com Manteiga de Ervas',
           'descricao' => 'Massa fresca recheada com lagosta, servida com manteiga aromatizada.',
           'ingredientes' => ['Lagosta', 'Massa fresca', 'Manteiga', 'Ervas finas'],
-          'preco' => '142,00',
+          'preco' => '42,00',
           'imagem' => 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=600&q=80',
         ],
         [
           'nome' => 'Tartare de Salmão com Abacate',
           'descricao' => 'Salmão fresco picado com cubos de abacate e toque cítrico.',
           'ingredientes' => ['Salmão fresco', 'Abacate', 'Limão siciliano', 'Ervas'],
-          'preco' => '89,00',
+          'preco' => '39,00',
           'imagem' => 'https://www.oitedi.com.br/_next/image?url=https%3A%2F%2Ftedi-production.s3.amazonaws.com%2Fcooking_recipes%2Ffood_description%2F2409a419517ee0c400535c4eff4706f206743cb2.png&w=1080&q=70',
         ],
         // Adicione mais pratos conforme necessidade
@@ -419,7 +420,7 @@
           <div class="card-body-menu">
             <h5 class="card-title-menu"><?=htmlspecialchars($prato['nome'])?></h5>
             <p class="card-text-menu"><?=htmlspecialchars($prato['descricao'])?></p>
-            <div class="price-menu">R$ <?=htmlspecialchars($prato['preco'])?></div>
+            <div class="price-menu"> € <?=htmlspecialchars($prato['preco'])?></div>
             <button type="button" class="btn-detail" data-bs-toggle="modal" data-bs-target="#modalPrato<?=$idx?>" 
                     onclick="event.stopPropagation()">Ver Detalhes</button>
           </div>
@@ -442,7 +443,7 @@
                   <li><?=htmlspecialchars($ingrediente)?></li>
                 <?php endforeach; ?>
               </ul>
-              <p class="price-menu fs-4 fw-bold">Preço: R$ <?=htmlspecialchars($prato['preco'])?></p>
+              <p class="price-menu fs-4 fw-bold">Preço: € <?=htmlspecialchars($prato['preco'])?></p>
             </div>
           </div>
         </div>
@@ -560,6 +561,70 @@
 </script>
 
 </main>
+
+<!-- Localização -->
+<section id="localizacao" style="padding: 80px 0; background: linear-gradient(135deg, #fffaf1 0%, #fcf8ed 100%);">
+  <div class="container text-center">
+    
+    <!-- Título -->
+    <h2 style="
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: 2.8rem;
+      color: #2c2c2c;
+      margin-bottom: 1rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      position: relative;
+      display: inline-block;">
+      <i class="bi bi-geo-alt-fill" style="color:#ffbf00; margin-right: 0.5rem;"></i>
+      Onde Estamos
+    </h2>
+
+    <!-- Linha dourada decorativa -->
+    <div style="
+      width: 90px;
+      height: 4px;
+      background: #ffbf00;
+      margin: 0 auto 30px auto;
+      border-radius: 10px;">
+    </div>
+
+    <!-- Endereço -->
+    <p style="
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #444;
+      margin-bottom: 2.2rem;
+      letter-spacing: 0.04em;">
+      Rua da Bélgica, 2450 – Canidelo<br>
+      Vila Nova de Gaia
+    </p>
+
+    <!-- Mapa -->
+    <div style="
+      max-width: 900px;
+      height: 320px;
+      margin: 0 auto;
+      border: 4px solid #ffbf00;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.18);">
+      <iframe 
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2981.845891425258!2d-8.655521423409764!3d41.12536031582254!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd246525c5f0c3f9%3A0x80c4963cbf7de769!2sR.%20da%20B%C3%A9lgica%202450%2C%204400-046%20Vila%20Nova%20de%20Gaia!5e0!3m2!1spt-PT!2spt!4v1719078822695!5m2!1spt-PT!2spt"
+        width="100%"
+        height="100%"
+        style="border:0;"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </div>
+
+  </div>
+</section>
+
+
 
 <!-- Footer -->
 <footer id="contato">

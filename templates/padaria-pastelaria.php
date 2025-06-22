@@ -251,6 +251,74 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['enviar'])) {
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
+.hero-padaria {
+  position: relative;
+  min-height: 75vh;
+  padding: 100px 20px;
+  background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.65)),
+            url('/meu-portfolio/templates/sabor_art.png') center/cover no-repeat;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  text-align: center;
+  overflow: hidden;
+}
+
+.hero-padaria .hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.hero-padaria .hero-wrapper {
+  position: relative;
+  z-index: 2;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.hero-padaria h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.2rem, 6vw, 3.8rem);
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  letter-spacing: 0.05em;
+  color: #fffaf0;
+  text-shadow: 0 3px 12px rgba(0,0,0,0.7);
+}
+
+.hero-padaria p {
+  font-size: 1.15rem;
+  font-weight: 300;
+  color: #f5f5f5;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+
+.btn-cta {
+  background-color: #ffbf00;
+  border: none;
+  color: #111;
+  font-weight: 700;
+  font-size: 1.05rem;
+  padding: 0.75rem 2rem;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+}
+
+.btn-cta:hover {
+  background-color: #e5a800;
+  color: #fff;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.35);
+}
+
   </style>
 </head>
 <body>
@@ -271,12 +339,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['enviar'])) {
     <div class="menu-toggle"><i class="fas fa-bars"></i></div>
   </header>
 
- <section class="hero" id="inicio" style="position: relative; background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1606851092121-8b97f9a9be68?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat; padding: 6rem 1.5rem; text-align: center; color: #fff;">
-  <div class="hero-wrapper" data-aos="fade-down" style="max-width: 700px; margin: 0 auto;">
-    <h1 style="font-size: 3rem; line-height: 1.2; font-family: 'Playfair Display', serif; margin-bottom: 1rem;">
-      Tradição e Sabor Autêntico
-    </h1>
-    <p style="font-size: 1.2rem; font-weight: 300; margin-bottom: 2rem; color: #f5f5f5;">
+ <section class="hero hero-padaria" id="inicio">
+  <div class="hero-overlay"></div>
+  <div class="hero-wrapper" data-aos="fade-down">
+    <h1>Tradição e Sabor Autêntico</h1>
+    <p>
       Padaria & Pastelaria Artesanal desde 1985 — feita com amor, fermentação natural e ingredientes selecionados.
     </p>
     <button class="btn-cta" onclick="document.getElementById('produtos').scrollIntoView({behavior:'smooth'})">
@@ -285,57 +352,93 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['enviar'])) {
   </div>
 </section>
 
-
-  <main>
-    <section id="produtos">
-      <h2 data-aos="fade-up">Produtos de Destaque</h2>
-      <div class="filtro" data-aos="fade-up" data-aos-delay="100">
-        <button class="active">Todos</button>
-        <button>Pães</button>
-        <button>Doces</button>
-        <button>Pastéis</button>
-        <button>Café</button>
-      </div>
-      <div class="produtos" data-aos="fade-up" data-aos-delay="200">
-        <div class="produto-card">
-          <img src="https://sire-media-24k.techops.disn.io/24k_pt/clip-main/485104.1200x675.jpg" alt="Bolo de Chocolate">
-          <div class="produto-info">
-            <h3>Bolo de Chocolate</h3>
-            <p>Fofinho, com cobertura intensa e irresistível.</p>
-            <div class="price">€4,50</div>
-          </div>
-        </div>
-        <div class="produto-card">
-          <img src="https://offloadmedia.feverup.com/lisboasecreta.co/wp-content/uploads/2019/04/16104701/56862374_2208594645845235_4752233248321437696_o-1024x683.jpg" alt="Pastel de Nata">
-          <div class="produto-info">
-            <h3>Pastel de Nata</h3>
-            <p>Tradicional, crocante e cremoso.</p>
-            <div class="price">€1,20</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-   <section id="sobre" style="background: var(--cream); padding: 3rem 1.5rem; border-radius: 16px; border: 1px solid #eee;">
-  <div class="sobre-minimal" data-aos="fade-up">
-    <div class="sobre-logo" style="text-align:center; margin-bottom:1.5rem;">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMQwdFRd4IQ5HWXoSsQ65VpOmNMzgOZV00HA&s" alt="Logomarca da Padaria" style="max-width: 80px; opacity: 0.7;">
+<section id="sobre" style="background: #fffaf0; padding: 4rem 1.5rem; border-top: 2px solid #f1e3d3;">
+  <div class="container" data-aos="fade-up" style="max-width: 900px; margin: 0 auto; text-align: center;">
+    
+    <div style="margin-bottom: 1.5rem;">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQU3ZVwfkdXXhbLxt2fOQ1bnRAA7d8sMUu5nQ&s" alt="Logo da Padaria" style="max-width: 100px; opacity: 0.8;">
     </div>
-    <h2 style="text-align:center; color: var(--wine); font-size: 2.2rem; margin-bottom: 1rem;">
-      <i class="fas fa-info-circle"></i> Sobre a Padaria
+
+    <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; color: #5c2e00; margin-bottom: 1rem;">
+      <i class="fas fa-bread-slice"></i> Nossa História
     </h2>
-    <p style="max-width: 700px; margin: 0 auto; font-size: 1.05rem; text-align: center; color: #444; line-height: 1.7;">
-      Desde 1985, somos referência em produtos de fermentação natural, feitos com amor, dedicação e ingredientes selecionados. Nossa missão é oferecer uma experiência única em cada mordida.
+
+    <p style="font-size: 1.1rem; color: #444; line-height: 1.7; margin-bottom: 2rem;">
+      Desde 1985, somos uma padaria familiar com alma artesanal. Cada receita carrega tradição, ingredientes naturais e o amor que atravessa gerações. Oferecemos uma experiência acolhedora, com pães de fermentação natural, doces típicos, café fresco e aquele aroma irresistível que só uma padaria autêntica tem.
     </p>
 
-    <ul class="selos-sobre" style="margin-top: 2rem; display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; list-style: none; padding: 0;">
-      <li style="background: var(--mint); color: var(--brown-D); padding: 0.5rem 1rem; border-radius: 30px; font-weight: 600;">100% Artesanal</li>
-      <li style="background: var(--pink); color: var(--brown-D); padding: 0.5rem 1rem; border-radius: 30px; font-weight: 600;">Receitas Familiares</li>
-      <li style="background: var(--beige); color: var(--brown-D); padding: 0.5rem 1rem; border-radius: 30px; font-weight: 600;">Mais de 500 Clientes</li>
-    </ul>
+    <div class="selos-sobre" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 1rem; list-style: none; padding: 0;">
+      <span style="background: #fce4b3; color: #5c2e00; padding: 0.5rem 1.2rem; border-radius: 20px; font-weight: bold;">Mais de 35 anos de tradição</span>
+      <span style="background: #ffe7d0; color: #5c2e00; padding: 0.5rem 1.2rem; border-radius: 20px; font-weight: bold;">Fermentação Natural</span>
+      <span style="background: #fbe9e7; color: #5c2e00; padding: 0.5rem 1.2rem; border-radius: 20px; font-weight: bold;">Receitas Artesanais</span>
+    </div>
   </div>
 </section>
 
+
+  <main>
+    <section id="produtos" style="padding: 4rem 1.5rem; background: #fff8f2;">
+  <h2 data-aos="fade-up" style="text-align: center; font-size: 2.4rem; color: #a0522d; margin-bottom: 2rem; font-family: 'Playfair Display', serif;">
+    🥐 Produtos de Destaque
+  </h2>
+
+  <div class="filtro" data-aos="fade-up" data-aos-delay="100" style="display: flex; justify-content: center; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 2rem;">
+    <button class="active" style="background: #a0522d; color: #fff; border: none; padding: 0.5rem 1.25rem; border-radius: 20px;">Todos</button>
+    <button style="background: #f3e8df; border: none; padding: 0.5rem 1.25rem; border-radius: 20px;">Pães</button>
+    <button style="background: #f3e8df; border: none; padding: 0.5rem 1.25rem; border-radius: 20px;">Doces</button>
+    <button style="background: #f3e8df; border: none; padding: 0.5rem 1.25rem; border-radius: 20px;">Pastéis</button>
+    <button style="background: #f3e8df; border: none; padding: 0.5rem 1.25rem; border-radius: 20px;">Café</button>
+  </div>
+
+  <div class="produtos" data-aos="fade-up" data-aos-delay="200" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 2rem;">
+    <div class="produto-card" style="background: #fff; border-radius: 12px; box-shadow: 0 6px 18px rgba(0,0,0,0.05); overflow: hidden; width: 280px; transition: transform 0.3s ease;">
+      <img src="https://sire-media-24k.techops.disn.io/24k_pt/clip-main/485104.1200x675.jpg" alt="Bolo de Chocolate" style="width: 100%; height: auto; object-fit: cover;">
+      <div class="produto-info" style="padding: 1rem;">
+        <h3 style="margin: 0 0 0.5rem; font-size: 1.25rem; color: #5c2e00;">Bolo de Chocolate</h3>
+        <p style="font-size: 0.95rem; color: #555;">Fofinho, com cobertura intensa e irresistível.</p>
+        <div class="price" style="font-weight: bold; color: #a0522d; margin-top: 0.75rem;">€4,50</div>
+      </div>
+    </div>
+
+    <div class="produto-card" style="background: #fff; border-radius: 12px; box-shadow: 0 6px 18px rgba(0,0,0,0.05); overflow: hidden; width: 280px; transition: transform 0.3s ease;">
+      <img src="https://offloadmedia.feverup.com/lisboasecreta.co/wp-content/uploads/2019/04/16104701/56862374_2208594645845235_4752233248321437696_o-1024x683.jpg" alt="Pastel de Nata" style="width: 100%; height: auto; object-fit: cover;">
+      <div class="produto-info" style="padding: 1rem;">
+        <h3 style="margin: 0 0 0.5rem; font-size: 1.25rem; color: #5c2e00;">Pastel de Nata</h3>
+        <p style="font-size: 0.95rem; color: #555;">Tradicional, crocante e cremoso.</p>
+        <div class="price" style="font-weight: bold; color: #a0522d; margin-top: 0.75rem;">€1,20</div>
+      </div>
+    </div>
+
+    <div class="produto-card" style="background: #fff; border-radius: 12px; box-shadow: 0 6px 18px rgba(0,0,0,0.05); overflow: hidden; width: 280px; transition: transform 0.3s ease;">
+  <img src="https://www.tribunapr.com.br/wp-content/uploads/2021/02/24141916/fermento-natural-leticia-akemi.jpeg" alt="Pão de Fermentação Natural" style="width: 100%; height: auto; object-fit: cover;">
+  <div class="produto-info" style="padding: 1rem;">
+    <h3 style="margin: 0 0 0.5rem; font-size: 1.25rem; color: #5c2e00;">Pão de Fermentação Natural</h3>
+    <p style="font-size: 0.95rem; color: #555;">Crocante por fora, macio por dentro e feito com longa fermentação.</p>
+    <div class="price" style="font-weight: bold; color: #a0522d; margin-top: 0.75rem;">€3,80</div>
+  </div>
+</div>
+
+<div class="produto-card" style="background: #fff; border-radius: 12px; box-shadow: 0 6px 18px rgba(0,0,0,0.05); overflow: hidden; width: 280px; transition: transform 0.3s ease;">
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgIC6TKwz0vIpfFocpUFF4kWCbmIVLxodrKA&s" alt="Croissant Artesanal com Amêndoas" style="width: 100%; height: auto; object-fit: cover;">
+  <div class="produto-info" style="padding: 1rem;">
+    <h3 style="margin: 0 0 0.5rem; font-size: 1.25rem; color: #5c2e00;">Croissant com Amêndoas</h3>
+    <p style="font-size: 0.95rem; color: #555;">Massa folhada delicada, recheio suave e toque crocante de amêndoas.</p>
+    <div class="price" style="font-weight: bold; color: #a0522d; margin-top: 0.75rem;">€2,90</div>
+  </div>
+</div>
+
+<div class="produto-card" style="background: #fff; border-radius: 12px; box-shadow: 0 6px 18px rgba(0,0,0,0.05); overflow: hidden; width: 280px; transition: transform 0.3s ease;">
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBbI0kCA5wwmRb0lM9k4POqVYTCCJ6uB1BFw&s" alt="Tartelette de Frutas Vermelhas" style="width: 100%; height: auto; object-fit: cover;">
+  <div class="produto-info" style="padding: 1rem;">
+    <h3 style="margin: 0 0 0.5rem; font-size: 1.25rem; color: #5c2e00;">Tartelette de Frutas Vermelhas</h3>
+    <p style="font-size: 0.95rem; color: #555;">Base amanteigada com creme leve e frutas frescas selecionadas.</p>
+    <div class="price" style="font-weight: bold; color: #a0522d; margin-top: 0.75rem;">€3,40</div>
+  </div>
+</div>
+
+
+  </div>
+</section>
 
     <section id="encomendas">
       <h2 data-aos="fade-left">Encomendas & Festas</h2>
@@ -402,40 +505,103 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['enviar'])) {
 
     <?= $msg_enviado ?>
 
-    <form class="contato-form" method="post" action="#contato" data-aos="fade-up" data-aos-delay="100" style="max-width: 600px; margin: 0 auto; background: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.07);">
-      <div style="display: grid; gap: 1.2rem;">
-        <div>
-          <label for="nome" class="sr-only">Nome</label>
-          <input type="text" id="nome" name="nome" placeholder="👤 Seu nome completo" value="<?= htmlspecialchars($nome ?? '') ?>" required
-                 style="width: 100%; padding: 0.8rem 1rem; border-radius: 8px; border: 1px solid #ccc;">
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem;">
+      <!-- Formulário -->
+      <form class="contato-form" method="post" action="#contato" data-aos="fade-up" data-aos-delay="100"
+            style="flex: 1 1 340px; max-width: 600px; background: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.07);">
+        <div style="display: grid; gap: 1.2rem;">
+          <div>
+            <label for="nome" class="sr-only">Nome</label>
+            <input type="text" id="nome" name="nome" placeholder="👤 Seu nome completo" value="<?= htmlspecialchars($nome ?? '') ?>" required
+                   style="width: 100%; padding: 0.8rem 1rem; border-radius: 8px; border: 1px solid #ccc;">
+          </div>
+          <div>
+            <label for="email" class="sr-only">Email</label>
+            <input type="email" id="email" name="email" placeholder="📧 Seu email" value="<?= htmlspecialchars($email ?? '') ?>" required
+                   style="width: 100%; padding: 0.8rem 1rem; border-radius: 8px; border: 1px solid #ccc;">
+          </div>
+          <div>
+            <label for="mensagem" class="sr-only">Mensagem</label>
+            <textarea id="mensagem" name="mensagem" rows="5" placeholder="💬 Sua mensagem..." required
+                      style="width: 100%; padding: 1rem; border-radius: 8px; border: 1px solid #ccc; resize: vertical;"><?= htmlspecialchars($mensagem ?? '') ?></textarea>
+          </div>
+          <button type="submit" name="enviar" class="btn-cta" style="margin-top: 1rem;">
+            <i class="fas fa-paper-plane"></i> Enviar Mensagem
+          </button>
         </div>
-        <div>
-          <label for="email" class="sr-only">Email</label>
-          <input type="email" id="email" name="email" placeholder="📧 Seu email" value="<?= htmlspecialchars($email ?? '') ?>" required
-                 style="width: 100%; padding: 0.8rem 1rem; border-radius: 8px; border: 1px solid #ccc;">
-        </div>
-        <div>
-          <label for="mensagem" class="sr-only">Mensagem</label>
-          <textarea id="mensagem" name="mensagem" rows="5" placeholder="💬 Sua mensagem..." required
-                    style="width: 100%; padding: 1rem; border-radius: 8px; border: 1px solid #ccc; resize: vertical;"><?= htmlspecialchars($mensagem ?? '') ?></textarea>
-        </div>
-        <button type="submit" name="enviar" class="btn-cta" style="margin-top: 1rem;">
-          <i class="fas fa-paper-plane"></i> Enviar Mensagem
-        </button>
+      </form>
+
+      <!-- Mapa discreto -->
+      <div style="flex: 1 1 300px; max-width: 400px; height: 250px; border-radius: 12px; overflow: hidden; box-shadow: 0 6px 16px rgba(0,0,0,0.06);" data-aos="fade-up" data-aos-delay="150">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3111.356353661033!2d-9.142685384654077!3d38.73694657959837!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd19331a8b8d50a7%3A0xf6a9f8a9c1f8f979!2sLisboa%2C%20Portugal!5e0!3m2!1spt-PT!2spt!4v1687357899991!5m2!1spt-PT!2spt"
+          width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
       </div>
-    </form>
+    </div>
   </div>
 </section>
 
 
-  <footer data-aos="fade-up">
-    <div class="social">
-      <a href="mailto:contato@padaria.com"><i class="fas fa-envelope"></i></a>
-      <a href="https://wa.me/351900000000"><i class="fab fa-whatsapp"></i></a>
-      <a href="https://instagram.com/padaria"><i class="fab fa-instagram"></i></a>
+
+  <footer style="background: #3e2723; color: #fceee3; padding: 3rem 1.5rem; font-family: 'Segoe UI', sans-serif;" data-aos="fade-up">
+  <div style="display: flex; flex-wrap: wrap; justify-content: space-between; max-width: 1200px; margin: 0 auto; gap: 2rem;">
+    
+    <!-- Sobre a padaria -->
+    <div style="flex: 1 1 250px;">
+      <h4 style="color: #fdd835; margin-bottom: 0.75rem;">Padaria Arte & Sabor</h4>
+      <p style="font-size: 0.95rem; line-height: 1.6;">
+        Desde 1985, oferecemos pães, doces e delícias artesanais com ingredientes selecionados e fermentação natural.
+      </p>
     </div>
-    <p>© <?= date('Y') ?> Padaria Arte & Sabor • Feito com ❤️ e fermento natural • Desenvolvido por Alex - Web Developer</p>
-  </footer>
+
+    <!-- Contato -->
+    <div style="flex: 1 1 250px;">
+      <h4 style="color: #fdd835; margin-bottom: 0.75rem;">Contato & Encomendas</h4>
+      <p style="margin: 0.3rem 0;">
+        📞 <a href="tel:+351900000000" style="color: #fceee3; text-decoration: none;">+351 900 000 000</a>
+      </p>
+      <p style="margin: 0.3rem 0;">
+        📧 <a href="mailto:encomendas@padaria.com?subject=Pedido%20de%20Encomenda" style="color: #fceee3; text-decoration: none;">
+          encomendas@padaria.com
+        </a>
+      </p>
+      <p style="margin: 0.3rem 0;">
+        📍 Rua dos Sabores, 123 – Lisboa
+      </p>
+    </div>
+
+    <!-- Horário -->
+    <div style="flex: 1 1 200px;">
+      <h4 style="color: #fdd835; margin-bottom: 0.75rem;">Horário de Funcionamento</h4>
+      <p style="margin: 0.3rem 0;">Seg a Sex: 07h – 19h</p>
+      <p style="margin: 0.3rem 0;">Sábado: 08h – 14h</p>
+      <p style="margin: 0.3rem 0;">Domingo: Fechado</p>
+    </div>
+
+    <!-- Redes sociais -->
+    <div style="flex: 1 1 200px;">
+      <h4 style="color: #fdd835; margin-bottom: 0.75rem;">Siga-nos</h4>
+      <a href="https://wa.me/351900000000" target="_blank" title="WhatsApp" style="color: #25D366; margin-right: 10px; font-size: 1.4rem;">
+        <i class="fab fa-whatsapp"></i>
+      </a>
+      <a href="https://instagram.com/padaria" target="_blank" title="Instagram" style="color: #fceee3; margin-right: 10px; font-size: 1.4rem;">
+        <i class="fab fa-instagram"></i>
+      </a>
+      <a href="mailto:contato@padaria.com" title="E-mail" style="color: #fceee3; font-size: 1.3rem;">
+        <i class="fas fa-envelope"></i>
+      </a>
+    </div>
+  </div>
+
+  <hr style="margin: 2rem 0; border: none; border-top: 1px solid #a1887f;">
+
+  <div style="text-align: center; font-size: 0.9rem; color: #d7c2b1;">
+    © <?= date('Y') ?> Padaria Arte & Sabor • Feito com ❤️, tradição e fermento natural<br>
+    Desenvolvido por <a href="#" style="color: #fdd835; text-decoration: none;">Alex Oliveira</a>
+  </div>
+</footer>
+
 
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
   <script>

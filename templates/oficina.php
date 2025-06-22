@@ -259,7 +259,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['enviar'])) {
   text-align: center;
   font-size: 2rem;
   margin-bottom: 30px;
-  color: #2c3e50;
+  color:rgb(41, 42, 42);
 }
 .sobre-bloco {
   max-width: 1000px;
@@ -292,7 +292,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['enviar'])) {
 .destaque h4 {
   margin-top: 10px;
   margin-bottom: 10px;
-  color: #2c3e50;
+  color:rgb(43, 45, 47);
 }
 .destaque p {
   font-size: 0.95rem;
@@ -443,260 +443,248 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['enviar'])) {
   <div style="max-width: 900px; margin: 0 auto;">
     <h2 style="font-size: 2.8rem; margin-bottom: 1rem;">Seu carro nas mãos certas</h2>
     <p style="font-size: 1.3rem; margin-bottom: 2rem;">Agende sua revisão, manutenção ou diagnóstico com nossa equipa especializada</p>
-    <a href="#contacto" style="background: #ffd700; color: #000; padding: 0.9rem 1.6rem; border-radius: 5px; text-decoration: none; font-weight: bold; margin: 0 0.5rem;">
-      <i class="fas fa-envelope"></i> Fale Conosco
-    </a>
-    <a href="#servicos" style="background: #333; color: #fff; padding: 0.9rem 1.6rem; border-radius: 5px; text-decoration: none; font-weight: bold; margin: 0 0.5rem;">
-      <i class="fas fa-wrench"></i> Ver Serviços
-    </a>
+
+    <!-- Botões com responsividade -->
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem;">
+      <a href="#contacto" style="background: #ffd700; color: #000; padding: 0.9rem 1.6rem; border-radius: 5px; text-decoration: none; font-weight: bold;">
+        <i class="fas fa-envelope"></i> Fale Conosco
+      </a>
+      <a href="#servicos" style="background: #333; color: #fff; padding: 0.9rem 1.6rem; border-radius: 5px; text-decoration: none; font-weight: bold;">
+        <i class="fas fa-wrench"></i> Ver Serviços
+      </a>
+    </div>
   </div>
 
 </section>
 
 
+
 <main>
+  <h3 class="section-title" id="servicos">Serviços Oferecidos</h3>
 
- <h3 class="section-title" id="servicos">Serviços Oferecidos</h3>
-<div class="servicos-grid">
-  <div class="servico" onclick="abrirModal('oleo')">
-    <i class="fas fa-oil-can"></i>
-    <h4>Troca de Óleo</h4>
-    <p>Lubrificantes de alta performance e filtros novos.</p>
+  <div class="servicos-grid">
+    <div class="servico" onclick="abrirModal('oleo')">
+      <i class="fas fa-oil-can"></i>
+      <h4>Troca de Óleo</h4>
+      <p>Lubrificantes de alta performance e filtros novos.</p>
+      <span class="indicador">Clique para ver mais informações</span>
+    </div>
+    <div class="servico" onclick="abrirModal('alinhamento')">
+      <i class="fas fa-sliders-h"></i>
+      <h4>Alinhamento</h4>
+      <p>Precisão digital para direção segura.</p>
+      <span class="indicador">Clique para ver mais informações</span>
+    </div>
+    <div class="servico" onclick="abrirModal('freios')">
+      <i class="fas fa-car-crash"></i>
+      <h4>Freios</h4>
+      <p>Substituição e revisão de discos e pastilhas.</p>
+      <span class="indicador">Clique para ver mais informações</span>
+    </div>
+    <div class="servico" onclick="abrirModal('revisao')">
+      <i class="fas fa-cogs"></i>
+      <h4>Revisão Geral</h4>
+      <p>Check-up completo com 30 itens avaliados.</p>
+      <span class="indicador">Clique para ver mais informações</span>
+    </div>
+    <div class="servico" onclick="abrirModal('ar')">
+      <i class="fas fa-wind"></i>
+      <h4>Ar Condicionado</h4>
+      <p>Higienização e recarga de gás.</p>
+      <span class="indicador">Clique para ver mais informações</span>
+    </div>
+    <div class="servico" onclick="abrirModal('eletrica')">
+      <i class="fas fa-bolt"></i>
+      <h4>Elétrica</h4>
+      <p>Correções em sistema de luzes e bateria.</p>
+      <span class="indicador">Clique para ver mais informações</span>
+    </div>
   </div>
-  <div class="servico" onclick="abrirModal('alinhamento')">
-    <i class="fas fa-sliders-h"></i>
-    <h4>Alinhamento</h4>
-    <p>Precisão digital para direção segura.</p>
-  </div>
-  <div class="servico" onclick="abrirModal('freios')">
-    <i class="fas fa-car-crash"></i>
-    <h4>Freios</h4>
-    <p>Substituição e revisão de discos e pastilhas.</p>
-  </div>
-  <div class="servico" onclick="abrirModal('revisao')">
-    <i class="fas fa-cogs"></i>
-    <h4>Revisão Geral</h4>
-    <p>Check-up completo com 30 itens avaliados.</p>
-  </div>
-  <div class="servico" onclick="abrirModal('ar')">
-    <i class="fas fa-wind"></i>
-    <h4>Ar Condicionado</h4>
-    <p>Higienização e recarga de gás.</p>
-  </div>
-  <div class="servico" onclick="abrirModal('eletrica')">
-    <i class="fas fa-bolt"></i>
-    <h4>Elétrica</h4>
-    <p>Correções em sistema de luzes e bateria.</p>
-  </div>
-</div>
 
-<!-- Modal -->
-<div id="modalServico" class="modal-servico">
-  <div class="modal-content">
-    <span class="fechar" onclick="fecharModal()">&times;</span>
-    <h3 id="modalTitulo"></h3>
-    <p id="modalDescricao"></p>
-    <p id="modalPreco" style="font-weight: bold; color: #2c3e50;"></p>
+  <!-- Modal -->
+  <div id="modalServico" class="modal-servico" onclick="fecharModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <span class="fechar" onclick="fecharModal()">&times;</span>
+      <h3 id="modalTitulo"></h3>
+      <p id="modalDescricao"></p>
+      <p id="modalPreco" style="font-weight: bold; color: #2c3e50;"></p>
+    </div>
   </div>
-</div>
+</main>
 
 <style>
-.servicos-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.5rem;
-  margin-top: 1.5rem;
-}
-.servico {
-  background: #fff;
-  padding: 1.2rem;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  text-align: center;
-  cursor: pointer;
-  transition: transform 0.3s;
-}
-.servico:hover {
-  transform: translateY(-5px);
-}
-.servico i {
-  font-size: 2rem;
-  color: #2980b9;
-  margin-bottom: 0.6rem;
-}
-.modal-servico {
-  display: none;
-  position: fixed;
-  z-index: 9999;
-  left: 0; top: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.6);
-}
-.modal-content {
-  background: #fff;
-  padding: 2rem;
-  margin: 10% auto;
-  width: 90%;
-  max-width: 500px;
-  border-radius: 10px;
-  position: relative;
-}
-.fechar {
-  position: absolute;
-  top: 10px; right: 15px;
-  font-size: 1.5rem;
-  color: #aaa;
-  cursor: pointer;
-}
-.fechar:hover {
-  color: #000;
-}
+  main {
+    padding: 4rem 2rem;
+    background: #f8f9fa;
+  }
 
-.transformacoes {
-  padding: 60px 20px;
-  background: #f9f9f9;
-  text-align: center;
-}
-.subtitulo-galeria {
-  margin-bottom: 40px;
-  font-size: 1.1rem;
-  color: #555;
-  max-width: 700px;
-  margin-left: auto;
-  margin-right: auto;
-}
-.galeria-transformacao {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 30px;
-  justify-content: center;
-}
-.card-transformacao {
-  position: relative;
-  width: 300px;
-  height: 200px;
-  overflow: hidden;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  transition: transform 0.3s;
-}
-.card-transformacao:hover {
-  transform: scale(1.03);
-}
-.card-transformacao .fundo {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-  filter: brightness(0.8);
-}
-.card-transformacao .info {
-  position: relative;
-  z-index: 2;
-  color: #fff;
-  background: rgba(0,0,0,0.4);
-  padding: 20px;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-.card-transformacao .info h4 {
-  font-size: 1.2rem;
-  margin-bottom: 10px;
-}
+  .section-title {
+    font-size: 2.2rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #333;
+    font-weight: 600;
+  }
 
-.depoimentos-section {
-  padding: 60px 20px;
-  background: #fff;
-  text-align: center;
-}
+  .servicos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
 
-.depoimentos-slider {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 30px;
-  margin-top: 30px;
-}
+  .servico {
+    background: #fff;
+    padding: 2rem 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+  }
 
-.card-depoimento {
-  background: #f9f9f9;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
-  max-width: 320px;
-  padding: 25px 20px;
-  position: relative;
-  transition: transform 0.3s;
-}
+  .servico:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  }
 
-.card-depoimento:hover {
-  transform: translateY(-5px);
-}
+  .servico i {
+    font-size: 2.8rem;
+    color: #ffc107;
+    margin-bottom: 1rem;
+  }
 
-.comentario {
-  font-style: italic;
-  font-size: 1rem;
-  color: #333;
-  margin-bottom: 15px;
-}
+  .servico h4 {
+    font-size: 1.25rem;
+    color: #222;
+    margin-bottom: 0.6rem;
+  }
 
-.cliente {
-  font-size: 0.95rem;
-  color: #666;
-}
-.cliente strong {
-  display: block;
-  color: #222;
-  margin-bottom: 3px;
-}
+  .servico p {
+    font-size: 0.95rem;
+    color: #555;
+    min-height: 48px;
+  }
 
+  .indicador {
+    display: block;
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: #666;
+    font-style: italic;
+  }
+
+  .modal-servico {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 2rem;
+  }
+
+  .modal-content {
+    background: #fff;
+    padding: 2rem;
+    max-width: 500px;
+    margin: 5% auto;
+    border-radius: 12px;
+    position: relative;
+    text-align: left;
+  }
+
+  .modal-content h3 {
+    margin-top: 0;
+    color: #333;
+  }
+
+  .modal-content p {
+    margin-bottom: 1rem;
+    color: #444;
+  }
+
+  .fechar {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 1.5rem;
+    color: #999;
+    cursor: pointer;
+  }
+
+  .fechar:hover {
+    color: #000;
+  }
+
+  @media (max-width: 500px) {
+    .servico {
+      padding: 1.2rem 1rem;
+    }
+
+    .servico i {
+      font-size: 2.2rem;
+    }
+
+    .servico h4 {
+      font-size: 1.1rem;
+    }
+  }
 </style>
 
 <script>
-function abrirModal(servico) {
-  const dados = {
-    oleo: {
-      titulo: "Troca de Óleo",
-      descricao: "Inclui lubrificante de alta performance, filtro novo e verificação de nível.",
-      preco: "A partir de € 49"
-    },
-    alinhamento: {
-      titulo: "Alinhamento",
-      descricao: "Alinhamento computadorizado com precisão digital em todas as rodas.",
-      preco: "A partir de € 35"
-    },
-    freios: {
-      titulo: "Freios",
-      descricao: "Revisão completa dos freios: pastilhas, discos, fluido e pinças.",
-      preco: "A partir de € 59"
-    },
-    revisao: {
-      titulo: "Revisão Geral",
-      descricao: "Check-up com mais de 30 itens, incluindo motor, freios, suspensão e eletrônica.",
-      preco: "Pacote completo por € 129"
-    },
-    ar: {
-      titulo: "Ar Condicionado",
-      descricao: "Higienização interna e recarga de gás com verificação de vazamentos.",
-      preco: "A partir de € 45"
-    },
-    eletrica: {
-      titulo: "Elétrica Automotiva",
-      descricao: "Diagnóstico e reparo em bateria, alternador, iluminação, sensores e chicotes.",
-      preco: "Valor sob consulta"
-    }
-  };
+  function abrirModal(servico) {
+    const dados = {
+      oleo: {
+        titulo: "Troca de Óleo",
+        descricao: "Inclui lubrificante de alta performance, filtro novo e verificação de nível.",
+        preco: "A partir de € 49"
+      },
+      alinhamento: {
+        titulo: "Alinhamento",
+        descricao: "Alinhamento computadorizado com precisão digital em todas as rodas.",
+        preco: "A partir de € 35"
+      },
+      freios: {
+        titulo: "Freios",
+        descricao: "Revisão completa dos freios: pastilhas, discos, fluido e pinças.",
+        preco: "A partir de € 59"
+      },
+      revisao: {
+        titulo: "Revisão Geral",
+        descricao: "Check-up com mais de 30 itens, incluindo motor, freios, suspensão e eletrônica.",
+        preco: "Pacote completo por € 129"
+      },
+      ar: {
+        titulo: "Ar Condicionado",
+        descricao: "Higienização interna e recarga de gás com verificação de vazamentos.",
+        preco: "A partir de € 45"
+      },
+      eletrica: {
+        titulo: "Elétrica Automotiva",
+        descricao: "Diagnóstico e reparo em bateria, alternador, iluminação, sensores e chicotes.",
+        preco: "Valor sob consulta"
+      }
+    };
 
-  document.getElementById('modalTitulo').innerText = dados[servico].titulo;
-  document.getElementById('modalDescricao').innerText = dados[servico].descricao;
-  document.getElementById('modalPreco').innerText = dados[servico].preco;
-  document.getElementById('modalServico').style.display = 'block';
-}
-function fecharModal() {
-  document.getElementById('modalServico').style.display = 'none';
-}
+    document.getElementById('modalTitulo').innerText = dados[servico].titulo;
+    document.getElementById('modalDescricao').innerText = dados[servico].descricao;
+    document.getElementById('modalPreco').innerText = dados[servico].preco;
+    document.getElementById('modalServico').style.display = 'block';
+  }
+
+  function fecharModal(event) {
+    if (!event || event.target.id === 'modalServico') {
+      document.getElementById('modalServico').style.display = 'none';
+    }
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') fecharModal();
+  });
 </script>
 
 
@@ -738,63 +726,236 @@ function fecharModal() {
   <section class="transformacoes" id="galeria">
   <h3 class="section-title">🔧 Transformações que Inspiram</h3>
   <p class="subtitulo-galeria">
-    Cada carro que passa por aqui carrega uma história. Nós apenas ajudamos a deixá-la ainda mais incrível.
+    Cada carro tem alma. A gente revela o melhor dela com técnica, história e paixão.
   </p>
 
   <div class="galeria-transformacao">
-    <div class="card-transformacao">
+    <div class="card-transformacao" data-aos="zoom-in-up">
+      <div class="fundo" style="background-image: url('https://www.omeuclassico.pt/wp-content/uploads/2022/05/Oficinas-de-Restauro.jpg');"></div>
       <div class="info">
         <h4>Restauração Completa</h4>
-        <p>Carro clássico recuperado com peças originais e pintura personalizada.</p>
+        <p>Carro clássico com peças originais, pintura artesanal e alma nova. Um verdadeiro renascimento.</p>
       </div>
-      <div class="fundo" style="background-image: url('https://images.unsplash.com/photo-1611926653458-eaccb5d5d217?auto=format&fit=crop&w=800&q=80');"></div>
     </div>
 
-    <div class="card-transformacao">
+    <div class="card-transformacao" data-aos="zoom-in-up" data-aos-delay="150">
+      <div class="fundo" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCrVQiyRR8VK1YpBNKP17BSxJE64ycVCjoUg&s');"></div>
       <div class="info">
         <h4>Estética Premium</h4>
-        <p>Lavagem técnica, vitrificação e polimento de alto brilho.</p>
+        <p>Vitrificação de vidros, polimento técnico e proteção cerâmica. Resultado: brilho eterno.</p>
       </div>
-      <div class="fundo" style="background-image: url('https://images.unsplash.com/photo-1623157731322-97dfc9cc8bb3?auto=format&fit=crop&w=800&q=80');"></div>
     </div>
 
-    <div class="card-transformacao">
+    <div class="card-transformacao" data-aos="zoom-in-up" data-aos-delay="300">
+      <div class="fundo" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSK6cPLucmemHb2OfxDxpp61sEsYHAb-2-GcQ&s');"></div>
       <div class="info">
         <h4>Reparo Estrutural</h4>
-        <p>Correção completa da dianteira com alinhamento digital 3D.</p>
+        <p>Alinhamento 3D de precisão e solda especializada. Estabilidade com visual de fábrica.</p>
       </div>
-      <div class="fundo" style="background-image: url('https://images.unsplash.com/photo-1608571417724-529ff1aa98b6?auto=format&fit=crop&w=800&q=80');"></div>
     </div>
   </div>
 </section>
 
+<style>
+  .transformacoes {
+    padding: 5rem 2rem;
+    background: linear-gradient(to bottom, #f8f9fb, #edf0f5);
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .section-title {
+    font-size: 2.5rem;
+    color:rgb(11, 11, 11);
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+
+  .subtitulo-galeria {
+    font-size: 1.15rem;
+    color: #555;
+    max-width: 720px;
+    margin: 0 auto 3rem;
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  .galeria-transformacao {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2.5rem;
+    justify-content: center;
+  }
+
+  .card-transformacao {
+    width: 330px;
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    transition: all 0.4s ease;
+    transform: perspective(800px) rotateX(0deg);
+  }
+
+  .card-transformacao:hover {
+    transform: perspective(800px) rotateX(3deg) translateY(-5px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.15);
+  }
+
+  .card-transformacao .fundo {
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.88);
+    transition: filter 0.3s ease;
+  }
+
+  .card-transformacao:hover .fundo {
+    filter: brightness(1);
+  }
+
+  .card-transformacao .info {
+    padding: 1.5rem;
+    text-align: left;
+  }
+
+  .card-transformacao h4 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+  }
+
+  .card-transformacao p {
+    font-size: 0.97rem;
+    color: #555;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 500px) {
+    .card-transformacao {
+      width: 100%;
+    }
+    .card-transformacao .info {
+      text-align: center;
+    }
+  }
+</style>
+
+
   <section id="depoimentos" class="depoimentos-section">
   <h3 class="section-title">✨ O que dizem nossos clientes</h3>
-  <div class="depoimentos-slider">
 
+  <div class="depoimentos-slider">
     <div class="card-depoimento">
-      <p class="comentario">"Atendimento impecável, profissionais honestos e transparência do início ao fim. Recomendo de olhos fechados!"</p>
+      <p class="comentario">
+        <i class="fas fa-quote-left"></i>
+        Atendimento impecável, profissionais honestos e transparência do início ao fim. Recomendo de olhos fechados!
+        <i class="fas fa-quote-right"></i>
+      </p>
       <div class="cliente">
         <strong>João M.</strong> <span>Cliente desde 2021</span>
       </div>
     </div>
 
     <div class="card-depoimento">
-      <p class="comentario">"Levei minha frota para revisão e fiquei impressionada com a agilidade e seriedade. Voltarei com certeza!"</p>
+      <p class="comentario">
+        <i class="fas fa-quote-left"></i>
+        Levei minha frota para revisão e fiquei impressionada com a agilidade e seriedade. Voltarei com certeza!
+        <i class="fas fa-quote-right"></i>
+      </p>
       <div class="cliente">
         <strong>Fátima L.</strong> <span>Gestora de Frotas</span>
       </div>
     </div>
 
     <div class="card-depoimento">
-      <p class="comentario">"A oficina mais organizada e honesta que conheci. Explicam tudo com clareza. Meu carro está em boas mãos."</p>
+      <p class="comentario">
+        <i class="fas fa-quote-left"></i>
+        A oficina mais organizada e honesta que conheci. Explicam tudo com clareza. Meu carro está em boas mãos.
+        <i class="fas fa-quote-right"></i>
+      </p>
       <div class="cliente">
         <strong>Bruno S.</strong> <span>Cliente recorrente</span>
       </div>
     </div>
-
   </div>
 </section>
+
+<style>
+  .depoimentos-section {
+    background: #f7f9fc;
+    padding: 4rem 2rem;
+    text-align: center;
+  }
+
+  .section-title {
+    font-size: 2.4rem;
+    margin-bottom: 2rem;
+    color:rgb(31, 32, 34);
+  }
+
+  .depoimentos-slider {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .card-depoimento {
+    background: #fff;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+    transition: transform 0.3s ease;
+    position: relative;
+  }
+
+  .card-depoimento:hover {
+    transform: translateY(-6px);
+  }
+
+  .comentario {
+    font-size: 1.05rem;
+    font-style: italic;
+    color: #444;
+    line-height: 1.6;
+    position: relative;
+    margin-bottom: 1.2rem;
+  }
+
+  .comentario i {
+    color: #ffd700;
+    font-size: 1rem;
+    margin: 0 5px;
+  }
+
+  .cliente {
+    font-size: 0.9rem;
+    color: #666;
+  }
+
+  .cliente strong {
+    display: block;
+    color:rgb(33, 35, 36);
+    font-size: 1rem;
+  }
+
+  @media (max-width: 500px) {
+    .comentario {
+      font-size: 0.95rem;
+    }
+    .section-title {
+      font-size: 1.8rem;
+    }
+  }
+</style>
+
+<!-- Font Awesome (caso não esteja incluso) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-MdObLppkKsE0YdbQKn2f93e9U4oz6F1M8U3+7LtrjFOi+6W7AqNzYQKx5sUvK/KT4Ls/Y6rSJKy3MBwZ2XZ3Fg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 
 
  <section id="contacto" class="contato-section">

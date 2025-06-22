@@ -548,7 +548,7 @@
 </style>
 
 <header class="text-center" role="banner" aria-label="Cabeçalho Clínica Dentária">
-  <h1>Clínica Dentária Lusitana</h1>
+  <h1>Clínica Dentária </h1>
   <p>
     Cuidamos do seu sorriso com excelência, tecnologia avançada e um atendimento humanizado para todas as idades, especialmente para as crianças.
   </p>
@@ -1015,7 +1015,7 @@
 </style>
 
 <!-- SEÇÃO INFANTIL COM FUNDO E ESTILO MODERNO -->
-<section class="infantil" aria-label="Seção Infantil - Clínica Dentária Lusitana" style="padding: 4rem 1.5rem; background: linear-gradient(135deg, #f9f7fd 0%, #e8f0fe 100%);">
+<section class="infantil" aria-label="Seção Infantil - Clínica Dentária " style="padding: 4rem 1.5rem; background: linear-gradient(135deg, #f9f7fd 0%, #e8f0fe 100%);">
   <h2 style="text-align: center; font-size: 2.2rem; color: #0D3B66; margin-bottom: 1rem;">🦷 Clínica Infantil: Sorrisos que Brilham!</h2>
   <p class="intro" style="text-align: center; max-width: 700px; margin: 0 auto 1rem; font-size: 1.1rem; color: #444;">
     Um espaço acolhedor e divertido, pensado para tornar o cuidado dental das crianças uma experiência leve, educativa e feliz.
@@ -1065,7 +1065,7 @@
     Entre em contato conosco pelo telefone  
     <strong style="color: #0D3B66;">📞 (+351) 912 345 678</strong>  
     ou pelo email  
-    <a href="mailto:contato@clinicadentarialusitana.pt" style="color: #0D3B66; text-decoration: underline;">contato@clinicadentarialusitana.pt</a>.  
+    <a href="mailto:contato@clinicadentaria.pt" style="color: #0D3B66; text-decoration: underline;">contato@clinicadentaria.pt</a>.  
     Estamos ansiosos para cuidar do seu sorriso com carinho e excelência!
   </p>
 
@@ -1074,7 +1074,7 @@
       style="padding: 0.8rem 1.5rem; background: #0D3B66; color: #fff; border: none; border-radius: 8px; font-size: 1rem; text-decoration: none; transition: background 0.3s;">
       📞 Ligar Agora
     </a>
-    <a href="mailto:contato@clinicadentarialusitana.pt" class="btn" aria-label="Enviar email para clínica"
+    <a href="mailto:contato@clinicadentarial.pt" class="btn" aria-label="Enviar email para clínica"
       style="padding: 0.8rem 1.5rem; background: #20bfa9; color: #fff; border: none; border-radius: 8px; font-size: 1rem; text-decoration: none; transition: background 0.3s;">
       ✉️ Enviar Email
     </a>
@@ -1087,12 +1087,12 @@
 
     <!-- SOBRE A CLÍNICA -->
     <div style="flex: 1; min-width: 220px;">
-      <h4 style="color: #FFDD00; margin-bottom: 1rem;">Clínica Dentária Lusitana</h4>
+      <h4 style="color: #FFDD00; margin-bottom: 1rem;">Clínica Dentária </h4>
       <p>Excelência em saúde bucal com tecnologia de ponta e atendimento humanizado em Portugal.</p>
       <p style="margin-top: 1rem;">
         📍 Rua da Saúde, 123 - Lisboa<br>
         📞 (+351) 912 345 678<br>
-        ✉️ contato@clinicadentarialusitana.pt
+        ✉️ contato@clinicadentaria.pt
       </p>
     </div>
 
@@ -1132,7 +1132,7 @@
 
   <!-- RODAPÉ FINAL -->
   <div style="margin-top: 2rem; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 1rem; text-align: center; font-size: 0.85rem;">
-    <p style="margin: 0;">© 2025 Clínica Dentária Lusitana. Todos os direitos reservados.</p>
+    <p style="margin: 0;">© 2025 Clínica Dentária. Todos os direitos reservados.</p>
     <p style="margin: 0.3rem 0 0;">Desenvolvido com ❤️ por <strong>Alex Oliveira</strong></p>
   </div>
 </footer>

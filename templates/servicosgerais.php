@@ -211,26 +211,43 @@
       gap:2rem;
     }
     .servico-card {
-      background: var(--primary-light);
-      border-radius:8px;
-      padding:2rem;
-      text-align:center;
-      cursor:pointer;
-      transition:transform 0.3s, box-shadow 0.3s;
-    }
-    .servico-card:hover {
-      transform: translateY(-8px);
-      box-shadow:0 6px 20px rgba(0,0,0,0.1);
-    }
-    .servico-card i {
-      font-size:2.5rem;
-      color: var(--accent-orange);
-      margin-bottom:1rem;
-      transition: transform 0.3s;
-    }
-    .servico-card:hover i { transform: rotate(15deg); }
-    .servico-card h3 { margin-bottom:0.5rem; font-family:'Montserrat'; }
-    .servico-card p  { font-size:0.95rem; color: var(--text-dark); }
+  cursor: pointer;
+  background: #fff;
+  padding: 2rem 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
+}
+
+.servico-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+  background: #fffefc;
+}
+
+.servico-card i {
+  font-size: 2.2rem;
+  color: #ffbf00;
+  margin-bottom: 0.7rem;
+  transition: transform 0.3s ease;
+}
+
+.servico-card:hover i {
+  transform: scale(1.2) rotate(-4deg);
+}
+
+.servico-card h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+  color: #222;
+}
+
+.servico-card p {
+  font-size: 0.95rem;
+  color: #555;
+}
 
     .modal {
       display: none;
@@ -688,6 +705,88 @@
   margin: 0;
 }
 
+.hero-modern {
+  position: relative;
+  min-height: 65vh;
+  padding: 100px 20px;
+  background: url('https://static.vecteezy.com/system/resources/previews/024/320/114/non_2x/mechanic-man-logo-handyman-for-service-repairman-or-maintenance-mascot-concept-cartoon-character-design-isolated-illustration-png.png') center top/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  color: #fff;
+}
+
+.hero-modern .hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(2px);
+  z-index: 1;
+}
+
+.hero-modern .hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 720px;
+  text-align: center;
+}
+
+.hero-modern h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 5.5vw, 3.5rem);
+  font-weight: 800;
+  margin-bottom: 1rem;
+  letter-spacing: 0.05em;
+  text-shadow: 0 3px 12px rgba(0,0,0,0.7);
+}
+
+.hero-modern h1 span {
+  color: #ffbf00;
+  text-shadow: 0 2px 10px rgba(255, 191, 0, 0.6);
+}
+
+.hero-modern p {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 2rem;
+  color: #f1f1f1;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.4);
+}
+
+.hero-modern .cta {
+  background-color: #ffbf00;
+  border: none;
+  border-radius: 50px;
+  padding: 0.7rem 2rem;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #111;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.25);
+}
+
+.hero-modern .cta:hover {
+  background-color: #e6a900;
+  color: #fff;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.35);
+}
+
+@media (max-width: 576px) {
+  .hero-modern {
+    padding: 80px 16px;
+    min-height: 60vh;
+  }
+  .hero-modern h1 {
+    font-size: 1.8rem;
+  }
+  .hero-modern p {
+    font-size: 1rem;
+  }
+}
+
+
 
   </style>
 </head>
@@ -719,53 +818,90 @@
 
 
   <!-- 1. HERO -->
-<section class="hero" id="inicio">
+<section class="hero hero-modern" id="inicio">
   <div class="hero-overlay"></div>
-  <div class="hero-content" data-aos="fade-down">
-    <h1>🔧 Precisa de uma Mão? Nós Fazemos Tudo!</h1>
+  <div class="hero-content container text-center" data-aos="fade-down">
+    <h1>🔧 Precisa de uma Mão? <span>Fazemos Tudo!</span></h1>
     <p>🛠️ Serviços rápidos, seguros e profissionais ao seu alcance.</p>
     <button class="cta" onclick="document.getElementById('servicos').scrollIntoView({behavior: 'smooth'})">
-      Solicite um Orçamento <i class="fas fa-bolt"></i>
+      Solicite um Orçamento <i class="bi bi-lightning-charge-fill"></i>
     </button>
   </div>
 </section>
 
 
+
   <!-- 3. SERVIÇOS COM MODAIS -->
-  <section id="servicos">
-    <h2>Nossos Serviços</h2>
-    <div class="grid-servicos">
+  <!-- Seção Serviços -->
+<section id="servicos" style="padding: 80px 20px; background-color: #fcfaf8;">
+  <div class="container text-center">
+
+    <h2 style="
+      font-family: 'Playfair Display', serif;
+      font-weight: 800;
+      font-size: 2.6rem;
+      color: #222;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;">
+      Nossos Serviços
+    </h2>
+
+    <p style="
+      font-size: 1.05rem;
+      color: #666;
+      margin-bottom: 40px;
+      font-weight: 500;">
+      👆 <strong>Clique em um serviço para ver mais detalhes.</strong>
+    </p>
+
+    <div class="grid-servicos" style="
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 30px;
+      max-width: 1140px;
+      margin: 0 auto;">
+      
       <div class="servico-card" data-modal="modal-eletrica">
         <i class="fas fa-bolt"></i>
         <h3>Elétrica</h3>
         <p>Instalação e reparo de circuitos e iluminação.</p>
       </div>
+      
       <div class="servico-card" data-modal="modal-hidraulica">
         <i class="fas fa-shower"></i>
         <h3>Hidráulica</h3>
         <p>Conserto de vazamentos e tubulações.</p>
       </div>
+      
       <div class="servico-card" data-modal="modal-pintura">
         <i class="fas fa-paint-roller"></i>
         <h3>Pintura</h3>
         <p>Pintura interna e externa profissional.</p>
       </div>
+      
       <div class="servico-card" data-modal="modal-montagem">
         <i class="fas fa-wrench"></i>
         <h3>Montagem</h3>
         <p>Montagem de móveis e suportes.</p>
       </div>
+      
       <div class="servico-card" data-modal="modal-portas">
         <i class="fas fa-door-open"></i>
         <h3>Portas</h3>
         <p>Instalação e manutenção de portas e janelas.</p>
       </div>
+      
       <div class="servico-card" data-modal="modal-jardinagem">
         <i class="fas fa-leaf"></i>
         <h3>Jardinagem</h3>
         <p>Poda e manutenção de áreas verdes.</p>
       </div>
     </div>
+    
+  </div>
+</section>
+
 
     <!-- MODAIS -->
     <div class="modal" id="modal-eletrica">
@@ -926,7 +1062,7 @@
       </div>
 
       <div class="form-group">
-        <label for="bairro"><i class="fas fa-map-marker-alt"></i> Bairro / Cidade</label>
+        <label for="bairro"><i class="fas fa-map-marker-alt"></i> Cidade </label>
         <input id="bairro" name="bairro" type="text" placeholder="Ex: Bairro da Luz, Lisboa" required>
       </div>
 

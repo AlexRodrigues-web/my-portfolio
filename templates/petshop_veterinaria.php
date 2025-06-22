@@ -20,6 +20,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["send_msg"])) {
   <script src="https://kit.fontawesome.com/a2d9b63b07.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500&family=Kalam&display=swap" rel="stylesheet">
+  <!-- Bootstrap Icons CDN -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
 
 
   <style>
@@ -469,6 +472,29 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["send_msg"])) {
   100% { transform: translateX(-100%); }
 }
 
+.whatsapp-float {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background-color: #25D366;
+  color: white;
+  font-size: 1.9rem;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  z-index: 1050;
+  transition: all 0.3s ease;
+}
+
+.whatsapp-float:hover {
+  background-color: #1ebe5d;
+  transform: scale(1.1);
+  text-decoration: none;
+}
 
   
 </style>
@@ -586,33 +612,59 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["send_msg"])) {
   <audio id="som-miado" src="https://assets.mixkit.co/sfx/preview/mixkit-small-cat-meow-81.mp3"></audio>
   <audio id="som-latido" src="https://assets.mixkit.co/sfx/preview/mixkit-dog-barking-twice-1.mp3"></audio>
 
-  <div class="container" data-aos="fade-up">
-    <h2 style="text-align: center; color: #2ba5c4; font-size: 2rem; margin-bottom: 40px;">
-      🐶 Serviços com Muito Amor
-    </h2>
-    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px;">
-      <div class="card-servico" onclick="abrirModal('Consulta Veterinária', 'Consultas detalhadas, exames e check-up para garantir a saúde do seu pet.')">
-        <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" alt="Consulta" style="width: 60px;">
-        <h4>Consulta</h4>
-      </div>
-      <div class="card-servico" onclick="abrirModal('Vacinação', 'Vacinas atualizadas com carinho e responsabilidade.')">
-        <img src="https://cdn-icons-png.flaticon.com/512/616/616430.png" alt="Vacinação" style="width: 60px;">
-        <h4>Vacinação</h4>
-      </div>
-      <div class="card-servico" onclick="abrirModal('Banho e Tosa', 'Espaço higiênico, com produtos de qualidade e cuidado total.')">
-        <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" alt="Banho e Tosa" style="width: 60px;">
-        <h4>Banho & Tosa</h4>
-      </div>
-      <div class="card-servico" onclick="abrirModal('Hotelzinho', 'Hospedagem segura, com amor e monitoramento diário.')">
-        <img src="https://cdn-icons-png.flaticon.com/512/616/616401.png" alt="Hotelzinho" style="width: 60px;">
-        <h4>Hotelzinho</h4>
-      </div>
-      <div class="card-servico" onclick="abrirModal('Petshop', 'Produtos selecionados com curadoria e carinho para seu pet.')">
-        <img src="https://cdn-icons-png.flaticon.com/512/616/616493.png" alt="Petshop" style="width: 60px;">
-        <h4>Petshop</h4>
-      </div>
+ <div class="container" data-aos="fade-up" style="padding: 80px 20px;">
+  <h2 style="
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    font-weight: 800;
+    color: #2ba5c4;
+    font-size: 2.4rem;
+    margin-bottom: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;">
+    🐶 Serviços com Muito Amor
+  </h2>
+
+  <p style="text-align: center; font-size: 1.05rem; color: #555; margin-bottom: 40px;">
+    👆 <strong>Clique em um serviço para ver mais detalhes.</strong>
+  </p>
+
+  <div style="
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    max-width: 1140px;
+    margin: 0 auto;">
+    
+    <div class="card-servico" onclick="abrirModal('Consulta Veterinária', 'Consultas detalhadas, exames e check-up para garantir a saúde do seu pet.')">
+      <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" alt="Consulta" class="img-servico">
+      <h4>Consulta</h4>
     </div>
+
+    <div class="card-servico" onclick="abrirModal('Vacinação', 'Vacinas atualizadas com carinho e responsabilidade.')">
+      <img src="https://cdn-icons-png.flaticon.com/512/616/616430.png" alt="Vacinação" class="img-servico">
+      <h4>Vacinação</h4>
+    </div>
+
+    <div class="card-servico" onclick="abrirModal('Banho e Tosa', 'Espaço higiênico, com produtos de qualidade e cuidado total.')">
+      <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" alt="Banho e Tosa" class="img-servico">
+      <h4>Banho & Tosa</h4>
+    </div>
+
+    <div class="card-servico" onclick="abrirModal('Hotelzinho', 'Hospedagem segura, com amor e monitoramento diário.')">
+      <img src="https://cdn-icons-png.flaticon.com/512/616/616401.png" alt="Hotelzinho" class="img-servico">
+      <h4>Hotelzinho</h4>
+    </div>
+
+    <div class="card-servico" onclick="abrirModal('Petshop', 'Produtos selecionados com curadoria e carinho para seu pet.')">
+      <img src="https://cdn-icons-png.flaticon.com/512/616/616493.png" alt="Petshop" class="img-servico">
+      <h4>Petshop</h4>
+    </div>
+
   </div>
+</div>
+
 
   <!-- Modal de Serviços -->
   <div id="modal-servico" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6); z-index:9999; align-items:center; justify-content:center;">
@@ -624,28 +676,40 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["send_msg"])) {
   </div>
 
   <style>
-    .card-servico {
-      background: #fff;
-      width: 180px;
-      height: 180px;
-      border-radius: 20px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      cursor: pointer;
-      transition: transform 0.3s, background 0.3s;
-    }
-    .card-servico:hover {
-      background: #d1f6ff;
-      transform: translateY(-5px);
-    }
-    .card-servico h4 {
-      margin-top: 10px;
-      color: #2ba5c4;
-    }
+   .card-servico {
+  background: #fff;
+  padding: 2rem 1.5rem;
+  border-radius: 1rem;
+  text-align: center;
+  width: 220px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.card-servico:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.15);
+  background: #f5fdff;
+}
+
+.img-servico {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 0.8rem;
+  transition: transform 0.3s ease;
+}
+
+.card-servico:hover .img-servico {
+  transform: scale(1.15) rotate(-4deg);
+}
+
+.card-servico h4 {
+  font-size: 1.1rem;
+  color: #2ba5c4;
+  font-weight: 700;
+}
+
 
     .animacao-pegadas {
       position: absolute;
@@ -992,6 +1056,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["send_msg"])) {
     </form>
   </div>
 </section>
+
+<!-- Botão flutuante do WhatsApp -->
+<a href="https://wa.me/351911234567" 
+   class="whatsapp-float" 
+   target="_blank" 
+   rel="noopener" 
+   aria-label="Fale conosco no WhatsApp">
+  <i class="bi bi-whatsapp"></i>
+</a>
 
 
 <footer style="background: linear-gradient(135deg,rgb(201, 182, 205), #2ba5c4); color: white; padding: 40px 20px 20px;">
