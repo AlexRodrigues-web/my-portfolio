@@ -1,198 +1,519 @@
-/*======================================================================
-  ColorADD — Full stylesheet (drop-in) for a truly colour-blind-friendly
-  theme.  Includes:
-  • Variable override (keeps your existing CSS intact)
-  • Header / UI adjustments
-  • Official pictogram utilities (.c-red, .c-green, …)
-  • Screen-reader labels & contrast fixes
-======================================================================*/
+/* =====================================================================
+   ALEXDEVCODE — COLORADD / ACESSIBILIDADE DE COR
+   CAMADA COMPLEMENTAR — NÃO É TEMA
 
-/*──────────────────────────────────────────────────────────────────────
-  1  TOKENS — override only variables (light palette)
-  ─────────────────────────────────────────────────────────────────────*/
-body[data-tema="coloradd"]{
-  /* global */
-  --bg:            #ffffff;
-  --bg-color:      #ffffff;
-  --text-color:    #000000;
+   ARQUITETURA:
+   - Tema: body[data-tema="claro|escuro"]
+   - ColorADD: body[data-coloradd="on|off"]
+   - Não altera a paleta da AlexDevCode
+   - Reforça estados com forma, contorno, texto, sublinhado e marcação
+   - Não fabrica símbolos ColorADD oficiais
 
-  /* highlight (ColorADD “▲” red) */
-  --accent:        #c0392b;
-  --accent-dk:     #a02e22;
-  --light-accent:  #fff4e1;          /* subtle cards */
+   IMPORTANTE:
+   Os símbolos gráficos oficiais ColorADD só devem ser integrados quando
+   os recursos oficiais/licenciados estiverem disponíveis no projeto.
+===================================================================== */
 
-  /* links / buttons / borders */
-  --link-color:    var(--accent);
-  --button-bg:     var(--accent);
-  --button-text:   #ffffff;
-  --border-color:  #444;
 
-  /* header / footer */
-  --header-bg:     #ffffff;
-  --footer-bg:     #fffbea;
-  --footer-text:   #000000;
+/* =====================================================================
+   1. TOKENS DA CAMADA DE ACESSIBILIDADE
+===================================================================== */
 
-  /* shadows */
-  --shadow:        0 4px 14px rgba(0,0,0,.10);
-  --shadow-hov:    0 8px 28px rgba(0,0,0,.15);
+body[data-coloradd="on"] {
+    --ca-focus-ring: #161616;
+    --ca-focus-offset: #ffffff;
+    --ca-outline-width: 2px;
+    --ca-outline-offset: 2px;
+    --ca-state-mark: "✓";
+    --ca-error-mark: "!";
 }
 
-/*──────────────────────────────────────────────────────────────────────
-  2  HEADER (dashed underline + high-contrast links)
-  ─────────────────────────────────────────────────────────────────────*/
-body[data-tema="coloradd"] .topo{
-  background:var(--header-bg);
-  border-bottom:4px dashed var(--accent);
-  box-shadow:none;
-}
-body[data-tema="coloradd"] .topo::after{display:none}         /* remove gradient */
-body[data-tema="coloradd"] .logo a,
-body[data-tema="coloradd"] .menu a{color:#000;font-weight:600}
-body[data-tema="coloradd"] .menu a:hover{color:var(--accent)}
-
-/*──────────────────────────────────────────────────────────────────────
-  3  THEME-SWITCH ICONS (display official glyph stored in data-symbol)
-  ─────────────────────────────────────────────────────────────────────*/
-body[data-tema="coloradd"] .modos-icones button{
-  background:#fff;color:#000;border:2px dashed #000;
-  width:38px;height:38px;border-radius:50%;font-size:1.25rem;
-  position:relative;display:flex;align-items:center;justify-content:center;
-  cursor:pointer;transition:background .25s,transform .25s;
-}
-body[data-tema="coloradd"] .modos-icones button::after{
-  /* pictogram passed from HTML e.g. data-symbol="▲" */
-  content:attr(data-symbol);
-  position:absolute;top:4px;right:7px;font-weight:700;font-size:13px;
-}
-body[data-tema="coloradd"] .modos-icones button:hover{
-  background:#f39c12;color:#000;transform:scale(1.1);
-}
-body[data-tema="coloradd"] .modos-icones button:focus{
-  outline:3px dashed #444;outline-offset:2px;
+body[data-tema="escuro"][data-coloradd="on"] {
+    --ca-focus-ring: #f5f1ed;
+    --ca-focus-offset: #141414;
 }
 
-/*──────────────────────────────────────────────────────────────────────
-  4  BLOCKS WITH OWN BACKGROUND
-  ─────────────────────────────────────────────────────────────────────*/
-body[data-tema="coloradd"] .dupla-face .designer{background:#fff4e1;color:#000}
-body[data-tema="coloradd"] .dupla-face .coder   {background:#f9f9f9;color:#000}
-body[data-tema="coloradd"] .centro-imagem .frase,
-body[data-tema="coloradd"] .lado{color:#000}
 
-/* cards / resumos */
-body[data-tema="coloradd"] .card,
-body[data-tema="coloradd"] .resumo-bloco{
-  background:#fefefe;color:#111;border:2px dashed #444;
+/* =====================================================================
+   2. FOCO VISÍVEL
+===================================================================== */
+
+body[data-coloradd="on"]
+:where(
+    a,
+    button,
+    input,
+    textarea,
+    select,
+    summary,
+    [tabindex]:not([tabindex="-1"])
+):focus-visible {
+    outline: 3px solid var(--ca-focus-ring) !important;
+    outline-offset: 4px !important;
 }
 
-/* buttons */
-body[data-tema="coloradd"] .btn,
-body[data-tema="coloradd"] .btn-mini{
-  background:var(--button-bg);color:var(--button-text);font-weight:700;
-}
-body[data-tema="coloradd"] .btn:hover,
-body[data-tema="coloradd"] .btn-mini:hover{
-  background:#f39c12;color:#000;
-}
 
-/* footer */
-body[data-tema="coloradd"] .rodape{
-  background:var(--footer-bg);color:var(--footer-text);
-  border-top:4px dashed var(--accent);box-shadow:none;
-}
-body[data-tema="coloradd"] .icones-sociais a{color:#111}
-body[data-tema="coloradd"] .icones-sociais a:hover{color:var(--accent)}
+/* =====================================================================
+   3. LINKS — NÃO DEPENDER APENAS DE COR
+===================================================================== */
 
-/*──────────────────────────────────────────────────────────────────────
-  5  SCREEN-READER-ONLY HELPER
-  ─────────────────────────────────────────────────────────────────────*/
-.sr-only{
-  position:absolute !important;width:1px;height:1px;
-  padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);
-  white-space:nowrap;border:0;
+body[data-coloradd="on"]
+main a:not([class*="btn"]) {
+    text-decoration-line: underline;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 3px;
 }
 
-/*──────────────────────────────────────────────────────────────────────
-  6  COLORADD  GLYPH UTILITIES  (.c-red, .c-green, …)
-  ─────────────────────────────────────────────────────────────────────*/
-[class^="c-"]::after,
-[class*=" c-"]::after{
-  font-family:"Arial",sans-serif;font-weight:700;margin-left:.35em;
-  color:#000;                                   /* flips in dark-mode */
+body[data-coloradd="on"]
+main a:not([class*="btn"]):hover,
+
+body[data-coloradd="on"]
+main a:not([class*="btn"]):focus-visible {
+    text-decoration-thickness: 2.5px;
 }
 
-/* primárias */
-.c-red::after    {content:"▲";}   /* Red  */
-.c-blue::after   {content:"▼";}   /* Blue */
-.c-yellow::after {content:"／";}  /* Yellow */
 
-/* secundárias / mistas */
-.c-orange::after {content:"▲／";} /* Orange  */
-.c-green::after  {content:"▼／";} /* Green   */
-.c-purple::after {content:"▲▼";} /* Purple  */
+/* =====================================================================
+   4. NAVEGAÇÃO / PÁGINA ATIVA
+===================================================================== */
 
-/* neutros */
-.c-black::after  {content:"■";}
-.c-white::after  {content:"□";}
+body[data-coloradd="on"]
+.adc-header-nav a.is-active,
 
-/* dark-mode → símbolo branco para contraste */
-@media(prefers-color-scheme:dark){
-  [class^="c-"]::after,
-  [class*=" c-"]::after{color:#fff}
+body[data-coloradd="on"]
+.adc-lang-menu a.is-active,
+
+body[data-coloradd="on"]
+[aria-current="page"] {
+    font-weight: 800;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
 }
 
-/* optional outline for low-vision focus */
-[class^="c-"],[class*=" c-"]{outline:2px dashed transparent;outline-offset:2px}
-[class^="c-"]:focus-visible,[class*=" c-"]:focus-visible{outline-color:#555}
 
-/*──────────────────────────────────────────────────────────────────────
-  7  EXAMPLE LEGEND  (if you keep a colour key on the page)
-  ─────────────────────────────────────────────────────────────────────*/
-.legenda-cores{font-size:14px;margin-top:20px}
-.legenda-cores .cor{
-  display:inline-block;width:22px;height:22px;border:1px solid #ccc;
-  vertical-align:middle;margin-right:6px;position:relative;
-}
-.legenda-cores .cor::after{
-  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-  font-size:14px;font-weight:700;color:#000;
-}
+/*
+ * O check é um marcador genérico de estado.
+ * NÃO é símbolo ColorADD.
+ */
 
-/* background swatches + glyph overlay */
-.legenda-cores .red   {background:#d32f2f}.red::after   {content:"▲"}
-.legenda-cores .blue  {background:#1976d2}.blue::after  {content:"▼"}
-.legenda-cores .yellow{background:#fdd835}.yellow::after{content:"／"}
-.legenda-cores .green {background:#388e3c}.green::after {content:"▼／"}
-.legenda-cores .orange{background:#f57c00}.orange::after{content:"▲／"}
-.legenda-cores .purple{background:#7b1fa2}.purple::after{content:"▲▼"}
-.legenda-cores .black {background:#000}.black::after    {content:"■";color:#fff}
-.legenda-cores .white {background:#fff}.white::after    {content:"□";color:#000}
-
-/*──────────────────────────────────────────────────────────────────────
-  8  Dark-mode tokens (if user’s OS is dark)
-  ─────────────────────────────────────────────────────────────────────*/
-@media(prefers-color-scheme:dark){
-  body[data-tema="coloradd"]{
-    --bg:#111;--bg-color:#111;--text-color:#f1f1f1;
-    --header-bg:#222;--footer-bg:#222;--footer-text:#e1e1e1;
-    --light-accent:#1e1e1e;
-    --shadow:0 4px 14px rgba(0,0,0,.55);
-  }
-  body[data-tema="coloradd"] .card,
-  body[data-tema="coloradd"] .resumo-bloco{
-    background:#1a1a1a;border-color:#555;color:#eaeaea;
-  }
-  body[data-tema="coloradd"] .modos-icones button{
-    background:#222;color:#eaeaea;border-color:#eaeaea;
-  }
+body[data-coloradd="on"]
+.adc-header-nav a.is-active::after {
+    content: var(--ca-state-mark);
+    display: inline-block;
+    margin-left: .35rem;
+    font-size: .72em;
+    font-weight: 900;
+    line-height: 1;
 }
 
-/*──────────────────────────────────────────────────────────────────────
-  9  Responsiveness
-  ─────────────────────────────────────────────────────────────────────*/
-@media(max-width:768px){
-  body[data-tema="coloradd"] .header-flex{flex-direction:column;text-align:center}
-  body[data-tema="coloradd"] .menu ul{flex-direction:column;gap:1rem;margin-top:.8rem}
-  body[data-tema="coloradd"] .dupla-face{flex-direction:column;text-align:center}
-  body[data-tema="coloradd"] .resumos{grid-template-columns:1fr}
+
+body[data-coloradd="on"]
+.adc-header-theme-btn.is-active,
+
+body[data-coloradd="on"]
+.adc-coloradd-toggle.is-active {
+    outline: var(--ca-outline-width) solid currentColor;
+    outline-offset: var(--ca-outline-offset);
+}
+
+
+/* =====================================================================
+   5. BOTÕES / CONTROLOS COM ESTADO
+===================================================================== */
+
+body[data-coloradd="on"]
+:where(
+    button.is-active,
+    button[aria-pressed="true"],
+    [role="button"].is-active,
+    [aria-selected="true"],
+    [aria-expanded="true"]
+) {
+    font-weight: 800;
+}
+
+
+body[data-coloradd="on"]
+:where(
+    button[aria-pressed="true"],
+    [role="button"][aria-pressed="true"],
+    [aria-selected="true"]
+) {
+    outline: var(--ca-outline-width) solid currentColor;
+    outline-offset: var(--ca-outline-offset);
+}
+
+
+/* =====================================================================
+   6. CHECKBOX / RADIO / CAMPOS
+===================================================================== */
+
+body[data-coloradd="on"]
+:where(
+    input[type="checkbox"]:checked,
+    input[type="radio"]:checked
+) {
+    outline: var(--ca-outline-width) solid currentColor;
+    outline-offset: var(--ca-outline-offset);
+}
+
+
+body[data-coloradd="on"]
+:where(
+    input,
+    textarea,
+    select
+):invalid:not(:placeholder-shown) {
+    border-style: solid;
+    border-width: 2px;
+}
+
+
+body[data-coloradd="on"]
+:where(
+    input,
+    textarea,
+    select
+):valid:not(:placeholder-shown) {
+    border-style: solid;
+}
+
+
+/* =====================================================================
+   7. FORMULÁRIO DE CONTACTO
+===================================================================== */
+
+body[data-coloradd="on"]
+.adc-contact-intent {
+    position: relative;
+}
+
+
+body[data-coloradd="on"]
+.adc-contact-intent:has(input:checked) {
+    outline: var(--ca-outline-width) solid currentColor;
+    outline-offset: var(--ca-outline-offset);
+}
+
+
+body[data-coloradd="on"]
+.adc-contact-intent:has(input:checked)::after {
+    content: var(--ca-state-mark);
+
+    position: absolute;
+
+    top: .55rem;
+    right: .65rem;
+
+    display: grid;
+
+    place-items: center;
+
+    min-width: 1.35rem;
+    min-height: 1.35rem;
+
+    font-weight: 900;
+
+    line-height: 1;
+}
+
+
+/* =====================================================================
+   8. MENSAGENS DE ESTADO
+===================================================================== */
+
+body[data-coloradd="on"]
+:is(
+    .success,
+    .is-success,
+    .alert-success,
+    [data-state="success"]
+) {
+    border-style: solid;
+    border-width: 2px;
+}
+
+
+body[data-coloradd="on"]
+:is(
+    .success,
+    .is-success,
+    .alert-success,
+    [data-state="success"]
+)::before {
+    content: "✓ ";
+
+    font-weight: 900;
+}
+
+
+body[data-coloradd="on"]
+:is(
+    .error,
+    .is-error,
+    .alert-error,
+    [data-state="error"]
+) {
+    border-style: solid;
+    border-width: 2px;
+}
+
+
+body[data-coloradd="on"]
+:is(
+    .error,
+    .is-error,
+    .alert-error,
+    [data-state="error"]
+)::before {
+    content: "! ";
+
+    font-weight: 900;
+}
+
+
+/* =====================================================================
+   9. RADAR DE OPORTUNIDADES
+
+   Mantém totalmente:
+   --job-accent
+   --job-bg
+   --job-ink
+   etc.
+
+   Só adiciona informação visual redundante.
+===================================================================== */
+
+body[data-coloradd="on"]
+.job-quick-filters button.is-active,
+
+body[data-coloradd="on"]
+.job-region-tabs button.is-active,
+
+body[data-coloradd="on"]
+.job-pagination button.is-active,
+
+body[data-coloradd="on"]
+.job-card-actions button.is-active,
+
+body[data-coloradd="on"]
+.job-card-actions button.is-saved,
+
+body[data-coloradd="on"]
+.job-drawer-apply button.is-saved {
+    position: relative;
+
+    font-weight: 900;
+
+    outline:
+        var(--ca-outline-width)
+        solid
+        currentColor;
+
+    outline-offset:
+        var(--ca-outline-offset);
+}
+
+
+body[data-coloradd="on"]
+.job-quick-filters button.is-active::before,
+
+body[data-coloradd="on"]
+.job-region-tabs button.is-active::after,
+
+body[data-coloradd="on"]
+.job-pagination button.is-active::after,
+
+body[data-coloradd="on"]
+.job-card-actions button.is-saved::before,
+
+body[data-coloradd="on"]
+.job-drawer-apply button.is-saved::before {
+    content: var(--ca-state-mark);
+
+    display: inline-block;
+
+    font-weight: 900;
+
+    line-height: 1;
+}
+
+
+body[data-coloradd="on"]
+.job-save-btn.is-saved {
+    outline:
+        var(--ca-outline-width)
+        solid
+        currentColor;
+
+    outline-offset:
+        var(--ca-outline-offset);
+}
+
+
+/* =====================================================================
+   10. BADGES / CHIPS / ESTADOS GENÉRICOS
+===================================================================== */
+
+body[data-coloradd="on"]
+:where(
+    .badge.is-active,
+    .chip.is-active,
+    .tag.is-active,
+    .pill.is-active,
+    [data-active="true"]
+) {
+    outline:
+        var(--ca-outline-width)
+        solid
+        currentColor;
+
+    outline-offset:
+        var(--ca-outline-offset);
+
+    font-weight: 800;
+}
+
+
+/* =====================================================================
+   11. LEGENDA COLORADD
+
+   NÃO mostramos uma legenda vazia.
+
+   Enquanto os símbolos oficiais não estiverem instalados,
+   o botão "Ver legenda" fica oculto.
+
+   O status "ColorADD ativo" continua funcionando normalmente.
+===================================================================== */
+
+.adc-coloradd-symbol {
+    display: none !important;
+}
+
+
+body:not([data-coloradd-symbols="licensed"])
+.adc-coloradd-legend-toggle {
+    display: none !important;
+}
+
+
+body:not([data-coloradd-symbols="licensed"])
+.adc-color-legend {
+    display: none !important;
+}
+
+
+body[data-coloradd="off"]
+.adc-color-legend,
+
+body:not([data-coloradd="on"])
+.adc-color-legend {
+    display: none !important;
+}
+
+
+/* =====================================================================
+   12. GANCHO FUTURO PARA SÍMBOLOS OFICIAIS COLORADD
+
+   Esta secção NÃO:
+   - inventa pictogramas;
+   - utiliza ▲ ▼ /;
+   - cria símbolos aproximados;
+   - define imagens falsas.
+
+   Quando os recursos oficiais estiverem disponíveis,
+   o body poderá receber:
+
+   data-coloradd-symbols="licensed"
+
+   e os backgrounds serão definidos em ficheiro próprio.
+===================================================================== */
+
+body[data-coloradd="on"][data-coloradd-symbols="licensed"]
+.adc-coloradd-symbol {
+    display: inline-block !important;
+
+    width: 1.25rem;
+    height: 1.25rem;
+
+    flex:
+        0 0
+        1.25rem;
+
+    background-repeat:
+        no-repeat;
+
+    background-position:
+        center;
+
+    background-size:
+        contain;
+}
+
+
+body[data-coloradd="on"][data-coloradd-symbols="licensed"]
+.adc-coloradd-legend-toggle {
+    display: inline-flex !important;
+}
+
+
+body[data-coloradd="on"][data-coloradd-symbols="licensed"]
+.adc-color-legend.is-open {
+    display: block;
+}
+
+
+/* =====================================================================
+   13. ALTO CONTRASTE DO SISTEMA
+===================================================================== */
+
+@media (forced-colors: active) {
+
+    body[data-coloradd="on"]
+    :where(
+        a,
+        button,
+        input,
+        textarea,
+        select,
+        summary,
+        [tabindex]:not([tabindex="-1"])
+    ):focus-visible {
+        outline:
+            2px solid
+            Highlight
+            !important;
+    }
+
+
+    body[data-coloradd="on"]
+    :where(
+        button.is-active,
+        button[aria-pressed="true"],
+        [aria-selected="true"],
+        [aria-current="page"]
+    ) {
+        border:
+            2px solid
+            Highlight;
+    }
+
+}
+
+
+/* =====================================================================
+   14. REDUCED MOTION
+===================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    body[data-coloradd="on"] *,
+    body[data-coloradd="on"] *::before,
+    body[data-coloradd="on"] *::after {
+        scroll-behavior:
+            auto
+            !important;
+    }
+
 }

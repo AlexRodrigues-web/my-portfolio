@@ -6,152 +6,156 @@ include_once 'includes/header.php';
 <main class="container faq">
 
   <h1><i data-lucide="life-buoy"></i> Help Center / FAQ</h1>
-  <p class="intro">Quick answers about publishing jobs and résumés on this open platform.</p>
+  <p class="intro">Common questions about publishing content on this open platform — no account needed.</p>
 
   <!-- Accordion FAQ -->
   <div class="accordion">
 
     <!-- Q1 – No account needed -->
     <details>
-      <summary><i data-lucide="user-check"></i> Do I need an account to publish?</summary>
+      <summary><i data-lucide="user-check"></i> Do I need to register or log in?</summary>
       <div>
-        No account is required. Simply open <strong>Opportunities&nbsp;&rsaquo;&nbsp;New</strong>,
-        choose the type of post, fill in the form and hit “Publish”. Your listing goes live instantly.
+        No. This platform is 100% open. You can publish job offers or résumés without creating an account.
       </div>
     </details>
 
-    <!-- Q2 -->
+    <!-- Q2 – How to publish -->
     <details>
-      <summary><i data-lucide="file-text"></i> What happens when my job post expires?</summary>
+      <summary><i data-lucide="file-plus"></i> How do I publish a job offer or résumé?</summary>
       <div>
-        Job and internship posts are visible for 15&nbsp;days.  
-        You’ll see a “Renew” button 48&nbsp;hours before expiry—click it to extend for another 15&nbsp;days.  
-        Résumés (CVs) do not expire.
+        Go to <strong>Opportunities &rsaquo; New</strong>, choose the type of listing, fill in the form, and click "Publish".  
+        Your content goes live immediately.
       </div>
     </details>
 
-    <!-- Q3 -->
+    <!-- Q3 – Editing or removing a post -->
     <details>
-      <summary><i data-lucide="eye-off"></i> Can I remove my post early?</summary>
+      <summary><i data-lucide="trash-2"></i> Can I remove or edit my post?</summary>
       <div>
-        Yes. Every card has a small trash-can icon.  
-        Click it, confirm, and the post disappears immediately.
+        Yes. Each post shows a small trash or edit icon.  
+        Click it to remove or update your listing anytime.
       </div>
     </details>
 
-    <!-- Q4 -->
+    <!-- Q4 – Expiration time -->
     <details>
-      <summary><i data-lucide="shield"></i> Where can I read the privacy policy?</summary>
+      <summary><i data-lucide="clock-3"></i> How long does a job offer stay online?</summary>
       <div>
-        The full policy is available <a href="politica.php">here</a>.
+        Job offers remain visible for 15 days.  
+        A "Renew" button appears 48 hours before expiry, allowing you to extend for another 15 days.  
+        Résumés (CVs) never expire.
       </div>
     </details>
 
-    <!-- Q5 -->
+    <!-- Q5 – Privacy policy -->
     <details>
-      <summary><i data-lucide="gavel"></i> What are the legal rules for job offers in Portugal?</summary>
+      <summary><i data-lucide="shield"></i> What about data privacy?</summary>
+      <div>
+        We don’t collect personal data or require accounts.  
+        Only a minimal cookie is used to remember your theme preference.  
+        Full details are available in our <a href="politica.php">Privacy Policy</a>.
+      </div>
+    </details>
+
+    <!-- Q6 – Legal job rules (Portugal) -->
+    <details>
+      <summary><i data-lucide="gavel"></i> Are there legal requirements for job offers in Portugal?</summary>
       <div>
 
-        <p>Below is a concise checklist of the main legal requirements you must follow when publishing an open job offer in Portugal.</p>
+        <p>Yes. Job ads must comply with Portuguese labor law. Here’s a quick summary:</p>
 
         <table class="legal-table">
           <thead>
             <tr>
               <th>Topic</th>
               <th>Legal requirement</th>
-              <th>Where in the law</th>
+              <th>Law</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td><strong>No discrimination</strong></td>
-              <td>
-                Ads must <em>not</em> set any restriction or preference based on
-                gender, age, race/ethnicity, disability, sexual orientation,
-                nationality, religion, etc.
-              </td>
-              <td>Art.&nbsp;30.º&nbsp;(2) &mdash; Portuguese Labour Code</td>
+              <td>No preferences or restrictions by gender, age, nationality, etc.</td>
+              <td>Art. 30.º(2), Labour Code</td>
             </tr>
             <tr>
-              <td><strong>Content monitoring</strong></td>
-              <td>
-                The platform admin has no general duty to monitor all user
-                content, but must remove or block any manifestly illegal ad
-                quickly after becoming aware of it.
-              </td>
-              <td>Art.&nbsp;12.º, Decree-Law&nbsp;7/2004 (E-Commerce Directive)</td>
+              <td><strong>Content moderation</strong></td>
+              <td>Admins must remove illegal content if notified.</td>
+              <td>Art. 12.º, Decree-Law 7/2004</td>
             </tr>
             <tr>
-              <td><strong>Quality standards (IEFP)</strong></td>
-              <td>
-                Each offer must: <br>a) clearly describe duties;<br>
-                b) state location and pay &ge; minimum wage;<br>
-                c) be free from discrimination.
-              </td>
-              <td>“Normas gerais das Ofertas de Emprego”, IEFP, p.&nbsp;3</td>
+              <td><strong>Offer standards</strong></td>
+              <td>Job must include: clear duties, location, salary ≥ minimum wage.</td>
+              <td>IEFP Guidelines</td>
             </tr>
             <tr>
-              <td><strong>Data protection</strong></td>
-              <td>
-                Any personal data (candidates or advertisers) must be processed
-                under GDPR + Law&nbsp;58/2019. Provide a legal basis (e.g.,
-                consent) and a privacy notice.
-              </td>
-              <td>GDPR &amp; Law&nbsp;58/2019</td>
+              <td><strong>GDPR compliance</strong></td>
+              <td>No personal data unless justified. Privacy info must be provided.</td>
+              <td>GDPR + Law 58/2019</td>
             </tr>
           </tbody>
         </table>
 
         <p style="margin-top:1rem">
-          <em>⚠️ Note:</em> The above is only a quick reference. For full details,
-          please review our <a href="politica.php">Terms &amp; Conditions</a>
-          and consult the original legal texts if needed.
+          <em>Note:</em> These are simplified rules. For full legal information, refer to our <a href="politica.php">Privacy Policy</a> and official sources.
         </p>
 
       </div>
     </details>
 
-    <!-- Q6 -->
+    <!-- Q7 – Contact -->
     <details>
-      <summary><i data-lucide="mail"></i> Need more help?</summary>
+      <summary><i data-lucide="mail"></i> Still have questions?</summary>
       <div>
-        Drop an e-mail to <a href="mailto:alexrroliver200@gmail.com">alexrroliver200@gmail.com</a>.  
-        We reply within one working day.
+        Feel free to reach out at <a href="mailto:alexrroliver200@gmail.com">alexrroliver200@gmail.com</a>.  
+        We usually reply within 1 working day.
       </div>
     </details>
 
   </div>
 </main>
 
-<!-- Page-specific styles -->
 <style>
-.faq h1{
+.faq h1 {
   font-size:2.2rem;display:flex;align-items:center;gap:.6rem;
   color:var(--accent);margin-bottom:1rem
 }
-.faq .intro{font-size:1.05rem;color:var(--light-accent);margin-bottom:1.8rem}
-
-.accordion details{
+.faq .intro {
+  font-size:1.05rem;color:var(--light-accent);margin-bottom:1.8rem
+}
+.accordion details {
   background:var(--dark);color:var(--text);border-radius:var(--radius);
   margin-bottom:1rem;padding:1rem 1.4rem;box-shadow:var(--shadow);
   transition:box-shadow .3s ease
 }
-.accordion details[open]{box-shadow:var(--shadow-hov)}
-.accordion summary{
+.accordion details[open] {
+  box-shadow:var(--shadow-hov)
+}
+.accordion summary {
   list-style:none;cursor:pointer;font-weight:600;
   display:flex;align-items:center;gap:.5rem;
 }
-.accordion summary::-webkit-details-marker{display:none}
-.accordion details div{margin-top:.8rem;line-height:1.6;color:var(--light-accent)}
-
-/* Legal table */
-.legal-table{
+.accordion summary::-webkit-details-marker {
+  display:none
+}
+.accordion details div {
+  margin-top:.8rem;line-height:1.6;color:var(--light-accent)
+}
+.legal-table {
   width:100%;border-collapse:collapse;font-size:.95rem;margin-top:.6rem;color:var(--text)
 }
-.legal-table thead tr{background:var(--accent)}
-.legal-table th,.legal-table td{padding:.6rem .8rem;border:1px solid rgba(255,255,255,.15)}
-.legal-table th{font-weight:600;text-align:left}
-.legal-table tbody tr:nth-child(even){background:rgba(255,255,255,.05)}
+.legal-table thead tr {
+  background:var(--accent)
+}
+.legal-table th, .legal-table td {
+  padding:.6rem .8rem;border:1px solid rgba(255,255,255,.15)
+}
+.legal-table th {
+  font-weight:600;text-align:left
+}
+.legal-table tbody tr:nth-child(even) {
+  background:rgba(255,255,255,.05)
+}
 </style>
 
 <?php include_once 'includes/footer.php'; ?>

@@ -1,9 +1,9 @@
 <?php
-// Configurações do banco de dados
+// Configurações do banco de dados na Hostinger
 define('DB_HOST', '127.0.0.1');
-define('DB_NAME', 'portfolio_oportunidades');
+define('DB_NAME', 'portfolio_oportunidades_rebuild_20260802_230511');
 define('DB_USER', 'root');
-define('DB_PASS', ''); // Senha padrão do XAMPP é vazia
+define('DB_PASS', '');
 
 try {
     $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4";
@@ -15,7 +15,8 @@ try {
     // Opcional: força o uso de prepared statements nativos do MySQL
     $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 } catch (PDOException $e) {
-    // Mostra mensagem amigável e termina execução
-    die("Erro de conexão com o banco de dados: " . $e->getMessage());
+    // Exibe mensagem segura ao usuário e loga o erro
+    error_log("❌ Erro ao conectar: " . $e->getMessage());
+    die("Erro ao conectar com o banco de dados. Tente novamente mais tarde.");
 }
 ?>

@@ -1,1120 +1,326 @@
 <?php
-// Página SPA para Clínica/Petshop - Tema Ursinhos Carinhosos
-$msg_enviado = '';
-if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["send_msg"])) {
-  $nome = strip_tags($_POST["nome"] ?? "");
-  $email = strip_tags($_POST["email"] ?? "");
-  $mensagem = strip_tags($_POST["mensagem"] ?? "");
-  $msg_enviado = "<p style='color:green; font-weight:bold; text-align:center;'>🐾 Obrigado, $nome! Mensagem enviada com sucesso!</p>";
-}
+/**
+ * Template 05 — VetCare Plus Premium
+ * Single-file PHP template with 3 distinct zones:
+ * 1. Public website
+ * 2. Tutor / Client portal
+ * 3. Clinic admin dashboard
+ *
+ * Main routes:
+ * ?lang=pt&area=public&page=home
+ * ?lang=pt&area=public&page=services
+ * ?lang=pt&area=public&page=service&slug=consulta-geral
+ * ?lang=pt&area=public&page=appointments
+ * ?lang=pt&area=public&page=urgent-care
+ * ?lang=pt&area=public&page=diagnostics
+ * ?lang=pt&area=public&page=surgery
+ * ?lang=pt&area=public&page=vaccination
+ * ?lang=pt&area=public&page=grooming
+ * ?lang=pt&area=public&page=health-plans
+ * ?lang=pt&area=public&page=team
+ * ?lang=pt&area=public&page=about
+ * ?lang=pt&area=public&page=gallery
+ * ?lang=pt&area=public&page=contact
+ * ?lang=pt&area=public&page=confirmation
+ *
+ * ?lang=pt&area=portal&page=dashboard
+ * ?lang=pt&area=portal&page=pets
+ * ?lang=pt&area=portal&page=pet-detail&id=luna
+ * ?lang=pt&area=portal&page=appointments
+ * ?lang=pt&area=portal&page=vaccines
+ * ?lang=pt&area=portal&page=exams
+ * ?lang=pt&area=portal&page=prescriptions
+ * ?lang=pt&area=portal&page=messages
+ * ?lang=pt&area=portal&page=profile
+ *
+ * ?lang=pt&area=admin&page=dashboard
+ * ?lang=pt&area=admin&page=appointments
+ * ?lang=pt&area=admin&page=patients
+ * ?lang=pt&area=admin&page=tutors
+ * ?lang=pt&area=admin&page=services
+ * ?lang=pt&area=admin&page=vets
+ * ?lang=pt&area=admin&page=exams
+ * ?lang=pt&area=admin&page=surgery
+ * ?lang=pt&area=admin&page=grooming
+ * ?lang=pt&area=admin&page=reports
+ * ?lang=pt&area=admin&page=settings
+ */
+
+$lang = strtolower($_GET['lang'] ?? 'pt');
+if (!in_array($lang, ['pt', 'es', 'en'], true)) $lang = 'pt';
+
+$area = strtolower($_GET['area'] ?? 'public');
+$page = strtolower($_GET['page'] ?? 'home');
+
+// Backward compatibility with previous routes.
+if ($page === 'tutor-area') { $area = 'portal'; $page = 'dashboard'; }
+if ($page === 'pet-status') { $area = 'portal'; $page = 'pet-detail'; $_GET['id'] = $_GET['id'] ?? 'max'; }
+if ($page === 'admin') { $area = 'admin'; $page = 'dashboard'; }
+
+$allowedAreas = ['public', 'portal', 'admin'];
+if (!in_array($area, $allowedAreas, true)) $area = 'public';
+
+$allowed = [
+  'public' => ['home','services','service','appointments','urgent-care','diagnostics','surgery','vaccination','grooming','health-plans','team','about','gallery','contact','confirmation'],
+  'portal' => ['dashboard','pets','pet-detail','appointments','vaccines','exams','prescriptions','messages','profile'],
+  'admin' => ['dashboard','appointments','patients','tutors','services','vets','exams','surgery','grooming','reports','settings'],
+];
+if (!in_array($page, $allowed[$area], true)) $page = $area === 'public' ? 'home' : 'dashboard';
+
+function h($value) { return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8'); }
+function eur($value) { return is_numeric($value) ? '€ ' . number_format((float)$value, 2, ',', '.') : $value; }
+function route_to($area, $page, $lang, $extra = []) { return '?' . http_build_query(array_merge(['lang' => $lang, 'area' => $area, 'page' => $page], $extra)); }
+function lang_route($targetLang) { $q = $_GET; $q['lang'] = $targetLang; return '?' . http_build_query($q); }
+function lv($arr, $lang) { return $arr[$lang] ?? $arr['pt'] ?? reset($arr); }
+
+$tr = [
+  'pt' => [
+    'html' => 'pt-PT', 'title' => 'VetCare Plus — Template Premium para Clínica Veterinária Completa',
+    'brand' => 'VetCare Plus', 'tagline' => 'Veterinary Clinic Premium Template',
+    'public' => 'Site público', 'portal' => 'Portal do tutor', 'admin' => 'Admin clínica',
+    'home' => 'Início', 'services' => 'Serviços', 'appointments' => 'Marcações', 'urgent' => 'Urgência', 'diagnostics' => 'Exames', 'surgery' => 'Cirurgia', 'vaccination' => 'Vacinação', 'grooming' => 'Banho e tosquia', 'plans' => 'Planos', 'team' => 'Equipa', 'about' => 'Sobre', 'gallery' => 'Galeria', 'contact' => 'Fale Conosco', 'confirmation' => 'Confirmação',
+    'book' => 'Marcar Consulta', 'view_services' => 'Ver Serviços', 'call_now' => 'Ligar Agora', 'whatsapp' => 'WhatsApp', 'see_details' => 'Ver detalhe', 'choose_plan' => 'Escolher plano', 'send' => 'Enviar', 'continue' => 'Continuar', 'back' => 'Voltar', 'confirm' => 'Confirmar',
+    'hero_title' => 'Cuidado veterinário completo, moderno e humano.',
+    'hero_text' => 'Consultas, vacinação, exames, cirurgia, atendimento urgente durante horário alargado e acompanhamento preventivo numa clínica preparada para cuidar do seu animal com segurança e carinho.',
+    'hero_badge_1' => 'Consultas e vacinação', 'hero_badge_2' => 'Exames e diagnóstico', 'hero_badge_3' => 'Cirurgia e observação', 'hero_badge_4' => 'Planos preventivos',
+    'public_goal' => 'Área pública para apresentar a clínica, vender confiança e converter visitantes em marcações.',
+    'portal_goal' => 'Portal do tutor para acompanhar animais, vacinas, exames, receitas, mensagens e consultas.',
+    'admin_goal' => 'Admin interno para gerir agenda, pacientes, tutores, equipa, exames, cirurgias e relatórios.',
+    'services_title' => 'Serviços veterinários organizados por cuidado', 'services_text' => 'Uma estrutura clara para consultas, vacinas, exames, cirurgia, grooming, urgências e medicina preventiva.',
+    'urgent_title' => 'Atendimento urgente durante horário alargado', 'urgent_text' => 'Se o animal apresenta dor intensa, dificuldade respiratória, vómitos persistentes, trauma ou comportamento anormal, contacte a clínica antes de se deslocar.',
+    'diagnostics_title' => 'Exames e diagnóstico', 'diagnostics_text' => 'Análises, raio-X, ecografia e testes rápidos para apoiar decisões clínicas mais seguras.',
+    'plans_title' => 'Planos preventivos', 'plans_text' => 'Planos para manter vacinas, desparasitação, check-ups e acompanhamento sempre em dia.',
+    'team_title' => 'Equipa veterinária', 'team_text' => 'Profissionais especializados, comunicação clara e cuidado próximo com cada animal.',
+    'appointment_title' => 'Marcação de consulta', 'appointment_text' => 'Fluxo em etapas com animal, serviço, veterinário, data/hora, tutor e confirmação.',
+    'pet' => 'Animal', 'pet_name' => 'Nome do animal', 'species' => 'Espécie', 'breed' => 'Raça', 'age' => 'Idade', 'weight' => 'Peso', 'reason' => 'Motivo ou sintomas', 'service' => 'Serviço', 'vet' => 'Veterinário', 'date' => 'Data', 'time' => 'Hora', 'tutor' => 'Tutor', 'name' => 'Nome', 'phone' => 'Telefone', 'email' => 'Email', 'notes' => 'Observações', 'summary' => 'Resumo',
+    'portal_hello' => 'Olá, Mariana', 'my_pets' => 'Meus animais', 'next_actions' => 'Próximas ações', 'next_vaccine' => 'Próxima vacina', 'last_visit' => 'Última consulta', 'health_status' => 'Estado de saúde', 'healthy' => 'Saudável', 'follow_up' => 'Em acompanhamento', 'exam_available' => 'Exame disponível', 'appointment_set' => 'Consulta marcada', 'vaccines' => 'Vacinas', 'exams' => 'Exames', 'prescriptions' => 'Receitas', 'messages' => 'Mensagens', 'profile' => 'Perfil',
+    'admin_dashboard' => 'Dashboard administrativo', 'today_appointments' => 'Consultas de hoje', 'observation_animals' => 'Animais em observação', 'urgent_requests' => 'Pedidos urgentes', 'pending_exams' => 'Exames pendentes', 'new_tutors' => 'Novos tutores', 'month_revenue' => 'Receita do mês', 'agenda' => 'Agenda', 'patients' => 'Pacientes', 'tutors' => 'Tutores', 'reports' => 'Relatórios', 'settings' => 'Definições', 'hour' => 'Hora', 'animal' => 'Animal', 'status' => 'Estado', 'actions' => 'Ações',
+    'footer_text' => 'Template premium para clínicas veterinárias modernas com site público, portal do tutor e administração interna.', 'built_by' => 'Desenvolvido por AlexDevCode.'
+  ],
+  'es' => [
+    'html' => 'es', 'title' => 'VetCare Plus — Plantilla Premium para Clínica Veterinaria Completa',
+    'brand' => 'VetCare Plus', 'tagline' => 'Veterinary Clinic Premium Template',
+    'public' => 'Sitio público', 'portal' => 'Portal del tutor', 'admin' => 'Admin clínica',
+    'home' => 'Inicio', 'services' => 'Servicios', 'appointments' => 'Citas', 'urgent' => 'Urgente', 'diagnostics' => 'Pruebas', 'surgery' => 'Cirugía', 'vaccination' => 'Vacunas', 'grooming' => 'Baño y corte', 'plans' => 'Planes', 'team' => 'Equipo', 'about' => 'Sobre', 'gallery' => 'Galería', 'contact' => 'Contacto', 'confirmation' => 'Confirmación',
+    'book' => 'Reservar Consulta', 'view_services' => 'Ver Servicios', 'call_now' => 'Llamar Ahora', 'whatsapp' => 'WhatsApp', 'see_details' => 'Ver detalle', 'choose_plan' => 'Elegir plan', 'send' => 'Enviar', 'continue' => 'Continuar', 'back' => 'Atrás', 'confirm' => 'Confirmar',
+    'hero_title' => 'Cuidado veterinario completo, moderno y humano.',
+    'hero_text' => 'Consultas, vacunas, pruebas, cirugía, atención urgente en horario ampliado y seguimiento preventivo en una clínica preparada para cuidar a tu animal con seguridad y cariño.',
+    'hero_badge_1' => 'Consultas y vacunas', 'hero_badge_2' => 'Pruebas y diagnóstico', 'hero_badge_3' => 'Cirugía y observación', 'hero_badge_4' => 'Planes preventivos',
+    'public_goal' => 'Área pública para presentar la clínica, vender confianza y convertir visitantes en citas.',
+    'portal_goal' => 'Portal del tutor para seguir animales, vacunas, pruebas, recetas, mensajes y citas.',
+    'admin_goal' => 'Admin interno para gestionar agenda, pacientes, tutores, equipo, pruebas, cirugías e informes.',
+    'services_title' => 'Servicios veterinarios organizados por cuidado', 'services_text' => 'Estructura clara para consultas, vacunas, pruebas, cirugía, grooming, urgencias y medicina preventiva.',
+    'urgent_title' => 'Atención urgente en horario ampliado', 'urgent_text' => 'Si el animal presenta dolor intenso, dificultad respiratoria, vómitos persistentes, trauma o comportamiento anormal, contacta con la clínica antes de desplazarte.',
+    'diagnostics_title' => 'Pruebas y diagnóstico', 'diagnostics_text' => 'Análisis, rayos X, ecografía y tests rápidos para decisiones clínicas más seguras.',
+    'plans_title' => 'Planes preventivos', 'plans_text' => 'Planes para mantener vacunas, desparasitación, revisiones y seguimiento al día.',
+    'team_title' => 'Equipo veterinario', 'team_text' => 'Profesionales especializados, comunicación clara y cuidado cercano.',
+    'appointment_title' => 'Reserva de consulta', 'appointment_text' => 'Flujo por etapas con animal, servicio, veterinario, fecha/hora, tutor y confirmación.',
+    'pet' => 'Animal', 'pet_name' => 'Nombre del animal', 'species' => 'Especie', 'breed' => 'Raza', 'age' => 'Edad', 'weight' => 'Peso', 'reason' => 'Motivo o síntomas', 'service' => 'Servicio', 'vet' => 'Veterinario', 'date' => 'Fecha', 'time' => 'Hora', 'tutor' => 'Tutor', 'name' => 'Nombre', 'phone' => 'Teléfono', 'email' => 'Email', 'notes' => 'Observaciones', 'summary' => 'Resumen',
+    'portal_hello' => 'Hola, Mariana', 'my_pets' => 'Mis animales', 'next_actions' => 'Próximas acciones', 'next_vaccine' => 'Próxima vacuna', 'last_visit' => 'Última consulta', 'health_status' => 'Estado de salud', 'healthy' => 'Saludable', 'follow_up' => 'En seguimiento', 'exam_available' => 'Prueba disponible', 'appointment_set' => 'Cita reservada', 'vaccines' => 'Vacunas', 'exams' => 'Pruebas', 'prescriptions' => 'Recetas', 'messages' => 'Mensajes', 'profile' => 'Perfil',
+    'admin_dashboard' => 'Dashboard administrativo', 'today_appointments' => 'Citas de hoy', 'observation_animals' => 'Animales en observación', 'urgent_requests' => 'Pedidos urgentes', 'pending_exams' => 'Pruebas pendientes', 'new_tutors' => 'Nuevos tutores', 'month_revenue' => 'Ingresos del mes', 'agenda' => 'Agenda', 'patients' => 'Pacientes', 'tutors' => 'Tutores', 'reports' => 'Informes', 'settings' => 'Ajustes', 'hour' => 'Hora', 'animal' => 'Animal', 'status' => 'Estado', 'actions' => 'Acciones',
+    'footer_text' => 'Plantilla premium para clínicas veterinarias modernas con sitio público, portal del tutor y administración interna.', 'built_by' => 'Desarrollado por AlexDevCode.'
+  ],
+  'en' => [
+    'html' => 'en', 'title' => 'VetCare Plus — Premium Template for Complete Veterinary Clinics',
+    'brand' => 'VetCare Plus', 'tagline' => 'Veterinary Clinic Premium Template',
+    'public' => 'Public site', 'portal' => 'Tutor portal', 'admin' => 'Clinic admin',
+    'home' => 'Home', 'services' => 'Services', 'appointments' => 'Appointments', 'urgent' => 'Urgent', 'diagnostics' => 'Diagnostics', 'surgery' => 'Surgery', 'vaccination' => 'Vaccination', 'grooming' => 'Grooming', 'plans' => 'Plans', 'team' => 'Team', 'about' => 'About', 'gallery' => 'Gallery', 'contact' => 'Contact', 'confirmation' => 'Confirmation',
+    'book' => 'Book Appointment', 'view_services' => 'View Services', 'call_now' => 'Call Now', 'whatsapp' => 'WhatsApp', 'see_details' => 'View detail', 'choose_plan' => 'Choose plan', 'send' => 'Send', 'continue' => 'Continue', 'back' => 'Back', 'confirm' => 'Confirm',
+    'hero_title' => 'Complete, modern and human veterinary care.',
+    'hero_text' => 'Consultations, vaccination, diagnostics, surgery, urgent care during extended hours and preventive follow-up in a clinic prepared to care for pets safely and kindly.',
+    'hero_badge_1' => 'Consultations and vaccines', 'hero_badge_2' => 'Diagnostics and exams', 'hero_badge_3' => 'Surgery and observation', 'hero_badge_4' => 'Preventive plans',
+    'public_goal' => 'Public area to present the clinic, build trust and convert visitors into appointments.',
+    'portal_goal' => 'Tutor portal to track pets, vaccines, exams, prescriptions, messages and appointments.',
+    'admin_goal' => 'Internal admin to manage schedule, patients, tutors, staff, exams, surgeries and reports.',
+    'services_title' => 'Veterinary services organized by care', 'services_text' => 'A clear structure for consultations, vaccines, diagnostics, surgery, grooming, urgent care and preventive medicine.',
+    'urgent_title' => 'Urgent care during extended hours', 'urgent_text' => 'If the pet shows severe pain, breathing difficulty, persistent vomiting, trauma or abnormal behavior, contact the clinic before coming in.',
+    'diagnostics_title' => 'Diagnostics and exams', 'diagnostics_text' => 'Lab tests, X-ray, ultrasound and quick tests for safer clinical decisions.',
+    'plans_title' => 'Preventive plans', 'plans_text' => 'Plans to keep vaccines, parasite care, check-ups and follow-up always up to date.',
+    'team_title' => 'Veterinary team', 'team_text' => 'Specialized professionals, clear communication and close care for every pet.',
+    'appointment_title' => 'Appointment booking', 'appointment_text' => 'Step flow with pet, service, veterinarian, date/time, tutor and confirmation.',
+    'pet' => 'Pet', 'pet_name' => 'Pet name', 'species' => 'Species', 'breed' => 'Breed', 'age' => 'Age', 'weight' => 'Weight', 'reason' => 'Reason or symptoms', 'service' => 'Service', 'vet' => 'Veterinarian', 'date' => 'Date', 'time' => 'Time', 'tutor' => 'Tutor', 'name' => 'Name', 'phone' => 'Phone', 'email' => 'Email', 'notes' => 'Notes', 'summary' => 'Summary',
+    'portal_hello' => 'Hello, Mariana', 'my_pets' => 'My pets', 'next_actions' => 'Next actions', 'next_vaccine' => 'Next vaccine', 'last_visit' => 'Last visit', 'health_status' => 'Health status', 'healthy' => 'Healthy', 'follow_up' => 'Under follow-up', 'exam_available' => 'Exam available', 'appointment_set' => 'Appointment set', 'vaccines' => 'Vaccines', 'exams' => 'Exams', 'prescriptions' => 'Prescriptions', 'messages' => 'Messages', 'profile' => 'Profile',
+    'admin_dashboard' => 'Admin dashboard', 'today_appointments' => 'Today appointments', 'observation_animals' => 'Pets in observation', 'urgent_requests' => 'Urgent requests', 'pending_exams' => 'Pending exams', 'new_tutors' => 'New tutors', 'month_revenue' => 'Monthly revenue', 'agenda' => 'Schedule', 'patients' => 'Patients', 'tutors' => 'Tutors', 'reports' => 'Reports', 'settings' => 'Settings', 'hour' => 'Hour', 'animal' => 'Animal', 'status' => 'Status', 'actions' => 'Actions',
+    'footer_text' => 'Premium template for modern veterinary clinics with public site, tutor portal and internal admin.', 'built_by' => 'Built by AlexDevCode.'
+  ]
+];
+$t = $tr[$lang];
+
+$services = [
+  ['slug'=>'consulta-geral','cat'=>'consultas','icon'=>'bi-clipboard2-pulse','price'=>35,'duration'=>'30 min','name'=>['pt'=>'Consulta Geral','es'=>'Consulta General','en'=>'General Consultation'],'desc'=>['pt'=>'Avaliação completa, orientação preventiva e plano de cuidados.','es'=>'Evaluación completa, prevención y plan de cuidados.','en'=>'Complete assessment, prevention guidance and care plan.']],
+  ['slug'=>'vacinacao','cat'=>'vacinacao','icon'=>'bi-shield-plus','price'=>22,'duration'=>'20 min','name'=>['pt'=>'Vacinação','es'=>'Vacunación','en'=>'Vaccination'],'desc'=>['pt'=>'Calendário vacinal, avaliação pré-vacinal e lembretes.','es'=>'Calendario vacunal, revisión previa y recordatorios.','en'=>'Vaccine schedule, pre-check and reminders.']],
+  ['slug'=>'exames-diagnostico','cat'=>'exames','icon'=>'bi-activity','price'=>29,'duration'=>'25 min','name'=>['pt'=>'Exames e Diagnóstico','es'=>'Pruebas y Diagnóstico','en'=>'Diagnostics and Exams'],'desc'=>['pt'=>'Análises, raio-X, ecografia e testes rápidos.','es'=>'Análisis, rayos X, ecografía y tests rápidos.','en'=>'Lab tests, X-ray, ultrasound and rapid tests.']],
+  ['slug'=>'cirurgia','cat'=>'cirurgia','icon'=>'bi-bandaid','price'=>'Sob consulta','duration'=>'Variável','name'=>['pt'=>'Cirurgia e Procedimentos','es'=>'Cirugía y Procedimientos','en'=>'Surgery and Procedures'],'desc'=>['pt'=>'Esterilização, pequenas cirurgias e recuperação assistida.','es'=>'Esterilización, pequeñas cirugías y recuperación.','en'=>'Neutering, minor surgery and assisted recovery.']],
+  ['slug'=>'urgencia','cat'=>'urgencia','icon'=>'bi-lightning-charge','price'=>'Sob consulta','duration'=>'Prioritário','name'=>['pt'=>'Atendimento Urgente','es'=>'Atención Urgente','en'=>'Urgent Care'],'desc'=>['pt'=>'Triagem rápida para sinais de alerta em horário alargado.','es'=>'Triaje rápido para señales de alerta.','en'=>'Fast triage for warning signs during extended hours.']],
+  ['slug'=>'odontologia','cat'=>'odontologia','icon'=>'bi-gem','price'=>38,'duration'=>'30 min','name'=>['pt'=>'Odontologia Veterinária','es'=>'Odontología Veterinaria','en'=>'Veterinary Dental Care'],'desc'=>['pt'=>'Avaliação oral, tártaro, gengivas e higiene dentária.','es'=>'Evaluación oral, sarro, encías e higiene.','en'=>'Oral check, tartar, gums and dental hygiene.']],
+  ['slug'=>'dermatologia','cat'=>'dermatologia','icon'=>'bi-droplet','price'=>42,'duration'=>'40 min','name'=>['pt'=>'Dermatologia','es'=>'Dermatología','en'=>'Dermatology'],'desc'=>['pt'=>'Pele, alergias, otites, comichão e pelagem.','es'=>'Piel, alergias, otitis, picor y pelaje.','en'=>'Skin, allergies, ear issues, itching and coat.']],
+  ['slug'=>'banho-tosquia','cat'=>'grooming','icon'=>'bi-scissors','price'=>24,'duration'=>'60 min','name'=>['pt'=>'Banho e Tosquia','es'=>'Baño y Corte','en'=>'Bath and Grooming'],'desc'=>['pt'=>'Banho, tosquia higiénica, unhas, ouvidos e hidratação.','es'=>'Baño, corte higiénico, uñas, oídos e hidratación.','en'=>'Bath, hygiene trim, nails, ears and hydration.']],
+  ['slug'=>'nutricao-pet','cat'=>'nutricao','icon'=>'bi-cup-straw','price'=>39,'duration'=>'35 min','name'=>['pt'=>'Nutrição Pet','es'=>'Nutrición Pet','en'=>'Pet Nutrition'],'desc'=>['pt'=>'Plano alimentar para peso, idade, alergias e rotina do animal.','es'=>'Plan alimentario para peso, edad, alergias y rutina.','en'=>'Food plan for weight, age, allergies and routine.']],
+  ['slug'=>'cardiologia','cat'=>'cardiologia','icon'=>'bi-heart-pulse','price'=>55,'duration'=>'45 min','name'=>['pt'=>'Cardiologia','es'=>'Cardiología','en'=>'Cardiology'],'desc'=>['pt'=>'Avaliação cardíaca, sopros, cansaço e acompanhamento sénior.','es'=>'Evaluación cardíaca, soplos, cansancio y seguimiento senior.','en'=>'Heart assessment, murmurs, fatigue and senior follow-up.']],
+  ['slug'=>'pediatria-animal','cat'=>'pediatria','icon'=>'bi-stars','price'=>34,'duration'=>'30 min','name'=>['pt'=>'Pediatria Animal','es'=>'Pediatría Animal','en'=>'Pet Pediatrics'],'desc'=>['pt'=>'Primeiros cuidados, vacinas iniciais, crescimento e socialização.','es'=>'Primeros cuidados, vacunas iniciales, crecimiento y socialización.','en'=>'First care, early vaccines, growth and socialization.']],
+  ['slug'=>'geriatria-animal','cat'=>'geriatria','icon'=>'bi-hourglass-split','price'=>45,'duration'=>'40 min','name'=>['pt'=>'Geriatria Animal','es'=>'Geriatría Animal','en'=>'Senior Pet Care'],'desc'=>['pt'=>'Acompanhamento de animais idosos, mobilidade, exames e dor.','es'=>'Seguimiento de animales mayores, movilidad, pruebas y dolor.','en'=>'Senior pet follow-up, mobility, exams and pain control.']],
+  ['slug'=>'microchip','cat'=>'identificacao','icon'=>'bi-upc-scan','price'=>28,'duration'=>'15 min','name'=>['pt'=>'Microchip e Registo','es'=>'Microchip y Registro','en'=>'Microchip and Registration'],'desc'=>['pt'=>'Identificação eletrónica, registo e orientação documental.','es'=>'Identificación electrónica, registro y documentos.','en'=>'Electronic identification, registration and documents.']],
+  ['slug'=>'desparasitacao','cat'=>'preventivo','icon'=>'bi-shield-check','price'=>18,'duration'=>'15 min','name'=>['pt'=>'Desparasitação','es'=>'Desparasitación','en'=>'Parasite Prevention'],'desc'=>['pt'=>'Proteção interna e externa ajustada ao estilo de vida do animal.','es'=>'Protección interna y externa según el estilo de vida.','en'=>'Internal and external protection based on pet lifestyle.']],
+  ['slug'=>'observacao-clinica','cat'=>'observacao','icon'=>'bi-eye','price'=>'Desde € 19/h','duration'=>'Por hora','name'=>['pt'=>'Observação Clínica','es'=>'Observación Clínica','en'=>'Clinical Observation'],'desc'=>['pt'=>'Acompanhamento leve após consulta, exame ou procedimento.','es'=>'Seguimiento leve tras consulta, prueba o procedimiento.','en'=>'Light follow-up after consultation, exam or procedure.']],
+  ['slug'=>'consulta-comportamental','cat'=>'comportamento','icon'=>'bi-chat-heart','price'=>49,'duration'=>'50 min','name'=>['pt'=>'Consulta Comportamental','es'=>'Consulta Conductual','en'=>'Behavior Consultation'],'desc'=>['pt'=>'Ansiedade, adaptação, agressividade, medo e rotina familiar.','es'=>'Ansiedad, adaptación, agresividad, miedo y rutina familiar.','en'=>'Anxiety, adaptation, aggression, fear and family routine.']],
+];
+$serviceMap = [];
+foreach ($services as $s) $serviceMap[$s['slug']] = $s;
+$selectedService = $serviceMap[$_GET['slug'] ?? ''] ?? $services[0];
+
+$vets = [
+  ['name'=>'Dra. Sofia Almeida','role'=>['pt'=>'Medicina Interna e Medicina Preventiva','es'=>'Medicina Interna y Medicina Preventiva','en'=>'Internal and Preventive Medicine'],'image'=>'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=900&q=84','years'=>'12+'],
+  ['name'=>'Dr. Miguel Santos','role'=>['pt'=>'Cirurgia e Diagnóstico','es'=>'Cirugía y Diagnóstico','en'=>'Surgery and Diagnostics'],'image'=>'https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&w=900&q=84','years'=>'10+'],
+  ['name'=>'Enf. Carolina Martins','role'=>['pt'=>'Enfermagem Veterinária e Recuperação','es'=>'Enfermería Veterinaria y Recuperación','en'=>'Veterinary Nursing and Recovery'],'image'=>'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=900&q=84','years'=>'8+'],
+  ['name'=>'Inês Ribeiro','role'=>['pt'=>'Grooming Clínico e Pele Sensível','es'=>'Grooming Clínico y Piel Sensible','en'=>'Clinical Grooming and Sensitive Skin'],'image'=>'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=900&q=84','years'=>'6+'],
+  ['name'=>'Marta Costa','role'=>['pt'=>'Receção Clínica e Apoio ao Tutor','es'=>'Recepción Clínica y Apoyo al Tutor','en'=>'Clinic Reception and Tutor Support'],'image'=>'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=900&q=84','years'=>'5+'],
+];
+
+$pets = [
+  ['id'=>'luna','name'=>'Luna','species'=>'Gato','breed'=>'Europeu Comum','age'=>'3 anos','image'=>'https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&w=700&q=84','status'=>'healthy','next'=>'12/06/2026','last'=>'08/04/2026','plan'=>'Preventivo'],
+  ['id'=>'max','name'=>'Max','species'=>'Cão','breed'=>'Labrador','age'=>'6 anos','image'=>'https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=700&q=84','status'=>'follow','next'=>'18/05/2026','last'=>'12/05/2026','plan'=>'Sénior'],
+];
+$petMap = [];
+foreach ($pets as $p) $petMap[$p['id']] = $p;
+$selectedPet = $petMap[$_GET['id'] ?? 'luna'] ?? $pets[0];
+
+$appointments = [
+  ['time'=>'09:00','tutor'=>'Mariana Costa','animal'=>'Luna','service'=>'Vacinação','vet'=>'Dra. Sofia','status'=>'Confirmada'],
+  ['time'=>'10:30','tutor'=>'Rui Almeida','animal'=>'Thor','service'=>'Consulta Geral','vet'=>'Dr. Miguel','status'=>'Check-in'],
+  ['time'=>'12:00','tutor'=>'Inês Rocha','animal'=>'Milo','service'=>'Exame','vet'=>'Dra. Sofia','status'=>'Em exame'],
+  ['time'=>'15:30','tutor'=>'Carla Neves','animal'=>'Max','service'=>'Observação','vet'=>'Enf. Carolina','status'=>'Em observação'],
+  ['time'=>'17:00','tutor'=>'Pedro Lima','animal'=>'Nina','service'=>'Grooming','vet'=>'Groomer Ana','status'=>'Agendada'],
+];
+
+$plans = [
+  ['name'=>'Essencial','price'=>9.90,'tone'=>'green','items'=>['Consulta anual','Lembretes','Desparasitação','Desconto grooming']],
+  ['name'=>'Preventivo','price'=>18.90,'tone'=>'gold','items'=>['Vacinação','Check-up','Descontos exames','Mensagens clínicas']],
+  ['name'=>'Puppy/Kitten','price'=>22.90,'tone'=>'blue','items'=>['Vacinas iniciais','Microchip','Nutrição','Crescimento']],
+  ['name'=>'Sénior','price'=>24.90,'tone'=>'coral','items'=>['Check-up semestral','Análises','Cardio básico','Acompanhamento']],
+];
+
+$gallery = [
+  ['label'=>'Receção','img'=>'https://images.unsplash.com/photo-1551076805-e1869033e561?auto=format&fit=crop&w=1100&q=84'],
+  ['label'=>'Consultório','img'=>'https://images.unsplash.com/photo-1628009368231-7bb7cfcb0def?auto=format&fit=crop&w=1100&q=84'],
+  ['label'=>'Equipa','img'=>'https://images.unsplash.com/photo-1581093450021-4a7360e9a9d5?auto=format&fit=crop&w=1100&q=84'],
+  ['label'=>'Exames','img'=>'https://images.unsplash.com/photo-1581093458791-9f3c3900df7b?auto=format&fit=crop&w=1100&q=84'],
+  ['label'=>'Grooming','img'=>'https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=1100&q=84'],
+  ['label'=>'Pacientes','img'=>'https://images.unsplash.com/photo-1548767797-d8c844163c4c?auto=format&fit=crop&w=1100&q=84'],
+];
 ?>
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="<?= h($t['html']) ?>">
 <head>
   <meta charset="UTF-8">
-  <title>O Pet Carinhoso 🐾</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Fontes e AOS -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css"/>
-  <script src="https://kit.fontawesome.com/a2d9b63b07.js" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500&family=Kalam&display=swap" rel="stylesheet">
-  <!-- Bootstrap Icons CDN -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-
-
-
+  <title><?= h($t['title']) ?></title>
+  <meta name="description" content="<?= h($t['footer_text']) ?>">
+  <meta name="theme-color" content="#F7FAF8">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
   <style>
-  :root {
-    --azul-serenity: #85cfd5;
-    --verde-menta: #b2e7d4;
-    --rosa-cha: #f3cfe6;
-    --cinza-aveludado: #555;
-    --branco-neve: #fdfdfd;
-  }
-
-  body {
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-    background: url('https://www.transparenttextures.com/patterns/paw-print.png') repeat var(--branco-neve);
-    overflow-x: hidden;
-    color: var(--cinza-aveludado);
-  }
-
-  header {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%;
-    background: rgba(255, 255, 255, 0.95);
-    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
-    z-index: 999;
-    backdrop-filter: blur(6px);
-    animation: slideDown 1s ease forwards;
-  }
-
-  @keyframes slideDown {
-    from { transform: translateY(-100%); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-  }
-
-  .navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: relative;
-  }
-
-  .nav-links {
-    display: flex;
-    gap: 20px;
-    list-style: none;
-    transition: all 0.3s ease-in-out;
-  }
-
-  .nav-links li a {
-    color: var(--cinza-aveludado);
-    text-decoration: none;
-    font-weight: 500;
-    padding: 8px 12px;
-    border-radius: 8px;
-    transition: 0.3s;
-    position: relative;
-  }
-
-  .nav-links li a:hover {
-    background: var(--rosa-cha);
-    color: var(--azul-serenity);
-  }
-
-  .nav-links li.cta a {
-    background: var(--azul-serenity);
-    color: white;
-    border-radius: 30px;
-    font-weight: bold;
-    padding: 10px 20px;
-    transition: 0.3s ease-in-out;
-  }
-
-  .nav-links li.cta a:hover {
-    background: #71bbc0;
-  }
-
-  .menu-icon {
-    display: none;
-    font-size: 26px;
-    color: var(--azul-serenity);
-    cursor: pointer;
-  }
-
-  @media (max-width: 768px) {
-    .menu-icon {
-      display: block;
-    }
-
-    #menu-toggle {
-      display: none;
-    }
-
-    .nav-links {
-      position: absolute;
-      top: 65px;
-      left: 0;
-      width: 100%;
-      background: var(--branco-neve);
-      flex-direction: column;
-      align-items: center;
-      max-height: 0;
-      overflow: hidden;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    }
-
-    #menu-toggle:checked ~ .nav-links {
-      max-height: 500px;
-      padding: 20px 0;
-    }
-
-    .nav-links li {
-      width: 100%;
-      text-align: center;
-      margin: 10px 0;
-    }
-  }
-
-  @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500&family=Kalam&display=swap');
-
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@600&family=Kalam&display=swap');
-
-.hero {
-  position: relative;
-  height: 100vh;
-  background: url('https://st.depositphotos.com/26922084/51596/v/1600/depositphotos_515961828-stock-illustration-pet-shop-poster-concept.jpg') no-repeat center center;
-  background-size: cover;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 0 20px;
-  overflow: hidden;
-}
-
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.45); /* escurece a imagem para dar contraste */
-  z-index: 1;
-}
-
-.hero-content {
-  position: relative;
-  z-index: 2;
-  max-width: 800px;
-  color: #fff;
-}
-
-.hero-content .headline {
-  font-family: 'Fredoka', sans-serif;
-  font-size: 3rem;
-  margin-bottom: 15px;
-  color: #fff;
-  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
-}
-
-.hero-content .subtext {
-  font-family: 'Kalam', cursive;
-  font-size: 1.4rem;
-  margin-bottom: 25px;
-  color: #fdfdfd;
-  text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.7);
-}
-
-.btn-hero {
-  padding: 14px 34px;
-  background: #ffb84d;
-  color: #2b2b2b;
-  font-weight: bold;
-  border: none;
-  border-radius: 30px;
-  font-size: 1.1rem;
-  cursor: pointer;
-  transition: 0.3s ease-in-out;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-}
-
-.btn-hero:hover {
-  background: #ffa726;
-  transform: scale(1.05);
-}
-
-.emoji {
-  display: inline-block;
-  animation: wiggle 1.5s infinite;
-}
-
-@keyframes wiggle {
-  0%, 100% { transform: rotate(0deg); }
-  25% { transform: rotate(-8deg); }
-  50% { transform: rotate(8deg); }
-  75% { transform: rotate(-4deg); }
-}
-
-/* Patinhas e passarinho */
-.pata {
-  position: absolute;
-  font-size: 2rem;
-  opacity: 0.12;
-  animation: andar 25s linear infinite;
-  z-index: 0;
-}
-
-.pata1 {
-  top: 12%;
-  left: -15%;
-  animation-delay: 0s;
-}
-
-.pata2 {
-  bottom: 10%;
-  left: -20%;
-  animation-delay: 10s;
-}
-
-@keyframes andar {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(120vw); }
-}
-
-.passarinho {
-  position: absolute;
-  top: 6%;
-  left: -5%;
-  font-size: 2rem;
-  animation: voar 18s linear infinite;
-  opacity: 0.2;
-  z-index: 0;
-}
-
-@keyframes voar {
-  0% { transform: translate(0, 0); }
-  50% { transform: translate(70vw, 20vh); }
-  100% { transform: translate(120vw, -10vh); }
-}
-
-
-@keyframes voar {
-  0% { transform: translate(0, 0); }
-  50% { transform: translate(70vw, 20vh); }
-  100% { transform: translate(120vw, -10vh); }
-}
-
-
-  html {
-    scroll-behavior: smooth;
-  }
-
-  .card-servico {
-    background: #fff;
-    width: 180px;
-    height: 180px;
-    border-radius: 20px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .card-servico::before {
-    content: "🐾";
-    position: absolute;
-    font-size: 60px;
-    opacity: 0.04;
-    top: -10px;
-    right: -10px;
-    transform: rotate(-30deg);
-  }
-
-  .card-servico:hover {
-    background: var(--verde-menta);
-    transform: translateY(-5px);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
-  }
-
-  .card-servico h4 {
-    margin-top: 10px;
-    color: var(--azul-serenity);
-  }
-
-  footer {
-    background: linear-gradient(135deg, var(--azul-serenity), var(--verde-menta));
-    color: white;
-    padding: 40px 20px 20px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  footer::before {
-    content: "🐶🐱";
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    font-size: 40px;
-    opacity: 0.08;
-    transform: rotate(-15deg);
-  }
-
-  .container {
-    width: 90%;
-    margin: auto;
-    max-width: 1200px;
-  }
-
-  .topo {
-  background: rgba(255, 255, 255, 0.95);
-  position: fixed;
-  top: 0; left: 0; width: 100%;
-  z-index: 1000;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
-  backdrop-filter: blur(6px);
-}
-
-.logo {
-  font-size: 1.6rem;
-  font-weight: 600;
-  color: #5ca3a3;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: 0.3s;
-}
-
-.logo span {
-  font-weight: bold;
-  color: #2b6f6f;
-}
-
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px 0;
-  position: relative;
-}
-
-.nav-links {
-  display: flex;
-  gap: 20px;
-  list-style: none;
-}
-
-.nav-links li a {
-  text-decoration: none;
-  color: #444;
-  font-weight: 500;
-  padding: 8px 12px;
-  border-radius: 6px;
-  transition: 0.3s;
-}
-
-.nav-links li a:hover {
-  background-color: #e2f6f6;
-  color: #2b6f6f;
-}
-
-.nav-links .cta a {
-  background: #5ca3a3;
-  color: white;
-  padding: 10px 18px;
-  border-radius: 30px;
-  font-weight: 600;
-  transition: 0.3s;
-}
-
-.nav-links .cta a:hover {
-  background: #459090;
-}
-
-.menu-toggle {
-  display: none;
-  background: none;
-  border: none;
-  font-size: 26px;
-  color: #5ca3a3;
-  cursor: pointer;
-}
-
-/* Responsivo */
-@media (max-width: 768px) {
-  .menu-toggle {
-    display: block;
-  }
-
-  .nav-links {
-    position: absolute;
-    top: 60px;
-    left: 0;
-    width: 100%;
-    background: white;
-    flex-direction: column;
-    align-items: center;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s ease-in-out;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  }
-
-  .nav-links.open {
-    max-height: 500px;
-    padding: 10px 0 20px;
-  }
-
-  .nav-links li {
-    width: 100%;
-    text-align: center;
-    margin: 10px 0;
-  }
-}
-
-@keyframes pulseImg {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.03); }
-}
-
-.carousel-container {
-  overflow: hidden;
-  position: relative;
-  max-width: 100%;
-  margin: auto;
-}
-
-.carousel-track {
-  display: flex;
-  gap: 20px;
-  animation: scrollCarousel 30s linear infinite;
-}
-
-.carousel-track img {
-  width: 300px;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 15px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-@keyframes scrollCarousel {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-100%); }
-}
-
-.whatsapp-float {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  background-color: #25D366;
-  color: white;
-  font-size: 1.9rem;
-  width: 55px;
-  height: 55px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-  z-index: 1050;
-  transition: all 0.3s ease;
-}
-
-.whatsapp-float:hover {
-  background-color: #1ebe5d;
-  transform: scale(1.1);
-  text-decoration: none;
-}
-
-  
-</style>
-
-
+    :root{--vet-bg:#F7FAF8;--vet-bg-soft:#EEF6F3;--vet-card:#fff;--vet-text:#1E2B28;--vet-muted:#6C7A76;--vet-primary:#1F6F61;--vet-primary-hover:#18584D;--vet-mint:#BFE8DD;--vet-primary-soft:#E4F4EF;--vet-clinical:#2F80ED;--vet-clinical-soft:#E8F2FF;--vet-care:#E98B78;--vet-care-soft:#FFF0ED;--vet-sand:#EFE2D0;--vet-champagne:#F7EFE4;--vet-gold:#C9A86A;--vet-border:rgba(30,43,40,.10);--vet-shadow:rgba(30,43,40,.08);--max:1220px;--radius:24px}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,system-ui,sans-serif;background:var(--vet-bg);color:var(--vet-text);overflow-x:hidden}a{text-decoration:none;color:inherit}button,input,select,textarea{font:inherit}button{cursor:pointer}img{max-width:100%;display:block}.wrap{width:min(var(--max),calc(100% - 32px));margin:auto}.kicker{display:inline-flex;align-items:center;gap:10px;font-weight:900;font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;color:var(--vet-primary)}.kicker:before{content:'';width:34px;height:2px;background:currentColor}.title{font-family:Sora,Inter,sans-serif;font-size:clamp(2.2rem,5vw,5.15rem);line-height:.98;letter-spacing:-.055em;margin:12px 0 0}.lead{color:var(--vet-muted);font-size:clamp(1rem,1.35vw,1.12rem);line-height:1.78;max-width:760px}.muted{color:var(--vet-muted)}.section{padding:86px 0}.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 18px;border-radius:15px;border:1px solid transparent;font-weight:900;line-height:1;transition:.16s;user-select:none}.btn:hover{transform:translateY(-2px)}.btn:active{transform:scale(.985)}.btn-primary{background:var(--vet-primary);color:#fff;box-shadow:0 16px 34px rgba(31,111,97,.22)}.btn-primary:hover{background:var(--vet-primary-hover)}.btn-secondary{background:#fff;color:var(--vet-primary);border-color:var(--vet-mint);box-shadow:0 12px 28px var(--vet-shadow)}.btn-clinical{background:var(--vet-clinical);color:#fff;box-shadow:0 16px 34px rgba(47,128,237,.2)}.btn-care{background:var(--vet-care);color:#fff;box-shadow:0 16px 34px rgba(233,139,120,.22)}.btn-dark{background:var(--vet-text);color:#fff}.btn-small{min-height:38px;padding:0 13px;border-radius:12px;font-size:.9rem}.badge{display:inline-flex;align-items:center;gap:8px;min-height:34px;padding:7px 11px;border-radius:13px;border:1px solid var(--vet-border);background:#fff;font-size:.82rem;font-weight:900;color:var(--vet-text)}.badge.green{background:var(--vet-primary-soft);color:var(--vet-primary);border-color:transparent}.badge.blue{background:var(--vet-clinical-soft);color:var(--vet-clinical);border-color:transparent}.badge.coral{background:var(--vet-care-soft);color:#A54D3D;border-color:transparent}.badge.gold{background:var(--vet-champagne);color:#8B6B2B;border-color:transparent}.field{display:grid;gap:7px}.field label{font-weight:900;font-size:.82rem;color:var(--vet-muted)}.input,.select,.textarea{width:100%;min-height:48px;border:1px solid var(--vet-border);border-radius:14px;background:#fff;color:var(--vet-text);padding:0 13px;outline:none}.textarea{min-height:108px;padding:12px 13px;resize:vertical}.input:focus,.select:focus,.textarea:focus{border-color:var(--vet-primary);box-shadow:0 0 0 4px rgba(31,111,97,.12)}.full{grid-column:1/-1}.panel,.card{background:#fff;border:1px solid var(--vet-border);border-radius:var(--radius);box-shadow:0 18px 48px var(--vet-shadow);overflow:hidden}.pad{padding:26px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.reveal{opacity:0;transform:translateY(18px);transition:opacity .55s,transform .55s}.reveal.on{opacity:1;transform:translateY(0)}
+    .top{position:sticky;top:0;z-index:100;background:rgba(247,250,248,.86);backdrop-filter:blur(18px);border-bottom:1px solid var(--vet-border)}.nav{min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{display:inline-flex;align-items:center;gap:12px}.logo{width:46px;height:46px;border-radius:16px;background:linear-gradient(145deg,#fff,var(--vet-primary-soft));border:1px solid rgba(31,111,97,.18);display:grid;place-items:center;color:var(--vet-primary);font-size:1.3rem}.brand strong{font-family:Sora,sans-serif;font-size:1.18rem;letter-spacing:-.04em}.brand span span{display:block;color:var(--vet-muted);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;font-weight:900;margin-top:3px}.navlinks{display:flex;gap:2px;align-items:center;margin-left:auto}.navlinks a{padding:10px 11px;border-radius:13px;color:var(--vet-muted);font-weight:850;font-size:.88rem}.navlinks a:hover,.navlinks a.active{background:var(--vet-primary-soft);color:var(--vet-primary)}.zone-switch{display:flex;padding:4px;border:1px solid var(--vet-border);border-radius:16px;background:#fff;box-shadow:0 8px 20px var(--vet-shadow)}.zone-switch a{padding:9px 11px;border-radius:12px;font-size:.8rem;font-weight:900;color:var(--vet-muted)}.zone-switch a.active{background:var(--vet-text);color:#fff}.actions{display:flex;align-items:center;gap:10px}.lang{min-height:42px;border:1px solid var(--vet-border);border-radius:13px;background:#fff;padding:0 32px 0 11px}.menu{display:none;width:44px;height:44px;border:1px solid var(--vet-border);border-radius:14px;background:#fff}
+    .public-hero{padding:64px 0 54px;background:radial-gradient(circle at 88% 10%,rgba(191,232,221,.45),transparent 24rem),linear-gradient(180deg,#fff,var(--vet-bg))}.hero-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:46px;align-items:center}.badges{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:22px}.hero-card{position:relative;min-height:620px;border-radius:36px;background:linear-gradient(135deg,var(--vet-primary-soft),#fff);border:1px solid var(--vet-border);box-shadow:0 28px 80px rgba(30,43,40,.12);overflow:hidden}.hero-card img{position:absolute;right:0;top:0;width:76%;height:100%;object-fit:cover;border-bottom-left-radius:70px}.hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,255,255,.98) 0%,rgba(255,255,255,.82) 34%,rgba(255,255,255,.05) 70%)}.clinic-mini{position:absolute;left:22px;bottom:22px;width:min(360px,calc(100% - 44px));display:grid;gap:12px}.clinic-mini .mini-row{display:grid;grid-template-columns:52px 1fr;gap:12px;align-items:center;padding:14px;border-radius:20px;background:rgba(255,255,255,.92);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.8);box-shadow:0 14px 34px rgba(30,43,40,.1)}.mini-icon{width:52px;height:52px;border-radius:17px;display:grid;place-items:center;background:var(--vet-primary-soft);color:var(--vet-primary)}.section-head{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:30px}.service-card{display:grid;gap:12px;padding:20px;border-radius:24px;background:#fff;border:1px solid var(--vet-border);box-shadow:0 16px 40px var(--vet-shadow);transition:.16s}.service-card:hover{transform:translateY(-4px);box-shadow:0 24px 60px rgba(30,43,40,.12)}.service-icon{width:54px;height:54px;border-radius:18px;background:var(--vet-primary-soft);color:var(--vet-primary);display:grid;place-items:center;font-size:1.35rem}.service-card.blue .service-icon{background:var(--vet-clinical-soft);color:var(--vet-clinical)}.service-card.coral .service-icon{background:var(--vet-care-soft);color:var(--vet-care)}.service-card.gold .service-icon{background:var(--vet-champagne);color:#8B6B2B}.service-meta{display:flex;justify-content:space-between;gap:10px;padding-top:12px;border-top:1px solid var(--vet-border);color:var(--vet-muted);font-size:.85rem}.service-meta strong{display:block;color:var(--vet-text);margin-top:2px}.urgent-block{background:var(--vet-care-soft);border:1px solid rgba(233,139,120,.18);border-radius:32px;padding:30px;display:grid;grid-template-columns:1fr 1fr;gap:24px;box-shadow:0 18px 48px rgba(233,139,120,.1)}.alert-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.alert-item{background:#fff;border:1px solid var(--vet-border);border-radius:18px;padding:14px;font-weight:850;color:var(--vet-muted)}.diag-strip{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}.diag{padding:22px;border-radius:24px;background:var(--vet-clinical-soft);color:var(--vet-text);border:1px solid rgba(47,128,237,.13)}.plan{padding:24px;border-radius:24px;border:1px solid var(--vet-border);background:#fff;box-shadow:0 16px 40px var(--vet-shadow);display:grid;gap:12px}.plan .price{font-family:Sora,sans-serif;font-size:2rem;color:var(--vet-primary)}.list{display:grid;gap:10px;margin:0;padding:0;list-style:none}.list li{display:flex;gap:10px;color:var(--vet-muted);line-height:1.55}.list i{width:25px;height:25px;border-radius:9px;background:var(--vet-primary-soft);color:var(--vet-primary);display:grid;place-items:center;flex:0 0 auto}.team-card{position:relative;min-height:420px;border-radius:28px;overflow:hidden;border:1px solid var(--vet-border);box-shadow:0 18px 48px var(--vet-shadow);background:#fff}.team-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.team-card:after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 34%,rgba(30,43,40,.88))}.team-info{position:absolute;left:18px;right:18px;bottom:18px;z-index:1;color:#fff}.gallery{display:grid;grid-template-columns:1.15fr .85fr 1fr;grid-auto-rows:230px;gap:14px}.gallery figure{position:relative;margin:0;border-radius:26px;overflow:hidden;box-shadow:0 16px 40px var(--vet-shadow)}.gallery figure:nth-child(1),.gallery figure:nth-child(5){grid-row:span 2}.gallery img{width:100%;height:100%;object-fit:cover}.gallery figcaption{position:absolute;left:12px;bottom:12px;background:rgba(255,255,255,.92);padding:8px 11px;border-radius:13px;font-weight:900}.appointment-layout{display:grid;grid-template-columns:1fr 360px;gap:20px;align-items:start}.steps{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:22px}.step{min-height:42px;border:1px solid var(--vet-border);border-radius:13px;background:#fff;color:var(--vet-muted);font-weight:900;font-size:.77rem}.step.active{background:var(--vet-primary);color:#fff}.form-step{display:none}.form-step.active{display:block}.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.choice-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.choice{display:grid;gap:7px;padding:15px;border:1px solid var(--vet-border);border-radius:18px;background:#fff;color:var(--vet-muted);font-weight:800}.choice:has(input:checked){background:var(--vet-primary-soft);border-color:var(--vet-primary);color:var(--vet-text)}.time-grid{display:flex;flex-wrap:wrap;gap:10px}.time-btn{min-height:40px;padding:0 14px;border:1px solid var(--vet-border);border-radius:13px;background:#fff;color:var(--vet-muted);font-weight:900}.time-btn.active{background:var(--vet-text);color:#fff}.summary{position:sticky;top:96px}.sum-line{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid var(--vet-border);color:var(--vet-muted)}.sum-line strong{text-align:right;color:var(--vet-text)}.contact-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:20px}.contact-list{display:grid;gap:13px;list-style:none;margin:0 0 22px;padding:0}.contact-list li{display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:center;color:var(--vet-muted)}.contact-list i{width:44px;height:44px;border-radius:15px;display:grid;place-items:center;background:var(--vet-primary-soft);color:var(--vet-primary)}.map{min-height:430px;border-radius:24px;overflow:hidden;border:1px solid var(--vet-border)}.map iframe{width:100%;height:100%;min-height:430px;border:0;filter:saturate(.9)}
+    .app-shell{display:grid;grid-template-columns:280px minmax(0,1fr);min-height:calc(100vh - 76px);background:#F4F8F6}.side{background:#fff;border-right:1px solid var(--vet-border);padding:18px;position:sticky;top:76px;height:calc(100vh - 76px);overflow:auto}.side .brand{margin-bottom:20px}.side-nav{display:grid;gap:6px}.side-nav a{display:flex;align-items:center;gap:10px;padding:12px;border-radius:14px;color:var(--vet-muted);font-weight:850}.side-nav a:hover,.side-nav a.active{background:var(--vet-primary-soft);color:var(--vet-primary)}.app-main{padding:24px}.app-top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:20px}.app-title h1{font-family:Sora,sans-serif;font-size:clamp(1.8rem,3vw,3rem);margin:0;letter-spacing:-.04em}.metric-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}.metric{padding:18px;border-radius:22px;background:#fff;border:1px solid var(--vet-border);box-shadow:0 12px 30px var(--vet-shadow)}.metric span{color:var(--vet-muted);font-size:.82rem;font-weight:900}.metric strong{display:block;font-family:Sora,sans-serif;font-size:1.65rem;margin-top:8px}.portal-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}.pet-card{display:grid;grid-template-columns:88px 1fr auto;gap:14px;align-items:center;padding:16px;border-radius:22px;background:#fff;border:1px solid var(--vet-border);box-shadow:0 12px 30px var(--vet-shadow)}.pet-card img{width:88px;height:88px;border-radius:22px;object-fit:cover}.action-list{display:grid;gap:10px}.action{display:grid;grid-template-columns:42px 1fr auto;align-items:center;gap:12px;padding:14px;border:1px solid var(--vet-border);border-radius:18px;background:#fff}.action i{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:var(--vet-clinical-soft);color:var(--vet-clinical)}.profile-hero{display:grid;grid-template-columns:180px 1fr;gap:20px;align-items:center}.profile-hero img{width:180px;height:180px;border-radius:34px;object-fit:cover}.timeline{display:grid;gap:12px}.timeline-item{display:grid;grid-template-columns:42px 1fr;gap:12px;padding:14px;border:1px solid var(--vet-border);border-radius:18px;background:#fff}.timeline-dot{width:42px;height:42px;border-radius:14px;background:var(--vet-primary-soft);color:var(--vet-primary);display:grid;place-items:center}.table-wrap{overflow:auto;border-radius:22px;border:1px solid var(--vet-border);background:#fff;box-shadow:0 12px 30px var(--vet-shadow)}table{width:100%;border-collapse:collapse;min-width:800px}th,td{text-align:left;padding:14px;border-bottom:1px solid var(--vet-border);white-space:nowrap}th{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--vet-muted);background:#FAFCFB}.status{display:inline-flex;align-items:center;min-height:28px;padding:0 10px;border-radius:999px;font-size:.78rem;font-weight:900}.st-blue{background:var(--vet-clinical-soft);color:var(--vet-clinical)}.st-green{background:var(--vet-primary-soft);color:var(--vet-primary)}.st-mint{background:#E6FBF4;color:#15845F}.st-consult{background:#E8F2FF;color:#1E67C7}.st-exam{background:#F0E9FF;color:#6E49C7}.st-warn{background:#FFF7DF;color:#8B6B2B}.st-done{background:#E4F4EF;color:#1F6F61}.st-cancel{background:#FFF0ED;color:#B34E3D}.admin-shell{background:#F7F9FB}.admin-shell .side-nav a.active,.admin-shell .side-nav a:hover{background:var(--vet-clinical-soft);color:var(--vet-clinical)}.admin-shell .metric i{color:var(--vet-clinical)}.report-grid{display:grid;grid-template-columns:2fr 1fr;gap:18px}.chart{height:280px;display:flex;align-items:end;gap:12px;padding:20px;background:#fff;border:1px solid var(--vet-border);border-radius:22px;box-shadow:0 12px 30px var(--vet-shadow)}.bar{flex:1;border-radius:12px 12px 0 0;background:linear-gradient(180deg,var(--vet-clinical),#8CBFFF);min-height:40px}.settings-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.confirm{max-width:880px;margin:60px auto;padding:36px;border-radius:30px;background:#fff;border:1px solid rgba(31,111,97,.2);box-shadow:0 24px 70px rgba(31,111,97,.12);text-align:center}.confirm-icon{width:74px;height:74px;margin:0 auto 18px;border-radius:24px;background:var(--vet-primary-soft);color:var(--vet-primary);display:grid;place-items:center;font-size:2rem}.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,18px);opacity:0;z-index:200;background:var(--vet-text);color:#fff;padding:14px 16px;border-radius:16px;font-weight:900;box-shadow:0 18px 48px rgba(30,43,40,.22);transition:.18s}.toast.show{opacity:1;transform:translate(-50%,0)}.footer{background:var(--vet-text);color:#fff;padding:58px 0 86px}.footer-grid{display:grid;grid-template-columns:1.2fr .8fr .8fr 1fr;gap:24px}.footer a,.footer p{color:rgba(255,255,255,.72);line-height:1.75}.footer .logo{background:rgba(191,232,221,.12);border-color:rgba(191,232,221,.2);color:var(--vet-mint)}.footer-links{display:grid;gap:8px}.mobile-cta{position:fixed;left:12px;right:12px;bottom:12px;z-index:90;display:none;justify-content:space-between;align-items:center;padding:12px;border-radius:22px;background:rgba(255,255,255,.94);backdrop-filter:blur(16px);border:1px solid var(--vet-border);box-shadow:0 18px 48px rgba(30,43,40,.14)}
+    .life-orb{position:absolute;border-radius:999px;filter:blur(1px);opacity:.72;pointer-events:none;animation:floatVet 7s ease-in-out infinite}.orb-a{width:88px;height:88px;background:var(--vet-primary-soft);left:6%;top:16%}.orb-b{width:62px;height:62px;background:var(--vet-clinical-soft);right:7%;top:22%;animation-delay:1.4s}.orb-c{width:48px;height:48px;background:var(--vet-care-soft);right:24%;bottom:10%;animation-delay:2.1s}@keyframes floatVet{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(0,-18px,0) scale(1.04)}}.hero-card:before{content:'';position:absolute;inset:-45%;z-index:0;background:conic-gradient(from 180deg,transparent,rgba(191,232,221,.45),transparent,rgba(47,128,237,.16),transparent);animation:clinicGlow 10s linear infinite}.hero-card>*{z-index:1}.hero-card img{z-index:1}.hero-overlay,.clinic-mini{z-index:2}@keyframes clinicGlow{to{transform:rotate(360deg)}}.animal-wall{display:grid;grid-template-columns:1.15fr .85fr 1fr 1fr;grid-auto-rows:180px;gap:14px}.animal-tile{position:relative;overflow:hidden;border-radius:28px;border:1px solid var(--vet-border);box-shadow:0 18px 48px var(--vet-shadow);background:#fff}.animal-tile.large{grid-row:span 2}.animal-tile img{width:100%;height:100%;object-fit:cover;transition:transform .55s ease}.animal-tile:hover img{transform:scale(1.07)}.animal-tile span{position:absolute;left:12px;bottom:12px;background:rgba(255,255,255,.92);border:1px solid rgba(255,255,255,.8);padding:8px 11px;border-radius:14px;font-weight:900;backdrop-filter:blur(10px)}.care-journey{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;counter-reset:journey}.care-step{position:relative;padding:22px;border-radius:26px;background:#fff;border:1px solid var(--vet-border);box-shadow:0 16px 40px var(--vet-shadow);overflow:hidden;transition:.18s}.care-step:hover{transform:translateY(-5px)}.care-step:before{counter-increment:journey;content:'0' counter(journey);position:absolute;right:16px;top:12px;font-family:Sora,sans-serif;font-size:2.4rem;color:rgba(31,111,97,.08);font-weight:800}.care-step i{width:52px;height:52px;border-radius:18px;display:grid;place-items:center;background:var(--vet-primary-soft);color:var(--vet-primary);font-size:1.32rem;margin-bottom:12px}.personal-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}.personal-card{position:relative;min-height:310px;border-radius:30px;overflow:hidden;border:1px solid var(--vet-border);box-shadow:0 18px 48px var(--vet-shadow);background:#fff}.personal-card img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}.personal-card:after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 24%,rgba(30,43,40,.86))}.personal-info{position:absolute;left:18px;right:18px;bottom:18px;color:#fff;z-index:2}.personal-info p{color:rgba(255,255,255,.8);line-height:1.5}.pulse-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--vet-primary);box-shadow:0 0 0 0 rgba(31,111,97,.45);animation:pulseDot 1.8s infinite}@keyframes pulseDot{70%{box-shadow:0 0 0 12px rgba(31,111,97,0)}100%{box-shadow:0 0 0 0 rgba(31,111,97,0)}}.service-card{position:relative;overflow:hidden}.service-card:after{content:'';position:absolute;inset:auto -30% -70% -30%;height:120px;background:radial-gradient(circle,rgba(191,232,221,.55),transparent 68%);opacity:0;transition:.25s}.service-card:hover:after{opacity:1;transform:translateY(-12px)}
+    .top{box-shadow:0 12px 34px rgba(30,43,40,.06)}.nav{min-height:68px}.logo{width:44px;height:44px;border-radius:17px;background:linear-gradient(145deg,#fff,var(--vet-primary-soft));box-shadow:0 12px 26px rgba(31,111,97,.12)}.brand strong{font-size:1.08rem}.brand span span{font-size:.58rem;letter-spacing:.16em;max-width:190px}.zone-switch{background:#fff;border-radius:20px;box-shadow:0 14px 34px rgba(30,43,40,.08)}.zone-switch a{line-height:1.06;padding:10px 13px}.navlinks{background:rgba(255,255,255,.72);border:1px solid var(--vet-border);border-radius:20px;padding:5px;box-shadow:0 12px 30px rgba(30,43,40,.05)}.navlinks a{padding:10px 13px}.contact-hub{display:grid;grid-template-columns:.92fr 1.08fr;gap:20px;align-items:start}.contact-card{background:#fff;border:1px solid var(--vet-border);border-radius:30px;padding:24px;box-shadow:0 18px 48px rgba(30,43,40,.07)}.contact-actions{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:18px 0}.direct-tile{display:flex;gap:12px;align-items:center;padding:16px;border-radius:22px;background:var(--vet-bg-soft);border:1px solid var(--vet-border);font-weight:900;transition:.18s}.direct-tile:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(30,43,40,.08)}.direct-tile b{display:block}.direct-tile span span{display:block;color:var(--vet-muted);font-size:.82rem;margin-top:2px}.direct-icon{width:46px;height:46px;border-radius:16px;display:grid;place-items:center;background:#fff;color:var(--vet-primary);box-shadow:0 10px 22px rgba(30,43,40,.06)}.contact-team{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:18px}.contact-person{position:relative;min-height:160px;border-radius:20px;overflow:hidden;background:#ddd;border:1px solid var(--vet-border)}.contact-person img{width:100%;height:100%;object-fit:cover}.contact-person span{position:absolute;left:8px;right:8px;bottom:8px;background:rgba(255,255,255,.9);border-radius:13px;padding:7px;font-size:.72rem;font-weight:900;backdrop-filter:blur(10px)}.whatsapp-fixed{position:fixed;right:18px;bottom:18px;z-index:80;width:62px;height:62px;border-radius:22px;background:#25D366;color:#fff;display:grid;place-items:center;font-weight:900;box-shadow:0 18px 46px rgba(37,211,102,.35);transition:.2s}.whatsapp-fixed:hover{transform:translateY(-3px) scale(1.03)}.whatsapp-fixed span{font-size:1.55rem}.team-card{min-height:450px}.team-card img{filter:saturate(1.02) contrast(1.02)}@media(max-width:1180px){.navlinks{position:fixed;top:76px;left:12px;right:12px;display:none;flex-direction:column;align-items:stretch;background:#fff;border:1px solid var(--vet-border);border-radius:22px;padding:12px;box-shadow:0 24px 70px rgba(30,43,40,.16)}.navlinks.open{display:flex}.navlinks a{padding:14px}.menu{display:grid;place-items:center}.hero-grid,.grid2,.appointment-layout,.contact-grid,.portal-grid,.report-grid{grid-template-columns:1fr}.grid4,.metric-grid{grid-template-columns:repeat(2,1fr)}.summary,.side{position:static;height:auto}.app-shell{grid-template-columns:1fr}.side{border-right:0;border-bottom:1px solid var(--vet-border)}.side-nav{grid-template-columns:repeat(2,1fr)}.hero-card{min-height:520px}.hero-card img{width:100%}.hero-overlay{background:linear-gradient(180deg,rgba(255,255,255,.98),rgba(255,255,255,.72) 45%,rgba(255,255,255,.08))}.clinic-mini{width:auto}}@media(max-width:760px){.contact-hub{grid-template-columns:1fr}.contact-actions{grid-template-columns:1fr}.contact-team{grid-template-columns:repeat(2,1fr)}.whatsapp-fixed{right:16px;bottom:86px;width:56px;height:56px;border-radius:20px}.animal-wall,.personal-grid,.care-journey{grid-template-columns:1fr}.animal-tile.large{grid-row:span 1}.personal-card{min-height:260px}.wrap{width:min(var(--max),calc(100% - 22px))}.section{padding:58px 0}.nav{min-height:68px}.navlinks{top:68px}.brand span span,.zone-switch,.actions .btn{display:none}.hero-card{min-height:520px}.clinic-mini{left:12px;right:12px;bottom:12px}.section-head,.grid3,.grid4,.metric-grid,.form-grid,.choice-grid,.steps,.alert-grid,.diag-strip,.gallery,.footer-grid,.settings-grid{grid-template-columns:1fr}.urgent-block{grid-template-columns:1fr;padding:20px}.gallery{grid-auto-rows:230px}.gallery figure:nth-child(1),.gallery figure:nth-child(5){grid-row:span 1}.service-meta,.app-top{flex-direction:column;align-items:flex-start}.side-nav{grid-template-columns:1fr}.pet-card,.profile-hero{grid-template-columns:1fr}.pet-card img,.profile-hero img{width:100%;height:220px}.mobile-cta{display:flex}.toast{bottom:92px}table{min-width:720px}}
+  </style>
 </head>
-<body>
- <header class="topo" style="background: linear-gradient(135deg,rgb(201, 182, 205), #2ba5c4); position: sticky; top: 0; z-index: 999;">
-  <div class="container">
-    <nav class="navbar" style="display: flex; align-items: center; justify-content: space-between;">
-      
-      <!-- Logo com símbolo veterinário -->
-      <a href="#inicio" class="logo" style="display: flex; align-items: center; font-size: 1.8rem; font-family: 'Fredoka', sans-serif; color: #4a9a9f; text-decoration: none;">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJrD4czUpA2ZLBQdRZDJsANdtrXSKPIxCkbA&s" alt="Símbolo Veterinário" style="height: 40px; margin-right: 12px; border-radius: 50%; box-shadow: 0 0 8px rgba(0,0,0,0.1);">
-        <span>Pet Carinhoso 🐾</span>
-      </a>
-
-      <!-- Botão mobile -->
-      <button class="menu-toggle" aria-label="Abrir menu" style="background: none; border: none; font-size: 1.6rem; color: #444;">
-        <i class="fas fa-bars"></i>
-      </button>
-
-      <!-- Navegação -->
-      <ul class="nav-links" style="display: flex; flex-wrap: wrap; gap: 20px; list-style: none; padding-left: 0; margin: 0;">
-        <li><a href="#inicio">Início</a></li>
-        <li><a href="#sobre">Sobre</a></li>
-        <li><a href="#servicos">Serviços</a></li>
-        <li><a href="#equipe">Equipe</a></li>
-        <li><a href="#galeria">Galeria</a></li>
-        <li><a href="#depoimentos">Depoimentos</a></li>
-        <li><a href="#contato">Contato</a></li>
-        <li class="cta"><a href="#contato" style="background: #4a9a9f; color: white; padding: 8px 16px; border-radius: 25px;">🐶 Agendar</a></li>
-      </ul>
-
+<body class="<?= h($area) ?>-body">
+<?php if ($area === 'public'): ?>
+  <header class="top">
+    <nav class="wrap nav">
+      <a class="brand" href="<?= h(route_to('public','home',$lang)) ?>"><span class="logo"><i class="bi bi-heart-pulse"></i></span><span><strong><?= h($t['brand']) ?></strong><span><?= h($t['tagline']) ?></span></span></a>
+      <div class="zone-switch"><a class="active" href="<?= h(route_to('public','home',$lang)) ?>"><?= h($t['public']) ?></a><a href="<?= h(route_to('portal','dashboard',$lang)) ?>"><?= h($t['portal']) ?></a><a href="<?= h(route_to('admin','dashboard',$lang)) ?>"><?= h($t['admin']) ?></a></div>
+      <div class="navlinks" data-menu><a class="<?= $page==='home'?'active':'' ?>" href="<?= h(route_to('public','home',$lang)) ?>"><?= h($t['home']) ?></a><a class="<?= in_array($page,['services','service'],true)?'active':'' ?>" href="<?= h(route_to('public','services',$lang)) ?>"><?= h($t['services']) ?></a><a class="<?= $page==='urgent-care'?'active':'' ?>" href="<?= h(route_to('public','urgent-care',$lang)) ?>"><?= h($t['urgent']) ?></a><a class="<?= $page==='health-plans'?'active':'' ?>" href="<?= h(route_to('public','health-plans',$lang)) ?>"><?= h($t['plans']) ?></a><a class="<?= $page==='team'?'active':'' ?>" href="<?= h(route_to('public','team',$lang)) ?>"><?= h($t['team']) ?></a><a class="<?= $page==='contact'?'active':'' ?>" href="<?= h(route_to('public','contact',$lang)) ?>"><?= h($t['contact']) ?></a></div>
+      <div class="actions"><select class="lang" data-lang><option value="<?= h(lang_route('pt')) ?>" <?= $lang==='pt'?'selected':'' ?>>PT</option><option value="<?= h(lang_route('es')) ?>" <?= $lang==='es'?'selected':'' ?>>ES</option><option value="<?= h(lang_route('en')) ?>" <?= $lang==='en'?'selected':'' ?>>EN</option></select><a class="btn btn-primary btn-small" href="<?= h(route_to('public','appointments',$lang)) ?>"><?= h($t['book']) ?></a><button class="menu" data-menu-btn><i class="bi bi-list"></i></button></div>
     </nav>
+  </header>
+  <main>
+  <?php if ($page === 'home'): ?>
+    <section class="public-hero"><div class="wrap hero-grid"><div class="reveal"><div class="badges"><span class="badge green"><i class="bi bi-check2-circle"></i><?= h($t['hero_badge_1']) ?></span><span class="badge blue"><i class="bi bi-activity"></i><?= h($t['hero_badge_2']) ?></span><span class="badge coral"><i class="bi bi-shield-plus"></i><?= h($t['hero_badge_3']) ?></span><span class="badge gold"><i class="bi bi-stars"></i><?= h($t['hero_badge_4']) ?></span></div><span class="kicker"><?= h($t['public']) ?></span><h1 class="title"><?= h($t['hero_title']) ?></h1><p class="lead"><?= h($t['hero_text']) ?></p><div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:28px"><a class="btn btn-primary" href="<?= h(route_to('public','appointments',$lang)) ?>"><i class="bi bi-calendar2-check"></i><?= h($t['book']) ?></a><a class="btn btn-secondary" href="<?= h(route_to('public','services',$lang)) ?>"><i class="bi bi-grid"></i><?= h($t['view_services']) ?></a></div></div><div class="hero-card reveal"><img src="https://images.unsplash.com/photo-1628009368231-7bb7cfcb0def?auto=format&fit=crop&w=1500&q=84" alt="VetCare Plus"><div class="hero-overlay"></div><div class="clinic-mini"><div class="mini-row"><span class="mini-icon"><i class="bi bi-clock-history"></i></span><div><strong><?= h($t['urgent']) ?></strong><p class="muted" style="margin:4px 0 0">08:00–21:00</p></div></div><div class="mini-row"><span class="mini-icon"><i class="bi bi-file-medical"></i></span><div><strong><?= h($t['diagnostics']) ?></strong><p class="muted" style="margin:4px 0 0">Análises · RX · Eco</p></div></div></div></div></div></section>
+    <section class="section wrap reveal"><div class="section-head"><div><span class="kicker">Blueprint</span><h2 class="title" style="font-size:clamp(2rem,4vw,4rem)">3 áreas, 1 solução premium</h2><p class="lead"><?= h($t['footer_text']) ?></p></div></div><div class="grid3"><article class="card pad"><span class="badge green"><i class="bi bi-globe2"></i><?= h($t['public']) ?></span><h3><?= h($t['public']) ?></h3><p class="muted"><?= h($t['public_goal']) ?></p></article><article class="card pad"><span class="badge blue"><i class="bi bi-person-heart"></i><?= h($t['portal']) ?></span><h3><?= h($t['portal']) ?></h3><p class="muted"><?= h($t['portal_goal']) ?></p></article><article class="card pad"><span class="badge gold"><i class="bi bi-speedometer2"></i><?= h($t['admin']) ?></span><h3><?= h($t['admin']) ?></h3><p class="muted"><?= h($t['admin_goal']) ?></p></article></div></section>
+    <section class="section wrap reveal"><div class="section-head"><div><span class="kicker">Pacientes reais no fluxo</span><h2 class="title" style="font-size:clamp(2rem,4vw,4rem)">Mais vida, mais animais, mais confiança visual.</h2><p class="lead">O template agora mostra diferentes perfis de animais e situações reais de atendimento: check-up, vacina, grooming, geriatria, comportamento e exames.</p></div><span class="badge green"><span class="pulse-dot"></span> Clínica ativa hoje</span></div><div class="animal-wall"><figure class="animal-tile large"><img src="https://images.unsplash.com/photo-1558788353-f76d92427f16?auto=format&fit=crop&w=900&q=84" alt="Cão em consulta"><span>Consulta preventiva</span></figure><figure class="animal-tile"><img src="https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&w=900&q=84" alt="Gato tranquilo"><span>Vacinação</span></figure><figure class="animal-tile"><img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=900&q=84" alt="Cão feliz"><span>Grooming</span></figure><figure class="animal-tile"><img src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=900&q=84" alt="Cão cuidado"><span>Odontologia</span></figure><figure class="animal-tile"><img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=900&q=84" alt="Cães"><span>Planos preventivos</span></figure><figure class="animal-tile large"><img src="https://images.unsplash.com/photo-1548767797-d8c844163c4c?auto=format&fit=crop&w=900&q=84" alt="Coelho"><span>Animais exóticos leves</span></figure><figure class="animal-tile"><img src="https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=900&q=84" alt="Gato"><span>Dermatologia</span></figure></div></section>
+    <section class="section wrap reveal"><div class="section-head"><div><span class="kicker">Care Map</span><h2 class="title" style="font-size:clamp(2rem,4vw,4rem)"><?= h($t['services_title']) ?></h2><p class="lead"><?= h($t['services_text']) ?></p></div><a class="btn btn-secondary" href="<?= h(route_to('public','services',$lang)) ?>"><?= h($t['view_services']) ?></a></div><div class="grid4"><?php foreach(array_slice($services,0,8) as $i=>$s): ?><article class="service-card <?= in_array($s['cat'],['exames','cardiologia'],true)?'blue':(in_array($s['cat'],['urgencia','comportamento'],true)?'coral':($s['cat']==='nutricao'?'gold':'')) ?>"><span class="service-icon"><i class="bi <?= h($s['icon']) ?>"></i></span><h3><?= h(lv($s['name'],$lang)) ?></h3><p class="muted"><?= h(lv($s['desc'],$lang)) ?></p><div class="service-meta"><span>Preço<strong><?= h(eur($s['price'])) ?></strong></span><span><?= h($t['time']) ?><strong><?= h($s['duration']) ?></strong></span></div><a class="btn btn-primary btn-small" href="<?= h(route_to('public','appointments',$lang,['service'=>$s['slug']])) ?>"><?= h($t['book']) ?></a></article><?php endforeach; ?></div></section>
+    <section class="section wrap reveal"><div class="section-head"><div><span class="kicker">Atendimento personalizado</span><h2 class="title" style="font-size:clamp(2rem,4vw,4rem)">Cada animal entra com uma rotina, não com um formulário genérico.</h2><p class="lead">O template mostra tipos de acompanhamento para animais jovens, séniores, ansiosos, alérgicos, em recuperação ou com plano preventivo ativo.</p></div></div><div class="personal-grid"><article class="personal-card"><img src="https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=900&q=84" alt="Plano personalizado para cão"><div class="personal-info"><span class="badge green">Plano preventivo</span><h3>Rex · 2 anos</h3><p>Vacinas, nutrição, desparasitação e alertas automáticos.</p></div></article><article class="personal-card"><img src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?auto=format&fit=crop&w=900&q=84" alt="Gato em acompanhamento"><div class="personal-info"><span class="badge blue">Exame disponível</span><h3>Mia · 5 anos</h3><p>Resultados de análise, histórico e mensagem da clínica.</p></div></article><article class="personal-card"><img src="https://images.unsplash.com/photo-1601758124510-52d02ddb7cbd?auto=format&fit=crop&w=900&q=84" alt="Animal sénior"><div class="personal-info"><span class="badge coral">Acompanhamento sénior</span><h3>Buddy · 11 anos</h3><p>Cardiologia, mobilidade, dor e check-ups periódicos.</p></div></article></div></section>
+    <section class="section wrap reveal"><div class="section-head"><div><span class="kicker">Jornada clínica</span><h2 class="title" style="font-size:clamp(2rem,4vw,4rem)">Do primeiro contacto ao acompanhamento.</h2><p class="lead">Mais movimento e clareza no processo: marcação, check-in, consulta, exames, plano e mensagens ao tutor.</p></div></div><div class="care-journey"><article class="care-step"><i class="bi bi-calendar2-check"></i><h3>Marcação</h3><p class="muted">Serviço, animal, tutor e horário numa experiência simples.</p></article><article class="care-step"><i class="bi bi-door-open"></i><h3>Check-in</h3><p class="muted">Receção organizada com dados do animal já preparados.</p></article><article class="care-step"><i class="bi bi-clipboard2-pulse"></i><h3>Consulta</h3><p class="muted">Avaliação clínica, diagnóstico e plano personalizado.</p></article><article class="care-step"><i class="bi bi-chat-heart"></i><h3>Acompanhamento</h3><p class="muted">Vacinas, exames, receitas, mensagens e próximos passos.</p></article></div></section>
+    <section class="section wrap reveal"><div class="urgent-block"><div><span class="kicker" style="color:#A34F3F">Care Alert</span><h2 class="title" style="font-size:clamp(2rem,4vw,4rem)"><?= h($t['urgent_title']) ?></h2><p class="lead"><?= h($t['urgent_text']) ?></p><div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px"><a class="btn btn-care" href="tel:+351220000000"><i class="bi bi-telephone"></i><?= h($t['call_now']) ?></a><a class="btn btn-primary" href="https://wa.me/351912345678" target="_blank"><i class="bi bi-whatsapp"></i><?= h($t['whatsapp']) ?></a></div></div><div class="alert-grid"><?php foreach(['Dor intensa','Dificuldade em respirar','Vómitos persistentes','Convulsões','Trauma ou queda','Ingestão de tóxicos'] as $x): ?><div class="alert-item"><i class="bi bi-exclamation-triangle"></i> <?= h($x) ?></div><?php endforeach; ?></div></div></section>
+    <section class="section wrap reveal"><div class="grid2"><div><span class="kicker" style="color:var(--vet-clinical)">Clinical Tech</span><h2 class="title" style="font-size:clamp(2rem,4vw,4rem)"><?= h($t['diagnostics_title']) ?></h2><p class="lead"><?= h($t['diagnostics_text']) ?></p><div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px"><a class="btn btn-clinical" href="<?= h(route_to('public','diagnostics',$lang)) ?>"><?= h($t['diagnostics']) ?></a></div></div><div class="diag-strip"><div class="diag"><i class="bi bi-eyedropper"></i><h3>Análises</h3></div><div class="diag"><i class="bi bi-broadcast"></i><h3>Raio-X</h3></div><div class="diag"><i class="bi bi-soundwave"></i><h3>Ecografia</h3></div></div></div></section>
+    <section class="section wrap reveal"><div class="section-head"><div><span class="kicker" style="color:var(--vet-gold)">Premium Plans</span><h2 class="title" style="font-size:clamp(2rem,4vw,4rem)"><?= h($t['plans_title']) ?></h2><p class="lead"><?= h($t['plans_text']) ?></p></div><a class="btn btn-secondary" href="<?= h(route_to('public','health-plans',$lang)) ?>"><?= h($t['plans']) ?></a></div><div class="grid4"><?php foreach($plans as $p): ?><article class="plan"><span class="badge <?= h($p['tone']) ?>"><?= h($p['name']) ?></span><div class="price"><?= h(eur($p['price'])) ?><span class="muted" style="font-size:.9rem">/mês</span></div><ul class="list"><?php foreach($p['items'] as $it): ?><li><i class="bi bi-check2"></i><?= h($it) ?></li><?php endforeach; ?></ul><a class="btn btn-primary btn-small" href="<?= h(route_to('public','appointments',$lang)) ?>"><?= h($t['choose_plan']) ?></a></article><?php endforeach; ?></div></section>
+    <section class="section wrap reveal"><div class="section-head"><div><span class="kicker">Team</span><h2 class="title" style="font-size:clamp(2rem,4vw,4rem)"><?= h($t['team_title']) ?></h2><p class="lead"><?= h($t['team_text']) ?></p></div><a class="btn btn-secondary" href="<?= h(route_to('public','team',$lang)) ?>"><?= h($t['team']) ?></a></div><div class="grid3"><?php foreach($vets as $v): ?><article class="team-card"><img src="<?= h($v['image']) ?>" alt="<?= h($v['name']) ?>"><div class="team-info"><h3><?= h($v['name']) ?></h3><p><?= h(lv($v['role'],$lang)) ?> · <?= h($v['years']) ?></p></div></article><?php endforeach; ?></div></section>
+  <?php elseif ($page === 'services'): ?>
+    <section class="section wrap"><span class="kicker">Services</span><h1 class="title"><?= h($t['services_title']) ?></h1><p class="lead"><?= h($t['services_text']) ?></p><div class="grid4" style="margin-top:32px"><?php foreach($services as $i=>$s): ?><article class="service-card reveal <?= $s['cat']==='exames'?'blue':($s['cat']==='urgencia'?'coral':'') ?>"><span class="service-icon"><i class="bi <?= h($s['icon']) ?>"></i></span><h3><?= h(lv($s['name'],$lang)) ?></h3><p class="muted"><?= h(lv($s['desc'],$lang)) ?></p><div class="service-meta"><span>Preço<strong><?= h(eur($s['price'])) ?></strong></span><span><?= h($t['time']) ?><strong><?= h($s['duration']) ?></strong></span></div><a class="btn btn-secondary btn-small" href="<?= h(route_to('public','service',$lang,['slug'=>$s['slug']])) ?>"><?= h($t['see_details']) ?></a><a class="btn btn-primary btn-small" href="<?= h(route_to('public','appointments',$lang,['service'=>$s['slug']])) ?>"><?= h($t['book']) ?></a></article><?php endforeach; ?></div></section>
+  <?php elseif ($page === 'service'): ?>
+    <section class="section wrap"><div class="grid2"><div class="panel"><img src="<?= h($selectedService['cat']==='grooming'?'https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=1300&q=84':'https://images.unsplash.com/photo-1628009368231-7bb7cfcb0def?auto=format&fit=crop&w=1300&q=84') ?>" alt="<?= h(lv($selectedService['name'],$lang)) ?>" style="width:100%;height:560px;object-fit:cover"></div><div class="panel pad"><span class="badge green"><i class="bi <?= h($selectedService['icon']) ?>"></i><?= h($selectedService['cat']) ?></span><h1 class="title" style="font-size:clamp(2rem,4vw,4rem)"><?= h(lv($selectedService['name'],$lang)) ?></h1><p class="lead"><?= h(lv($selectedService['desc'],$lang)) ?></p><div class="grid2" style="margin:24px 0"><div class="card pad"><span class="muted">Preço</span><h3><?= h(eur($selectedService['price'])) ?></h3></div><div class="card pad"><span class="muted"><?= h($t['time']) ?></span><h3><?= h($selectedService['duration']) ?></h3></div></div><ul class="list"><li><i class="bi bi-check2"></i>Avaliação individual do animal.</li><li><i class="bi bi-check2"></i>Registo no histórico clínico.</li><li><i class="bi bi-check2"></i>Orientação clara para o tutor.</li><li><i class="bi bi-check2"></i>Plano de acompanhamento, se necessário.</li></ul><div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px"><a class="btn btn-primary" href="<?= h(route_to('public','appointments',$lang,['service'=>$selectedService['slug']])) ?>"><?= h($t['book']) ?></a><a class="btn btn-secondary" href="<?= h(route_to('public','services',$lang)) ?>"><?= h($t['services']) ?></a></div></div></div></section>
+  <?php elseif ($page === 'appointments'): ?>
+    <section class="section wrap"><span class="kicker">Booking</span><h1 class="title"><?= h($t['appointment_title']) ?></h1><p class="lead"><?= h($t['appointment_text']) ?></p><div class="appointment-layout" style="margin-top:28px"><div class="panel pad"><div class="steps"><?php foreach([$t['pet'],$t['service'],$t['vet'],$t['date'],$t['tutor'],$t['confirm']] as $i=>$st): ?><button class="step <?= $i===0?'active':'' ?>" type="button" data-step-btn="<?= $i ?>"><?= ($i+1) ?>. <?= h($st) ?></button><?php endforeach; ?></div><form data-book-form><div class="form-step active" data-step="0"><div class="form-grid"><div class="field"><label><?= h($t['pet_name']) ?></label><input class="input" name="pet" required></div><div class="field"><label><?= h($t['species']) ?></label><select class="select" name="species"><option>Cão</option><option>Gato</option><option>Outro</option></select></div><div class="field"><label><?= h($t['breed']) ?></label><input class="input" name="breed"></div><div class="field"><label><?= h($t['age']) ?></label><input class="input" name="age" required></div><div class="field full"><label><?= h($t['reason']) ?></label><textarea class="textarea" name="reason"></textarea></div></div></div><div class="form-step" data-step="1"><div class="choice-grid"><?php foreach($services as $s): ?><label class="choice"><input type="radio" name="service" value="<?= h($s['slug']) ?>" <?= ($_GET['service']??'')===$s['slug']?'checked':'' ?>><strong><?= h(lv($s['name'],$lang)) ?></strong><span><?= h(eur($s['price'])) ?> · <?= h($s['duration']) ?></span></label><?php endforeach; ?></div></div><div class="form-step" data-step="2"><div class="choice-grid"><?php foreach($vets as $v): ?><label class="choice"><input type="radio" name="vet" value="<?= h($v['name']) ?>"><strong><?= h($v['name']) ?></strong><span><?= h(lv($v['role'],$lang)) ?></span></label><?php endforeach; ?></div></div><div class="form-step" data-step="3"><div class="form-grid"><div class="field"><label><?= h($t['date']) ?></label><input class="input" type="date" name="date" min="<?= h(date('Y-m-d')) ?>" required></div><div class="field"><label><?= h($t['time']) ?></label><div class="time-grid" data-times></div><input type="hidden" name="time" data-time-input></div></div></div><div class="form-step" data-step="4"><div class="form-grid"><div class="field"><label><?= h($t['name']) ?></label><input class="input" name="name" required></div><div class="field"><label><?= h($t['phone']) ?></label><input class="input" name="phone" required></div><div class="field full"><label><?= h($t['email']) ?></label><input class="input" type="email" name="email" required></div></div></div><div class="form-step" data-step="5"><div class="card pad" style="background:var(--vet-primary-soft)"><h3><?= h($t['summary']) ?></h3><p class="muted">Confirme para gerar a referência da marcação.</p></div></div><div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:22px"><button class="btn btn-secondary" type="button" data-back><?= h($t['back']) ?></button><button class="btn btn-primary" type="button" data-next><?= h($t['continue']) ?></button></div></form></div><aside class="panel pad summary"><span class="kicker"><?= h($t['summary']) ?></span><div class="sum-line"><span><?= h($t['pet']) ?></span><strong data-s-pet>—</strong></div><div class="sum-line"><span><?= h($t['service']) ?></span><strong data-s-service>—</strong></div><div class="sum-line"><span><?= h($t['vet']) ?></span><strong data-s-vet>—</strong></div><div class="sum-line"><span><?= h($t['date']) ?></span><strong data-s-date>—</strong></div><div class="sum-line"><span><?= h($t['time']) ?></span><strong data-s-time>—</strong></div></aside></div></section>
+  <?php elseif (in_array($page,['urgent-care','diagnostics','surgery','vaccination','grooming','about'],true)): ?>
+    <?php $map=['urgent-care'=>[$t['urgent_title'],$t['urgent_text'],'care','bi-lightning-charge'], 'diagnostics'=>[$t['diagnostics_title'],$t['diagnostics_text'],'clinical','bi-activity'], 'surgery'=>[$t['surgery'],'Procedimentos de rotina, esterilização, pequenas cirurgias e recuperação assistida.','primary','bi-bandaid'], 'vaccination'=>[$t['vaccination'],'Calendário vacinal, avaliação pré-vacinal, registo no boletim e lembretes futuros.','primary','bi-shield-plus'], 'grooming'=>[$t['grooming'],'Banho, tosquia higiénica, corte de unhas, limpeza de ouvidos e hidratação.','gold','bi-scissors'], 'about'=>[$t['about'],'A VetCare Plus combina equipa experiente, meios de diagnóstico e ambiente pensado para reduzir o stress dos animais e tutores.','primary','bi-building-heart']]; $m=$map[$page]; ?>
+    <section class="section wrap"><div class="grid2"><div><span class="kicker"><?= h($m[0]) ?></span><h1 class="title"><?= h($m[0]) ?></h1><p class="lead"><?= h($m[1]) ?></p><div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px"><a class="btn btn-primary" href="<?= h(route_to('public','appointments',$lang)) ?>"><?= h($t['book']) ?></a><a class="btn btn-secondary" href="<?= h(route_to('public','contact',$lang)) ?>"><?= h($t['contact']) ?></a></div></div><div class="panel pad"><span class="service-icon"><i class="bi <?= h($m[3]) ?>"></i></span><ul class="list" style="margin-top:20px"><li><i class="bi bi-check2"></i>Atendimento claro e organizado.</li><li><i class="bi bi-check2"></i>Registo no histórico do animal.</li><li><i class="bi bi-check2"></i>Comunicação simples com o tutor.</li><li><i class="bi bi-check2"></i>Próximos passos bem definidos.</li></ul></div></div></section>
+  <?php elseif ($page === 'health-plans'): ?>
+    <section class="section wrap"><span class="kicker">Plans</span><h1 class="title"><?= h($t['plans_title']) ?></h1><p class="lead"><?= h($t['plans_text']) ?></p><div class="grid4" style="margin-top:32px"><?php foreach($plans as $p): ?><article class="plan reveal"><span class="badge <?= h($p['tone']) ?>"><?= h($p['name']) ?></span><div class="price"><?= h(eur($p['price'])) ?><span class="muted" style="font-size:.9rem">/mês</span></div><ul class="list"><?php foreach($p['items'] as $it): ?><li><i class="bi bi-check2"></i><?= h($it) ?></li><?php endforeach; ?></ul><a class="btn btn-primary" href="<?= h(route_to('public','appointments',$lang)) ?>"><?= h($t['choose_plan']) ?></a></article><?php endforeach; ?></div></section>
+  <?php elseif ($page === 'team'): ?>
+    <section class="section wrap"><span class="kicker">Team</span><h1 class="title"><?= h($t['team_title']) ?></h1><p class="lead"><?= h($t['team_text']) ?></p><div class="grid3" style="margin-top:32px"><?php foreach($vets as $v): ?><article class="team-card reveal"><img src="<?= h($v['image']) ?>" alt="<?= h($v['name']) ?>"><div class="team-info"><h3><?= h($v['name']) ?></h3><p><?= h(lv($v['role'],$lang)) ?> · <?= h($v['years']) ?></p><a class="btn btn-primary btn-small" href="<?= h(route_to('public','appointments',$lang)) ?>"><?= h($t['book']) ?></a></div></article><?php endforeach; ?></div></section>
+  <?php elseif ($page === 'gallery'): ?>
+    <section class="section wrap"><span class="kicker">Gallery</span><h1 class="title"><?= h($t['gallery']) ?></h1><div class="gallery" style="margin-top:32px"><?php foreach($gallery as $g): ?><figure class="reveal"><img src="<?= h($g['img']) ?>" alt="<?= h($g['label']) ?>"><figcaption><?= h($g['label']) ?></figcaption></figure><?php endforeach; ?></div></section>
+  <?php elseif ($page === 'contact'): ?>
+    <section class="section wrap"><div class="section-head"><div><span class="kicker">Fale Conosco</span><h1 class="title">Contacto direto com a clínica, sem fricção.</h1><p class="lead">Telefone, WhatsApp, email, morada e formulário no mesmo ecrã. Esta página é essencial para converter visitas em marcações reais.</p></div><a class="btn btn-care" href="https://wa.me/351912345678" target="_blank"><i class="bi bi-whatsapp"></i><?= h($t['whatsapp']) ?></a></div><div class="contact-hub"><div class="contact-card"><h2 style="font-family:Sora;margin-top:0">Atendimento rápido</h2><p class="muted">Escolha o canal mais simples para o tutor: chamada, WhatsApp, email ou visita à clínica.</p><div class="contact-actions"><a class="direct-tile" href="tel:+351220000000"><span class="direct-icon"><i class="bi bi-telephone"></i></span><span><b>+351 220 000 000</b><span>Ligar agora</span></span></a><a class="direct-tile" href="https://wa.me/351912345678" target="_blank"><span class="direct-icon"><i class="bi bi-whatsapp"></i></span><span><b>WhatsApp</b><span>Resposta rápida</span></span></a><a class="direct-tile" href="mailto:geral@vetcareplus.pt"><span class="direct-icon"><i class="bi bi-envelope"></i></span><span><b>Email</b><span>geral@vetcareplus.pt</span></span></a><div class="direct-tile"><span class="direct-icon"><i class="bi bi-geo-alt"></i></span><span><b>Morada</b><span>Rua da Clínica, 45 · Vila Nova de Gaia</span></span></div></div><div class="panel pad" style="background:var(--vet-care-soft);box-shadow:none"><h3 style="font-family:Sora;margin-top:0">Atendimento urgente</h3><p class="muted">Para sinais de alerta, contacte antes de se deslocar para a equipa orientar prioridade e preparação.</p><a class="btn btn-care" href="tel:+351220000000"><i class="bi bi-lightning-charge"></i><?= h($t['call_now']) ?></a></div><h3 style="font-family:Sora;margin:22px 0 10px">Equipa disponível hoje</h3><div class="contact-team"><?php foreach($vets as $v): ?><div class="contact-person"><img src="<?= h($v['image']) ?>" alt="<?= h($v['name']) ?>"><span><?= h($v['name']) ?></span></div><?php endforeach; ?></div></div><div class="contact-card"><h2 style="font-family:Sora;margin-top:0">Enviar mensagem</h2><form class="form-grid" data-simple-form><div class="field"><label><?= h($t['name']) ?></label><input class="input" required></div><div class="field"><label><?= h($t['phone']) ?></label><input class="input" required></div><div class="field full"><label><?= h($t['email']) ?></label><input class="input" type="email" required></div><div class="field full"><label>Assunto</label><select class="select"><option><?= h($t['book']) ?></option><option><?= h($t['urgent']) ?></option><option><?= h($t['diagnostics']) ?></option><option><?= h($t['grooming']) ?></option><option><?= h($t['plans']) ?></option></select></div><div class="field full"><label>Mensagem</label><textarea class="textarea" required placeholder="Conte-nos como podemos ajudar o seu animal."></textarea></div><button class="btn btn-primary full" type="submit"><i class="bi bi-send"></i><?= h($t['send']) ?></button></form><div class="map" style="margin-top:18px;min-height:260px"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2981.845891425258!2d-8.655521423409764!3d41.12536031582254!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd246525c5f0c3f9%3A0x80c4963cbf7de769!2sR.%20da%20B%C3%A9lgica%202450%2C%204400-046%20Vila%20Nova%20de%20Gaia!5e0!3m2!1spt-PT!2spt!4v1719078822695!5m2!1spt-PT!2spt" loading="lazy"></iframe></div></div></div></section>
+  <?php elseif ($page === 'confirmation'): ?>
+    <section class="wrap"><div class="confirm reveal"><div class="confirm-icon"><i class="bi bi-check2"></i></div><span class="kicker" style="justify-content:center"><?= h($t['confirmation']) ?></span><h1 class="title" style="font-size:clamp(2.2rem,4vw,4rem)">Consulta marcada</h1><p class="lead" style="margin-inline:auto">Referência: <?= h($_GET['ref'] ?? 'VC-2048') ?></p><div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:24px"><a class="btn btn-primary" href="<?= h(route_to('portal','dashboard',$lang)) ?>"><?= h($t['portal']) ?></a><a class="btn btn-secondary" href="<?= h(route_to('public','home',$lang)) ?>"><?= h($t['home']) ?></a></div></div></section>
+  <?php endif; ?>
+  </main>
+  <footer class="footer"><div class="wrap footer-grid"><div><a class="brand" href="<?= h(route_to('public','home',$lang)) ?>"><span class="logo"><i class="bi bi-heart-pulse"></i></span><span><strong><?= h($t['brand']) ?></strong><span><?= h($t['tagline']) ?></span></span></a><p><?= h($t['footer_text']) ?></p></div><div><h3><?= h($t['services']) ?></h3><div class="footer-links"><a href="<?= h(route_to('public','services',$lang)) ?>"><?= h($t['services']) ?></a><a href="<?= h(route_to('public','diagnostics',$lang)) ?>"><?= h($t['diagnostics']) ?></a><a href="<?= h(route_to('public','grooming',$lang)) ?>"><?= h($t['grooming']) ?></a></div></div><div><h3>Áreas</h3><div class="footer-links"><a href="<?= h(route_to('portal','dashboard',$lang)) ?>"><?= h($t['portal']) ?></a><a href="<?= h(route_to('admin','dashboard',$lang)) ?>"><?= h($t['admin']) ?></a></div></div><div><h3><?= h($t['contact']) ?></h3><p>Rua da Clínica, 45<br>+351 220 000 000</p><a class="btn btn-primary btn-small" href="<?= h(route_to('public','appointments',$lang)) ?>"><?= h($t['book']) ?></a><p><?= h($t['built_by']) ?></p></div></div></footer>
+  <a class="whatsapp-fixed" href="https://wa.me/351912345678" target="_blank" aria-label="Falar no WhatsApp"><span><i class="bi bi-whatsapp"></i></span></a>
+  <div class="mobile-cta"><span><strong><?= h($t['brand']) ?></strong><br><span class="muted"><?= h($t['tagline']) ?></span></span><a class="btn btn-primary btn-small" href="<?= h(route_to('public','appointments',$lang)) ?>"><?= h($t['book']) ?></a></div>
+<?php else: ?>
+  <?php $isAdmin = $area === 'admin'; $shellClass = $isAdmin ? 'app-shell admin-shell' : 'app-shell'; ?>
+  <div class="<?= h($shellClass) ?>">
+    <aside class="side">
+      <a class="brand" href="<?= h(route_to($area,'dashboard',$lang)) ?>"><span class="logo"><i class="bi <?= $isAdmin?'bi-speedometer2':'bi-person-heart' ?>"></i></span><span><strong><?= h($t['brand']) ?></strong><span><?= h($isAdmin?$t['admin']:$t['portal']) ?></span></span></a>
+      <div class="zone-switch" style="margin-bottom:18px"><a href="<?= h(route_to('public','home',$lang)) ?>"><?= h($t['public']) ?></a><a class="<?= !$isAdmin?'active':'' ?>" href="<?= h(route_to('portal','dashboard',$lang)) ?>"><?= h($t['portal']) ?></a><a class="<?= $isAdmin?'active':'' ?>" href="<?= h(route_to('admin','dashboard',$lang)) ?>"><?= h($t['admin']) ?></a></div>
+      <nav class="side-nav">
+        <?php if (!$isAdmin): ?>
+          <?php $portalLinks=['dashboard'=>$t['home'],'pets'=>$t['my_pets'],'appointments'=>$t['appointments'],'vaccines'=>$t['vaccines'],'exams'=>$t['exams'],'prescriptions'=>$t['prescriptions'],'messages'=>$t['messages'],'profile'=>$t['profile']]; foreach($portalLinks as $key=>$label): ?><a class="<?= $page===$key?'active':'' ?>" href="<?= h(route_to('portal',$key,$lang)) ?>"><i class="bi bi-chevron-right"></i><?= h($label) ?></a><?php endforeach; ?>
+        <?php else: ?>
+          <?php $adminLinks=['dashboard'=>$t['home'],'appointments'=>$t['agenda'],'patients'=>$t['patients'],'tutors'=>$t['tutors'],'services'=>$t['services'],'vets'=>$t['team'],'exams'=>$t['exams'],'surgery'=>$t['surgery'],'grooming'=>$t['grooming'],'reports'=>$t['reports'],'settings'=>$t['settings']]; foreach($adminLinks as $key=>$label): ?><a class="<?= $page===$key?'active':'' ?>" href="<?= h(route_to('admin',$key,$lang)) ?>"><i class="bi bi-chevron-right"></i><?= h($label) ?></a><?php endforeach; ?>
+        <?php endif; ?>
+      </nav>
+    </aside>
+    <main class="app-main">
+      <div class="app-top"><div class="app-title"><h1><?= h($isAdmin ? ($page==='dashboard'?$t['admin_dashboard']:$adminLinks[$page] ?? $t['admin']) : ($page==='dashboard'?$t['portal_hello']:($portalLinks[$page] ?? $t['portal']))) ?></h1><p class="muted"><?= h($isAdmin ? $t['admin_goal'] : $t['portal_goal']) ?></p></div><div class="actions"><select class="lang" data-lang><option value="<?= h(lang_route('pt')) ?>" <?= $lang==='pt'?'selected':'' ?>>PT</option><option value="<?= h(lang_route('es')) ?>" <?= $lang==='es'?'selected':'' ?>>ES</option><option value="<?= h(lang_route('en')) ?>" <?= $lang==='en'?'selected':'' ?>>EN</option></select><a class="btn <?= $isAdmin?'btn-clinical':'btn-primary' ?> btn-small" href="<?= h(route_to('public','home',$lang)) ?>"><?= h($t['public']) ?></a></div></div>
+      <?php if (!$isAdmin): ?>
+        <?php if ($page === 'dashboard'): ?>
+          <section class="metric-grid"><div class="metric"><span><?= h($t['my_pets']) ?></span><strong>2</strong></div><div class="metric"><span><?= h($t['appointments']) ?></span><strong>1</strong></div><div class="metric"><span><?= h($t['vaccines']) ?></span><strong>1</strong></div><div class="metric"><span><?= h($t['exams']) ?></span><strong>2</strong></div><div class="metric"><span><?= h($t['messages']) ?></span><strong>3</strong></div><div class="metric"><span><?= h($t['plans']) ?></span><strong>2</strong></div></section><section class="portal-grid" style="margin-top:18px"><div class="panel pad"><h2><?= h($t['my_pets']) ?></h2><div style="display:grid;gap:12px"><?php foreach($pets as $pet): ?><a class="pet-card" href="<?= h(route_to('portal','pet-detail',$lang,['id'=>$pet['id']])) ?>"><img src="<?= h($pet['image']) ?>" alt="<?= h($pet['name']) ?>"><div><h3><?= h($pet['name']) ?></h3><p class="muted"><?= h($pet['species']) ?> · <?= h($pet['breed']) ?> · <?= h($pet['age']) ?><br><?= h($t['next_vaccine']) ?>: <?= h($pet['next']) ?></p></div><span class="badge <?= $pet['status']==='healthy'?'green':'blue' ?>"><?= h($pet['status']==='healthy'?$t['healthy']:$t['follow_up']) ?></span></a><?php endforeach; ?></div></div><div class="panel pad"><h2><?= h($t['next_actions']) ?></h2><div class="action-list"><div class="action"><i class="bi bi-calendar-check"></i><div><strong><?= h($t['appointment_set']) ?></strong><p class="muted">Max · Amanhã 15:30</p></div><a class="btn btn-secondary btn-small" href="#">Ver</a></div><div class="action"><i class="bi bi-file-earmark-medical"></i><div><strong><?= h($t['exam_available']) ?></strong><p class="muted">Luna · Hemograma</p></div><a class="btn btn-secondary btn-small" href="<?= h(route_to('portal','exams',$lang)) ?>">Abrir</a></div><div class="action"><i class="bi bi-shield-plus"></i><div><strong><?= h($t['next_vaccine']) ?></strong><p class="muted">Luna · 12/06/2026</p></div><a class="btn btn-secondary btn-small" href="<?= h(route_to('portal','vaccines',$lang)) ?>">Ver</a></div></div></div></section>
+        <?php elseif ($page === 'pets'): ?>
+          <section class="grid2"><?php foreach($pets as $pet): ?><a class="pet-card" href="<?= h(route_to('portal','pet-detail',$lang,['id'=>$pet['id']])) ?>"><img src="<?= h($pet['image']) ?>" alt="<?= h($pet['name']) ?>"><div><h3><?= h($pet['name']) ?></h3><p class="muted"><?= h($pet['species']) ?> · <?= h($pet['breed']) ?> · <?= h($pet['age']) ?><br><?= h($t['last_visit']) ?>: <?= h($pet['last']) ?></p></div><span class="badge <?= $pet['status']==='healthy'?'green':'blue' ?>"><?= h($pet['status']==='healthy'?$t['healthy']:$t['follow_up']) ?></span></a><?php endforeach; ?></section>
+        <?php elseif ($page === 'pet-detail'): ?>
+          <section class="panel pad"><div class="profile-hero"><img src="<?= h($selectedPet['image']) ?>" alt="<?= h($selectedPet['name']) ?>"><div><span class="badge <?= $selectedPet['status']==='healthy'?'green':'blue' ?>"><?= h($selectedPet['status']==='healthy'?$t['healthy']:$t['follow_up']) ?></span><h1 class="title" style="font-size:clamp(2rem,4vw,4rem)"><?= h($selectedPet['name']) ?></h1><p class="lead"><?= h($selectedPet['species']) ?> · <?= h($selectedPet['breed']) ?> · <?= h($selectedPet['age']) ?></p></div></div></section><section class="grid4" style="margin-top:18px"><div class="metric"><span><?= h($t['next_vaccine']) ?></span><strong><?= h($selectedPet['next']) ?></strong></div><div class="metric"><span><?= h($t['last_visit']) ?></span><strong><?= h($selectedPet['last']) ?></strong></div><div class="metric"><span><?= h($t['plans']) ?></span><strong><?= h($selectedPet['plan']) ?></strong></div><div class="metric"><span><?= h($t['exams']) ?></span><strong>2</strong></div></section><section class="panel pad" style="margin-top:18px"><h2>Timeline clínica</h2><div class="timeline"><div class="timeline-item"><span class="timeline-dot"><i class="bi bi-clipboard2-pulse"></i></span><div><strong>Consulta geral</strong><p class="muted">08/04/2026 · sem alterações relevantes.</p></div></div><div class="timeline-item"><span class="timeline-dot"><i class="bi bi-file-medical"></i></span><div><strong>Exame disponível</strong><p class="muted">Hemograma completo anexado.</p></div></div><div class="timeline-item"><span class="timeline-dot"><i class="bi bi-shield-plus"></i></span><div><strong><?= h($t['next_vaccine']) ?></strong><p class="muted"><?= h($selectedPet['next']) ?></p></div></div></div></section>
+        <?php else: ?>
+          <section class="grid3"><?php foreach(['appointments','vaccines','exams','prescriptions','messages','profile'] as $i=>$k): ?><article class="card pad"><span class="badge <?= $i%2?'blue':'green' ?>"><i class="bi bi-folder2-open"></i><?= h($portalLinks[$k] ?? $k) ?></span><h3><?= h($portalLinks[$k] ?? $k) ?></h3><p class="muted">Conteúdo visual simulado para a página <?= h($portalLinks[$k] ?? $k) ?> do portal.</p></article><?php endforeach; ?></section>
+        <?php endif; ?>
+      <?php else: ?>
+        <?php if ($page === 'dashboard'): ?>
+          <section class="metric-grid"><div class="metric"><i class="bi bi-calendar2-check"></i><span><?= h($t['today_appointments']) ?></span><strong>28</strong></div><div class="metric"><i class="bi bi-eye"></i><span><?= h($t['observation_animals']) ?></span><strong>4</strong></div><div class="metric"><i class="bi bi-lightning-charge"></i><span><?= h($t['urgent_requests']) ?></span><strong>3</strong></div><div class="metric"><i class="bi bi-activity"></i><span><?= h($t['pending_exams']) ?></span><strong>9</strong></div><div class="metric"><i class="bi bi-person-plus"></i><span><?= h($t['new_tutors']) ?></span><strong>12</strong></div><div class="metric"><i class="bi bi-graph-up"></i><span><?= h($t['month_revenue']) ?></span><strong>€18k</strong></div></section><section class="table-wrap" style="margin-top:18px"><table><thead><tr><th><?= h($t['hour']) ?></th><th><?= h($t['tutor']) ?></th><th><?= h($t['animal']) ?></th><th><?= h($t['service']) ?></th><th><?= h($t['vet']) ?></th><th><?= h($t['status']) ?></th><th><?= h($t['actions']) ?></th></tr></thead><tbody><?php foreach($appointments as $a): ?><?php $cls=['Agendada'=>'st-blue','Confirmada'=>'st-green','Check-in'=>'st-mint','Em consulta'=>'st-consult','Em exame'=>'st-exam','Em observação'=>'st-warn','Concluída'=>'st-done','Cancelada'=>'st-cancel'][$a['status']] ?? 'st-blue'; ?><tr><td><?= h($a['time']) ?></td><td><?= h($a['tutor']) ?></td><td><?= h($a['animal']) ?></td><td><?= h($a['service']) ?></td><td><?= h($a['vet']) ?></td><td><span class="status <?= h($cls) ?>"><?= h($a['status']) ?></span></td><td><button class="btn btn-secondary btn-small" data-toast-btn>Abrir</button></td></tr><?php endforeach; ?></tbody></table></section><section class="report-grid" style="margin-top:18px"><div class="chart"><?php foreach([42,70,50,88,64,95,76,55] as $h): ?><div class="bar" style="height:<?= h($h) ?>%"></div><?php endforeach; ?></div><div class="panel pad"><h3>Fila clínica</h3><div class="action-list"><div class="action"><i class="bi bi-activity"></i><div><strong>Exames pendentes</strong><p class="muted">9 resultados</p></div><span class="badge blue">Hoje</span></div><div class="action"><i class="bi bi-scissors"></i><div><strong>Grooming</strong><p class="muted">5 marcações</p></div><span class="badge green">OK</span></div></div></div></section>
+        <?php elseif ($page === 'appointments'): ?>
+          <section class="table-wrap"><table><thead><tr><th><?= h($t['hour']) ?></th><th><?= h($t['tutor']) ?></th><th><?= h($t['animal']) ?></th><th><?= h($t['service']) ?></th><th><?= h($t['vet']) ?></th><th><?= h($t['status']) ?></th><th><?= h($t['actions']) ?></th></tr></thead><tbody><?php foreach(array_merge($appointments,$appointments) as $a): ?><?php $cls=['Agendada'=>'st-blue','Confirmada'=>'st-green','Check-in'=>'st-mint','Em consulta'=>'st-consult','Em exame'=>'st-exam','Em observação'=>'st-warn','Concluída'=>'st-done','Cancelada'=>'st-cancel'][$a['status']] ?? 'st-blue'; ?><tr><td><?= h($a['time']) ?></td><td><?= h($a['tutor']) ?></td><td><?= h($a['animal']) ?></td><td><?= h($a['service']) ?></td><td><?= h($a['vet']) ?></td><td><span class="status <?= h($cls) ?>"><?= h($a['status']) ?></span></td><td><button class="btn btn-clinical btn-small" data-toast-btn>Gerir</button></td></tr><?php endforeach; ?></tbody></table></section>
+        <?php elseif (in_array($page,['patients','tutors','services','vets','exams','surgery','grooming'],true)): ?>
+          <section class="grid3"><?php for($i=1;$i<=9;$i++): ?><article class="card pad"><span class="badge blue"><i class="bi bi-folder2"></i><?= h($adminLinks[$page] ?? $page) ?></span><h3><?= h($adminLinks[$page] ?? $page) ?> #<?= $i ?></h3><p class="muted">Registo administrativo com estado, ações rápidas e gestão interna.</p><button class="btn btn-clinical btn-small" data-toast-btn><?= h($t['actions']) ?></button></article><?php endfor; ?></section>
+        <?php elseif ($page === 'reports'): ?>
+          <section class="report-grid"><div class="chart"><?php foreach([64,78,50,92,80,88,71,95,67,74] as $h): ?><div class="bar" style="height:<?= h($h) ?>%"></div><?php endforeach; ?></div><div class="panel pad"><h3><?= h($t['reports']) ?></h3><p class="muted">Receita, ocupação, consultas, exames, grooming e retenção de planos.</p><ul class="list"><li><i class="bi bi-check2"></i>Taxa de marcações confirmadas</li><li><i class="bi bi-check2"></i>Serviços mais vendidos</li><li><i class="bi bi-check2"></i>Planos ativos</li></ul></div></section>
+        <?php elseif ($page === 'settings'): ?>
+          <section class="settings-grid"><div class="panel pad"><h3>Clínica</h3><div class="form-grid"><div class="field full"><label>Nome</label><input class="input" value="VetCare Plus"></div><div class="field"><label>Telefone</label><input class="input" value="+351 220 000 000"></div><div class="field"><label>WhatsApp</label><input class="input" value="+351 912 345 678"></div></div></div><div class="panel pad"><h3>Horários</h3><div class="form-grid"><div class="field"><label>Seg–Sáb</label><input class="input" value="08:00–21:00"></div><div class="field"><label>Domingo</label><input class="input" value="09:00–13:00"></div></div></div></section>
+        <?php endif; ?>
+      <?php endif; ?>
+    </main>
   </div>
-</header>
-
-
-
-
- <section id="inicio" class="hero">
-  <div class="hero-overlay"></div>
-
-  <div class="hero-content" data-aos="fade-up">
-    <h1 class="headline">Cuidamos com amor do seu melhor amigo <span class="emoji">🐶🐱</span></h1>
-    <p class="subtext">Consultas, banho, vacinas e muito carinho!</p>
-    <button class="btn-hero" onclick="document.getElementById('contato').scrollIntoView({behavior: 'smooth'})">
-      💌 Agende Agora
-    </button>
-  </div>
-
-  <div class="pata pata1">🐾</div>
-  <div class="pata pata2">🐾</div>
-  <div class="passarinho">🐦</div>
-</section>
-
-
-
-<section id="sobre" style="padding: 100px 0 60px; background: #f7fcfe;">
-  <div class="container" data-aos="fade-up">
-    <div style="display: flex; flex-wrap: wrap; gap: 60px; align-items: center; justify-content: center;">
-      
-      <!-- Texto -->
-      <div style="flex: 1; min-width: 320px;">
-        <h2 style="font-family: 'Fredoka', sans-serif; font-size: 2.4rem; color: #4a9a9f; margin-bottom: 30px;">
-          🏥 Cuidando de Vidas com Amor
-        </h2>
-        <p style="font-size: 1.2rem; line-height: 1.7; color: #444; font-family: 'Kalam', cursive;">
-          Somos uma clínica veterinária que vai além da consulta. Aqui, cada animal é tratado como família, com atenção, carinho e estrutura moderna. Nossa missão é oferecer <strong>saúde, segurança e felicidade</strong> para o seu pet!
-        </p>
-        <ul style="margin-top: 30px; list-style: none; padding-left: 0; font-size: 1.05rem; color: #333; line-height: 1.8;">
-          <li>🐾 Clínica completa e moderna</li>
-          <li>🩺 Equipe apaixonada por pets</li>
-          <li>💖 Ambiente acolhedor e seguro</li>
-        </ul>
-      </div>
-
-      <!-- Imagem com moldura circular animada -->
-      <div style="flex: 1; min-width: 320px; display: flex; justify-content: center;">
-        <div style="border-radius: 50%; overflow: hidden; border: 10px solid #d6f4f8; box-shadow: 0 8px 24px rgba(0,0,0,0.1); animation: pulseImg 3s infinite;">
-          <img src="https://cdn.pixabay.com/photo/2017/09/25/13/12/veterinarian-2785074_1280.jpg" alt="Clínica Veterinária" style="width: 300px; height: 300px; object-fit: cover;">
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Carrossel de Imagens -->
-<section style="background: #fff; padding: 40px 0;">
-  <div class="container" data-aos="zoom-in">
-    <h3 style="text-align: center; font-family: 'Fredoka', sans-serif; color: #4a9a9f; font-size: 2rem; margin-bottom: 30px;">🐶 Nosso Dia a Dia na Clínica</h3>
-    
-    <div class="carousel-container">
-      <div class="carousel-track">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7eTT1QGMGlmelMGe5F9eg2HmVQvJOiyxY7w&s" alt="Pet feliz">
-        <img src="https://i.pinimg.com/736x/8d/a4/70/8da4705ad8de7301ab5f92ab4db43e5f.jpg" alt="Banho divertido">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuDKDf3tVTFxVI5mVWDbfzKX-aCi8ncavd1Q&s" alt="Pet brincando">
-        <img src="https://purina.com.br/sites/default/files/2024-08/consulta-veterinaria-filhotes-br.jpg" alt="Consulta atenciosa">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6h8OpsUg4QKZutQW-LV6z8DsjGdPQRiLNKw&s" alt="Carinho com gatos">
-      </div>
-    </div>
-  </div>
-</section>
-
-
-
-<section id="servicos" style="padding: 80px 0; background: #eafcff; position: relative; overflow: hidden;">
-  <!-- Pegadas animadas -->
-  <div class="animacao-pegadas">
-    <span>🐾</span><span>🐾</span><span>🐾</span><span>🐾</span>
-  </div>
-
-  <!-- Áudios -->
-  <audio id="som-miado" src="https://assets.mixkit.co/sfx/preview/mixkit-small-cat-meow-81.mp3"></audio>
-  <audio id="som-latido" src="https://assets.mixkit.co/sfx/preview/mixkit-dog-barking-twice-1.mp3"></audio>
-
- <div class="container" data-aos="fade-up" style="padding: 80px 20px;">
-  <h2 style="
-    text-align: center;
-    font-family: 'Playfair Display', serif;
-    font-weight: 800;
-    color: #2ba5c4;
-    font-size: 2.4rem;
-    margin-bottom: 10px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;">
-    🐶 Serviços com Muito Amor
-  </h2>
-
-  <p style="text-align: center; font-size: 1.05rem; color: #555; margin-bottom: 40px;">
-    👆 <strong>Clique em um serviço para ver mais detalhes.</strong>
-  </p>
-
-  <div style="
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 30px;
-    max-width: 1140px;
-    margin: 0 auto;">
-    
-    <div class="card-servico" onclick="abrirModal('Consulta Veterinária', 'Consultas detalhadas, exames e check-up para garantir a saúde do seu pet.')">
-      <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" alt="Consulta" class="img-servico">
-      <h4>Consulta</h4>
-    </div>
-
-    <div class="card-servico" onclick="abrirModal('Vacinação', 'Vacinas atualizadas com carinho e responsabilidade.')">
-      <img src="https://cdn-icons-png.flaticon.com/512/616/616430.png" alt="Vacinação" class="img-servico">
-      <h4>Vacinação</h4>
-    </div>
-
-    <div class="card-servico" onclick="abrirModal('Banho e Tosa', 'Espaço higiênico, com produtos de qualidade e cuidado total.')">
-      <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" alt="Banho e Tosa" class="img-servico">
-      <h4>Banho & Tosa</h4>
-    </div>
-
-    <div class="card-servico" onclick="abrirModal('Hotelzinho', 'Hospedagem segura, com amor e monitoramento diário.')">
-      <img src="https://cdn-icons-png.flaticon.com/512/616/616401.png" alt="Hotelzinho" class="img-servico">
-      <h4>Hotelzinho</h4>
-    </div>
-
-    <div class="card-servico" onclick="abrirModal('Petshop', 'Produtos selecionados com curadoria e carinho para seu pet.')">
-      <img src="https://cdn-icons-png.flaticon.com/512/616/616493.png" alt="Petshop" class="img-servico">
-      <h4>Petshop</h4>
-    </div>
-
-  </div>
-</div>
-
-
-  <!-- Modal de Serviços -->
-  <div id="modal-servico" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6); z-index:9999; align-items:center; justify-content:center;">
-    <div style="background:white; padding:30px; border-radius:15px; width:90%; max-width:500px; text-align:center; position:relative;">
-      <span onclick="fecharModal()" style="position:absolute; right:15px; top:10px; font-size:24px; cursor:pointer;">&times;</span>
-      <h3 id="modal-titulo" style="color:#2ba5c4;"></h3>
-      <p id="modal-descricao" style="color:#444;"></p>
-    </div>
-  </div>
-
-  <style>
-   .card-servico {
-  background: #fff;
-  padding: 2rem 1.5rem;
-  border-radius: 1rem;
-  text-align: center;
-  width: 220px;
-  cursor: pointer;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
-}
-
-.card-servico:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.15);
-  background: #f5fdff;
-}
-
-.img-servico {
-  width: 60px;
-  height: 60px;
-  margin-bottom: 0.8rem;
-  transition: transform 0.3s ease;
-}
-
-.card-servico:hover .img-servico {
-  transform: scale(1.15) rotate(-4deg);
-}
-
-.card-servico h4 {
-  font-size: 1.1rem;
-  color: #2ba5c4;
-  font-weight: 700;
-}
-
-
-    .animacao-pegadas {
-      position: absolute;
-      top: 60%;
-      left: -300px;
-      display: flex;
-      gap: 10px;
-      font-size: 2rem;
-      animation: andarPegadas 20s linear infinite;
-      opacity: 0.2;
-      pointer-events: none;
-    }
-
-    @keyframes andarPegadas {
-      0% { left: -300px; top: 60%; }
-      50% { top: 62%; }
-      100% { left: 110%; top: 60%; }
-    }
-  </style>
-
-  <script>
-    function abrirModal(titulo, descricao) {
-      document.getElementById('modal-titulo').innerText = titulo;
-      document.getElementById('modal-descricao').innerText = descricao;
-      document.getElementById('modal-servico').style.display = 'flex';
-    }
-    function fecharModal() {
-      document.getElementById('modal-servico').style.display = 'none';
-    }
-
-    const somLatido = document.getElementById('som-latido');
-    const somMiado = document.getElementById('som-miado');
-    document.querySelectorAll('.card-servico').forEach((card, index) => {
-      card.addEventListener('mouseenter', () => {
-        if (index % 2 === 0) {
-          somLatido.currentTime = 0;
-          somLatido.play();
-        } else {
-          somMiado.currentTime = 0;
-          somMiado.play();
-        }
-      });
-    });
-  </script>
-</section>
-
-
-<section id="equipe" style="padding: 80px 0; background: #fff3f9; position: relative; overflow: hidden;">
-  <!-- Fundo com patinhas decorativas -->
-  <div class="decor-patas"></div>
-
-  <div class="container" data-aos="fade-up">
-    <h2 style="text-align: center; color: #d75da5; font-size: 2.5rem; margin-bottom: 50px; font-family: 'Comic Sans MS', cursive;">
-      🐾 Nossa Equipe de Heróis Pet
-    </h2>
-
-    <div class="equipe-grid">
-      <!-- Dra. Sofia -->
-      <div class="card-equipe">
-        <img src="https://img.freepik.com/vetores-gratis/veterinario-com-o-cao-engracado-dos-desenhos-animados-e-ilustracao-do-vetor-personagens-isolados_1196-293.jpg" alt="Dra. Sofia">
-        <h4>Dra. Sofia Lima</h4>
-        <p>Clínica Geral <br> 👩‍⚕️ 10 anos de experiência</p>
-      </div>
-
-      <!-- Dr. Ricardo -->
-      <div class="card-equipe">
-        <img src="https://thumbs.dreamstime.com/b/car%C3%A1ter-amig%C3%A1vel-do-veterin%C3%A1rio-dos-desenhos-animados-o-doutor-feliz-com-um-dobrador-e-estetosc%C3%B3pio-est%C3%A1-perto-c%C3%A3o-de-puxar-104174222.jpg" alt="Dr. Ricardo">
-        <h4>Dr. Ricardo Alves</h4>
-        <p>Cirurgia e Ortopedia <br> 🦴 Especialista em grandes e pequenos animais</p>
-      </div>
-    </div>
-  </div>
-
-  <style>
-    .equipe-grid {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 40px;
-    }
-
-    .card-equipe {
-      background: #fff;
-      border-radius: 20px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-      padding: 20px;
-      max-width: 240px;
-      text-align: center;
-      transition: transform 0.4s, box-shadow 0.4s;
-      cursor: pointer;
-      position: relative;
-    }
-
-    .card-equipe:hover {
-      transform: translateY(-10px) scale(1.05);
-      box-shadow: 0 8px 30px rgba(215, 93, 165, 0.3);
-    }
-
-    .card-equipe img {
-      width: 100%;
-      height: auto;
-      border-radius: 50%;
-      object-fit: cover;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      margin-bottom: 15px;
-      transition: transform 0.3s ease;
-    }
-
-    .card-equipe:hover img {
-      transform: scale(1.05);
-    }
-
-    .card-equipe h4 {
-      color: #d75da5;
-      font-size: 1.2rem;
-      margin-bottom: 8px;
-      font-family: 'Trebuchet MS', sans-serif;
-    }
-
-    .card-equipe p {
-      font-size: 0.95rem;
-      color: #444;
-      line-height: 1.4;
-      font-family: 'Arial Rounded MT Bold', sans-serif;
-    }
-
-    /* Patinhas de fundo */
-    .decor-patas {
-      background-image: url('https://cdn-icons-png.flaticon.com/512/616/616408.png');
-      background-repeat: repeat;
-      background-size: 50px;
-      opacity: 0.03;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    #equipe .container {
-      position: relative;
-      z-index: 1;
-    }
-
-    @media (max-width: 600px) {
-      .card-equipe {
-        max-width: 90%;
-      }
-    }
-  </style>
-</section>
-
-
-<section id="galeria" style="padding: 80px 0; background: #f0fcff;">
-  <div class="container" data-aos="zoom-in">
-    <h2 style="text-align: center; color: #5cbdd0; font-size: 2.3rem; margin-bottom: 50px; font-family: 'Comic Sans MS', cursive;">
-      📸 Momentos Felizes dos Nossos Pacientes
-    </h2>
-
-    <div class="galeria-carousel">
-      <div class="galeria-slide">
-        <img src="https://love.doghero.com.br/wp-content/uploads/2018/12/golden-retriever-1.png" alt="Pet feliz">
-      </div>
-      <div class="galeria-slide">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlaTwF5ldhd2FnhqwQMxdHhj9bfFKSYHRrUA&s" alt="Pet banho">
-      </div>
-      <div class="galeria-slide">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrFnc2trFkJoclLVTauTmnwVtBZX6vZRJGvw&s" alt="Pet brincando">
-      </div>
-      <div class="galeria-slide">
-        <img src="https://www.generalitranquilidade.pt/-/media/images/tranquilidade/blog/familia/preco-consulta-veterinario_principal.jpg?rev=9450f4d3e583408faf27c1babf62e8dd" alt="Consulta veterinária">
-      </div>
-    </div>
-  </div>
-
-  <style>
-    .galeria-carousel {
-      display: flex;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      gap: 20px;
-      padding-bottom: 10px;
-    }
-
-    .galeria-slide {
-      flex: 0 0 auto;
-      width: 250px;
-      height: 180px;
-      scroll-snap-align: center;
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.1);
-      transition: transform 0.3s ease;
-    }
-
-    .galeria-slide img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.3s;
-    }
-
-    .galeria-slide:hover img {
-      transform: scale(1.1);
-    }
-
-    /* Scrollbar personalizada */
-    .galeria-carousel::-webkit-scrollbar {
-      height: 8px;
-    }
-
-    .galeria-carousel::-webkit-scrollbar-thumb {
-      background: #5cbdd0;
-      border-radius: 10px;
-    }
-
-    @media (max-width: 600px) {
-      .galeria-slide {
-        width: 200px;
-        height: 140px;
-      }
-    }
-  </style>
-</section>
-
-
-<section id="depoimentos" style="padding: 80px 0; background: #fffaf4;">
-  <div class="container" data-aos="fade-up">
-    <h2 style="text-align: center; color: #f4a261; font-size: 2.2rem; margin-bottom: 50px; font-family: 'Comic Sans MS', cursive;">
-      💬 O que dizem nossos tutores felizes
-    </h2>
-
-    <div class="depoimentos-carousel">
-      <div class="depoimento-card">
-        <p>“A Dra. Sofia cuidou do meu gatinho como se fosse dela. Atendimento impecável!”</p>
-        <span>— Carla Mendes 🐱</span>
-      </div>
-      <div class="depoimento-card">
-        <p>“Nunca vi meu cachorro tão feliz no banho! Recomendo demais!”</p>
-        <span>— Tiago e Thor 🐶</span>
-      </div>
-      <div class="depoimento-card">
-        <p>“Ambiente acolhedor, atendimento humano e muito carinho com os animais. Virei cliente fiel!”</p>
-        <span>— Ana Beatriz 🐾</span>
-      </div>
-      <div class="depoimento-card">
-        <p>“Deixei meu coelhinho por 3 dias no hotelzinho, e ele voltou calmo e cheiroso. Maravilhoso!”</p>
-        <span>— Fernanda 🐰</span>
-      </div>
-    </div>
-  </div>
-
-  <style>
-    .depoimentos-carousel {
-      display: flex;
-      overflow-x: auto;
-      gap: 30px;
-      scroll-snap-type: x mandatory;
-      padding-bottom: 20px;
-    }
-
-    .depoimento-card {
-      flex: 0 0 300px;
-      background: #fff;
-      padding: 25px 20px;
-      border-radius: 20px;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.05);
-      scroll-snap-align: start;
-      transition: transform 0.3s ease;
-    }
-
-    .depoimento-card:hover {
-      transform: translateY(-5px);
-    }
-
-    .depoimento-card p {
-      font-size: 1rem;
-      line-height: 1.6;
-      color: #444;
-      margin-bottom: 15px;
-    }
-
-    .depoimento-card span {
-      font-weight: bold;
-      color: #f4a261;
-      font-size: 0.95rem;
-    }
-
-    .depoimentos-carousel::-webkit-scrollbar {
-      height: 8px;
-    }
-
-    .depoimentos-carousel::-webkit-scrollbar-thumb {
-      background: #f4a261;
-      border-radius: 10px;
-    }
-
-    @media (max-width: 500px) {
-      .depoimento-card {
-        flex: 0 0 90%;
-      }
-    }
-  </style>
-</section>
-
-
-<section id="contato" style="padding: 80px 0; background: #f0fff5;">
-  <div class="container" data-aos="fade-up">
-    <h2 style="text-align: center; color: #4caf50; font-size: 2.2rem; margin-bottom: 40px; font-family: 'Comic Sans MS', cursive;">
-      📬 Fale Conosco com Carinho
-    </h2>
-
-    <?php if (!empty($msg_enviado)): ?>
-      <div style="background: #d4edda; color: #155724; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: center;">
-        <?= $msg_enviado ?>
-      </div>
-    <?php endif; ?>
-
-    <form action="" method="post" style="max-width: 650px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-      <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
-
-      <div style="margin-bottom: 20px;">
-        <label style="color: #333; font-weight: bold;">👤 Nome:</label><br>
-        <input type="text" name="nome" required style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ccc; font-size: 1rem;">
-      </div>
-
-      <div style="margin-bottom: 20px;">
-        <label style="color: #333; font-weight: bold;">📧 Email:</label><br>
-        <input type="email" name="email" required style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ccc; font-size: 1rem;">
-      </div>
-
-      <div style="margin-bottom: 20px;">
-        <label style="color: #333; font-weight: bold;">💬 Mensagem:</label><br>
-        <textarea name="mensagem" rows="5" required style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ccc; font-size: 1rem;"></textarea>
-      </div>
-
-      <div style="text-align: center; margin-top: 30px;">
-        <button type="submit" name="send_msg" style="background: #4caf50; color: white; border: none; padding: 12px 35px; font-size: 1rem; border-radius: 10px; cursor: pointer; transition: background 0.3s;">
-          🐾 Enviar Mensagem
-        </button>
-      </div>
-    </form>
-  </div>
-</section>
-
-<!-- Botão flutuante do WhatsApp -->
-<a href="https://wa.me/351911234567" 
-   class="whatsapp-float" 
-   target="_blank" 
-   rel="noopener" 
-   aria-label="Fale conosco no WhatsApp">
-  <i class="bi bi-whatsapp"></i>
-</a>
-
-
-<footer style="background: linear-gradient(135deg,rgb(201, 182, 205), #2ba5c4); color: white; padding: 40px 20px 20px;">
-  <div class="container" style="max-width: 1200px; margin: auto; text-align: center;">
-    
-    <div style="margin-bottom: 25px;">
-      <h3 style="font-size: 1.5rem; margin-bottom: 10px;">🐾 Amor, Cuidado e Dedicação</h3>
-      <p style="font-size: 1rem;">Por todos os latidos, miados e olhares que nos ensinam o verdadeiro amor incondicional. Obrigado por confiar em nossa equipe. 💕</p>
-    </div>
-
-    <div style="margin-bottom: 25px;">
-      <a href="https://facebook.com" target="_blank" style="margin: 0 10px; color: white; text-decoration: none;">
-        <i class="fab fa-facebook-f"></i> Facebook
-      </a>
-      <a href="https://instagram.com" target="_blank" style="margin: 0 10px; color: white; text-decoration: none;">
-        <i class="fab fa-instagram"></i> Instagram
-      </a>
-      <a href="https://wa.me/351900000000" target="_blank" style="margin: 0 10px; color: white; text-decoration: none;">
-        <i class="fab fa-whatsapp"></i> WhatsApp
-      </a>
-    </div>
-
-    <p style="font-size: 0.9rem; margin-bottom: 5px;">
-      &copy; <?= date("Y") ?> Clínica Pet Amor & Cuidado. Todos os direitos reservados.
-    </p>
-    <p style="font-size: 0.8rem; color: #eee;">
-      Desenvolvido com 🐾 por <strong>Alex - Desenvolvedor Web</strong>
-    </p>
-  </div>
-</footer>
-
-<!-- Font Awesome CDN (coloque no <head> ou antes do fechamento do body) -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-
-<!-- Scripts -->
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<?php endif; ?>
+<div class="toast" data-toast>OK</div>
 <script>
-  AOS.init({
-    duration: 800,
-    once: true,
-  });
+(()=>{'use strict';const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>Array.from(r.querySelectorAll(s)),toast=$('[data-toast]');function show(msg='Ação executada'){if(!toast)return;toast.textContent=msg;toast.classList.add('show');clearTimeout(show.t);show.t=setTimeout(()=>toast.classList.remove('show'),2000)}const menu=$('[data-menu]'),btn=$('[data-menu-btn]');if(btn)btn.addEventListener('click',()=>menu.classList.toggle('open'));const lang=$('[data-lang]');if(lang)lang.addEventListener('change',e=>location.href=e.target.value);$$('[data-toast-btn]').forEach(b=>b.addEventListener('click',()=>show('Ação simulada no template')));$$('[data-simple-form]').forEach(f=>f.addEventListener('submit',e=>{e.preventDefault();show('Mensagem enviada')}));const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');obs.unobserve(e.target)}}),{threshold:.12});$$('.reveal').forEach(x=>obs.observe(x));
+let step=0;const form=$('[data-book-form]');function updateSummary(){if(!form)return;const set=(s,v)=>{const n=$(s);if(n)n.textContent=v||'—'};set('[data-s-pet]',form.elements.pet?.value);const sv=$('input[name="service"]:checked')?.closest('.choice')?.querySelector('strong')?.textContent;set('[data-s-service]',sv);set('[data-s-vet]',$('input[name="vet"]:checked')?.value);set('[data-s-date]',form.elements.date?.value);set('[data-s-time]',form.elements.time?.value)}function setStep(n){step=Math.max(0,Math.min(5,n));$$('[data-step-btn]').forEach(b=>b.classList.toggle('active',Number(b.dataset.stepBtn)===step));$$('[data-step]').forEach(s=>s.classList.toggle('active',Number(s.dataset.step)===step));const back=$('[data-back]'),next=$('[data-next]');if(back)back.style.visibility=step===0?'hidden':'visible';if(next)next.textContent=step===5?'Confirmar':'Continuar';updateSummary()}function valid(){if(!form)return true;if(step===0)return form.elements.pet?.value&&form.elements.age?.value;if(step===1)return !!$('input[name="service"]:checked');if(step===2)return !!$('input[name="vet"]:checked');if(step===3)return form.elements.date?.value&&form.elements.time?.value;if(step===4)return form.elements.name?.value&&form.elements.phone?.value&&form.elements.email?.value;return true}function confirmBooking(){const ref='VC-'+Math.floor(1000+Math.random()*9000);location.href='?lang=<?= h($lang) ?>&area=public&page=confirmation&ref='+encodeURIComponent(ref)}if(form){const times=$('[data-times]'),timeInput=$('[data-time-input]');if(times){times.innerHTML=['09:00','10:30','12:00','15:30','17:00','19:00'].map(t=>`<button class="time-btn" type="button" data-time="${t}">${t}</button>`).join('')}document.addEventListener('click',e=>{const tm=e.target.closest('[data-time]');if(tm){$$('[data-time]').forEach(b=>b.classList.toggle('active',b===tm));timeInput.value=tm.dataset.time;updateSummary()}});form.addEventListener('input',updateSummary);form.addEventListener('change',updateSummary);$('[data-back]').addEventListener('click',()=>setStep(step-1));$('[data-next]').addEventListener('click',()=>{if(step<5){if(!valid()){show('Preencha os campos obrigatórios');return}setStep(step+1)}else confirmBooking()});$$('[data-step-btn]').forEach(b=>b.addEventListener('click',()=>{const target=Number(b.dataset.stepBtn);if(target>step&&!valid()){show('Preencha os campos obrigatórios');return}setStep(target)}));setStep(0)}})();
 </script>
-
-<script>
-  const toggleBtn = document.querySelector('.menu-toggle');
-  const navLinks = document.querySelector('.nav-links');
-
-  toggleBtn.addEventListener('click', () => {
-    navLinks.classList.toggle('open');
-  });
-</script>
-
+</body>
+</html>

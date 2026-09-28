@@ -1,12 +1,13 @@
 <?php
+require_once __DIR__ . '/includes/i18n.php';
 http_response_code(404); // Define o código de resposta HTTP
 ?>
 
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="<?= htmlspecialchars(adc_html_lang(), ENT_QUOTES, 'UTF-8') ?>">
 <head>
   <meta charset="UTF-8">
-  <title>Página não encontrada - Erro 404</title>
+  <title><?= htmlspecialchars(t('404.title'), ENT_QUOTES, 'UTF-8') ?></title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     body {
@@ -54,8 +55,8 @@ http_response_code(404); // Define o código de resposta HTTP
 <body>
   <div class="container">
     <h1><i class="fas fa-exclamation-triangle"></i> 404</h1>
-    <p>Ops! A página que você está procurando não existe ou foi movida.</p>
-    <a href="/" class="btn"><i class="fas fa-home"></i> Voltar à Página Inicial</a>
+    <p><?= t('404.message') ?></p>
+    <a href="/" class="btn"><i class="fas fa-home"></i> <?= t('404.back_home') ?></a>
   </div>
 </body>
 </html>

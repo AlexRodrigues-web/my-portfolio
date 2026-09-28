@@ -1,216 +1,1469 @@
 <?php
-/* footer.php – included on every page */
-error_log('Footer loaded – ' . date('c'));
+
+/* ==========================================================
+   ALEXDEVCODE
+   FOOTER GLOBAL
+
+   - PT / EN / ES pelo motor global
+   - Mobile-first
+   - Sem traduções duplicadas
+   - Sem fallback local
+========================================================== */
+
+if (!function_exists('t')) {
+    require_once __DIR__ . '/i18n.php';
+}
+
 $year = date('Y');
+
+
+/* ==========================================================
+   ESCAPE
+========================================================== */
+
+$e = static function (string $value): string {
+    return htmlspecialchars(
+        $value,
+        ENT_QUOTES,
+        'UTF-8'
+    );
+};
+
+
+/* ==========================================================
+   URLs
+========================================================== */
+
+$homeUrl = adc_url('index.php');
+$servicesUrl = adc_url('solucoes.php');
+$projectsUrl = adc_url('projetos.php');
+$aboutUrl = adc_url('sobre.php');
+$contactUrl = adc_url('contato.php?utm_source=website&utm_medium=organic&utm_campaign=footer');
+$templatesUrl = adc_url('templates.php');
+$radarUrl = adc_url('oportunidades.php');
+$guideUrl = adc_url('performance-mini-guide.php?utm_source=website&utm_medium=organic&utm_campaign=footer_guide');
+$privacyUrl = adc_url('politica.php');
+$helpUrl = adc_url('ajuda.php');
+
+$demoFirstUrl = adc_demofirst_url();
+
 ?>
 
-<footer class="footer" id="site-footer">
-  <div class="container footer-grid">
+<footer
+    class="adc-footer"
+    id="site-footer"
+>
 
-    <!-- 1 ▸ Brand -->
-    <div class="brand">
-      <p class="logo">
-        <i data-lucide="code" aria-hidden="true"></i>
-        Alex Oliveira<span class="reg">&reg;</span>
-      </p>
-      <p class="small">
-        &copy; <?= $year; ?> · All&nbsp;rights&nbsp;reserved.<br>
-        ColorADD<span class="reg">&reg;</span> licence in place.
-      </p>
+    <div class="adc-footer-shell">
+
+
+        <!-- ==================================================
+             CONTEÚDO PRINCIPAL
+        =================================================== -->
+
+        <div class="adc-footer-main">
+
+
+            <!-- ==============================================
+                 MARCA
+            =============================================== -->
+
+            <section class="adc-footer-brand">
+
+                <a
+                    href="<?= $e($homeUrl) ?>"
+                    class="adc-footer-logo"
+                    aria-label="AlexDevCode"
+                >
+
+                    <span
+                        class="adc-footer-logo-symbol"
+                        aria-hidden="true"
+                    >
+                        &lt;/&gt;
+                    </span>
+
+                    <span class="adc-footer-logo-text">
+                        Alex<span>Dev</span>Code
+                    </span>
+
+                </a>
+
+
+                <p class="adc-footer-description">
+                    <?= $e(t('footer.positioning')) ?>
+                </p>
+
+
+                <a
+                    href="<?= $e($contactUrl) ?>"
+                    class="adc-footer-status"
+                >
+
+                    <span
+                        class="adc-footer-status-dot"
+                        aria-hidden="true"
+                    ></span>
+
+                    <span>
+                        <?= $e(t('footer.availability')) ?>
+                    </span>
+
+                </a>
+
+            </section>
+
+
+
+            <!-- ==============================================
+                 NAVEGAÇÃO
+            =============================================== -->
+
+            <div class="adc-footer-navigation">
+
+
+                <!-- EXPLORAR -->
+
+                <section class="adc-footer-column">
+
+                    <h2>
+                        <?= $e(t('footer.explore')) ?>
+                    </h2>
+
+
+                    <nav
+                        aria-label="<?= $e(t('footer.explore')) ?>"
+                    >
+
+                        <a href="<?= $e($servicesUrl) ?>">
+                            <?= $e(t('footer.services')) ?>
+                        </a>
+
+                        <a href="<?= $e($projectsUrl) ?>">
+                            <?= $e(t('footer.projects')) ?>
+                        </a>
+
+                        <a href="<?= $e($aboutUrl) ?>">
+                            <?= $e(t('footer.about')) ?>
+                        </a>
+
+                        <a href="<?= $e($contactUrl) ?>">
+                            <?= $e(t('footer.contact')) ?>
+                        </a>
+
+                    </nav>
+
+                </section>
+
+
+
+                <!-- ECOSSISTEMA -->
+
+                <section class="adc-footer-column">
+
+                    <h2>
+                        <?= $e(t('footer.ecosystem')) ?>
+                    </h2>
+
+
+                    <nav
+                        aria-label="<?= $e(t('footer.ecosystem')) ?>"
+                    >
+
+                        <a
+                            href="<?= $e($demoFirstUrl) ?>"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="adc-footer-demo"
+                        >
+
+                            <span>DemoFirst</span>
+
+                            <i
+                                class="fa-solid fa-arrow-up-right-from-square"
+                                aria-hidden="true"
+                            ></i>
+
+                        </a>
+
+
+                        <a href="<?= $e($templatesUrl) ?>">
+                            <?= $e(t('footer.templates')) ?>
+                        </a>
+
+
+                        <a href="<?= $e($radarUrl) ?>">
+                            <?= $e(t('footer.radar')) ?>
+                        </a>
+
+                        <a href="<?= $e($guideUrl) ?>">
+                            Mini Guide
+                        </a>
+
+                    </nav>
+
+                </section>
+
+            </div>
+
+
+
+            <!-- ==============================================
+                 CONTACTO
+            =============================================== -->
+
+            <section class="adc-footer-connect">
+
+                <h2>
+                    <?= $e(t('footer.connect')) ?>
+                </h2>
+
+
+                <a
+                    href="<?= $e($contactUrl) ?>"
+                    class="adc-footer-cta"
+                >
+
+                    <span>
+                        <?= $e(t('footer.project_cta')) ?>
+                    </span>
+
+                    <i
+                        class="fa-solid fa-arrow-right"
+                        aria-hidden="true"
+                    ></i>
+
+                </a>
+
+
+                <a
+                    href="mailto:contact@alexdevcode.com"
+                    class="adc-footer-email"
+                >
+                    contact@alexdevcode.com
+                </a>
+
+
+                <div
+                    class="adc-footer-social"
+                    aria-label="<?= $e(t('footer.social_label')) ?>"
+                >
+
+                    <a
+                        href="https://www.linkedin.com/in/alex-rodrigues-1345a11a5/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="LinkedIn"
+                        title="LinkedIn"
+                    >
+                        <i
+                            class="fa-brands fa-linkedin-in"
+                            aria-hidden="true"
+                        ></i>
+                    </a>
+
+
+                    <a
+                        href="https://github.com/AlexRodrigues-web"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="GitHub"
+                        title="GitHub"
+                    >
+                        <i
+                            class="fa-brands fa-github"
+                            aria-hidden="true"
+                        ></i>
+                    </a>
+
+
+                    <a
+                        href="mailto:contact@alexdevcode.com"
+                        aria-label="Email"
+                        title="Email"
+                    >
+                        <i
+                            class="fa-solid fa-envelope"
+                            aria-hidden="true"
+                        ></i>
+                    </a>
+
+
+                    <a
+                        href="https://wa.me/351932121766"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="WhatsApp"
+                        title="WhatsApp"
+                    >
+                        <i
+                            class="fa-brands fa-whatsapp"
+                            aria-hidden="true"
+                        ></i>
+                    </a>
+
+                </div>
+
+
+                <p class="adc-footer-location">
+
+                    <i
+                        class="fa-solid fa-location-dot"
+                        aria-hidden="true"
+                    ></i>
+
+                    <span>
+                        <?= $e(t('footer.location')) ?>
+                    </span>
+
+                </p>
+
+            </section>
+
+        </div>
+
+
+
+        <!-- ==================================================
+             RODAPÉ INFERIOR
+        =================================================== -->
+
+        <div class="adc-footer-bottom">
+
+            <p class="adc-footer-copyright">
+
+                &copy;
+                <?= $e((string) $year) ?>
+
+                <strong>AlexDevCode</strong>.
+
+                <?= $e(t('footer.rights')) ?>
+
+            </p>
+
+
+            <nav
+                class="adc-footer-legal"
+                aria-label="<?= $e(t('footer.legal_nav')) ?>"
+            >
+
+                <a href="<?= $e($privacyUrl) ?>">
+                    <?= $e(t('footer.privacy')) ?>
+                </a>
+
+                <a href="<?= $e($helpUrl) ?>">
+                    <?= $e(t('footer.help')) ?>
+                </a>
+
+            </nav>
+
+        </div>
+
     </div>
 
-    <!-- 2 ▸ Quick links -->
-    <nav class="quick" aria-label="Quick links">
-      <a href="index.php"><i data-lucide="home"></i> Home</a>
-      <a href="sobre.php"><i data-lucide="user-circle"></i> About</a>
-      <a href="projetos.php"><i data-lucide="folders"></i> Projects</a>
-      <a href="contato.php"><i data-lucide="mail"></i> Contact</a>
-      <a href="templates.php"><i data-lucide="layers"></i> Templates</a>
-      <a href="politica.php"><i data-lucide="shield-check"></i> Privacy</a>
-      <a href="ajuda.php"><i data-lucide="help-circle"></i> Help</a>
-    </nav>
 
-    <!-- 3 ▸ Social -->
-    <div class="social" aria-label="Social media">
-      <a href="https://www.linkedin.com/in/alex-rodrigues-1345a11a5/"
-         target="_blank" rel="noopener" aria-label="LinkedIn">
-        <i data-lucide="linkedin"></i>
-      </a>
-      <a href="https://github.com/AlexRodrigues-web"
-         target="_blank" rel="noopener" aria-label="GitHub">
-        <i data-lucide="github"></i>
-      </a>
-      <a href="mailto:alexrroliver200@gmail.com" aria-label="E-mail">
-        <i data-lucide="send"></i>
-      </a>
-    </div>
-  </div>
 
-  <!-- 4 ▸ Certificados (colapsável) -->
-  <div class="certificados">
-    <button class="cert-btn" onclick="toggleCertificados()">📜 Ver Certificados</button>
-    <ul id="cert-list" class="cert-list">
-      <li><a href="https://media.networkme.io/simulatorcertificate/70024d54-3e56-411f-92b1-f6c56f1cde0f/e076b7da-61e0-4ee1-9092-2ae9e9c55cae/application_support_engineer_natixis_alex_oliveira.pdf" target="_blank">Application Support Engineer – Natixis</a></li>
-      <li><a href="https://media.networkme.io/simulatorcertificate/660f70f4-403b-4052-bc21-f5e79b6964b8/e076b7da-61e0-4ee1-9092-2ae9e9c55cae/big_data_engineer_natixis_alex_oliveira.pdf" target="_blank">Big Data Engineer – Natixis</a></li>
-      <li><a href="https://media.networkme.io/simulatorcertificate/e163bd78-4ae0-4c61-8bd0-973b5c7f1339/e076b7da-61e0-4ee1-9092-2ae9e9c55cae/.net_developer_decode_alex_oliveira.pdf" target="_blank">.NET Developer – Decode</a></li>
-      <li><a href="https://media.networkme.io/simulatorcertificate/58cd5beb-448b-4306-a651-3f26d512597d/e076b7da-61e0-4ee1-9092-2ae9e9c55cae/azure_developer_microsoft_education_alex_oliveira.pdf" target="_blank">Azure Developer – Microsoft Education</a></li>
-      <li><a href="https://media.networkme.io/simulatorcertificate/cbb94fa0-85e1-42c7-97cf-367440294a08/e076b7da-61e0-4ee1-9092-2ae9e9c55cae/_engenheiro_de_sistemas_the_navigator_company_alex_oliveira.pdf" target="_blank">Engenheiro de Sistemas – Navigator Company</a></li>
-      <li><a href="https://media.networkme.io/simulatorcertificate/b70f384d-25de-48db-821c-4400a21db37e/e076b7da-61e0-4ee1-9092-2ae9e9c55cae/kyc_vetting_analyst_natixis_alex_oliveira.pdf" target="_blank">KYC Vetting Analyst – Natixis</a></li>
-      <li><a href="https://media.networkme.io/simulatorcertificate/2fe11775-0ae4-4b25-a434-4119bd8076f0/e076b7da-61e0-4ee1-9092-2ae9e9c55cae/s&e_transaction_monitoring_analyst_natixis_alex_oliveira.pdf" target="_blank">S&E Transaction Monitoring Analyst – Natixis</a></li>
-      <li><a href="https://www.hackerrank.com/certificates/iframe/5e29101ecc7e" target="_blank">HackerRank Cert 1</a></li>
-      <li><a href="https://www.hackerrank.com/certificates/iframe/2fec96019b4a" target="_blank">HackerRank Cert 2</a></li>
-      <li><a href="https://www.hackerrank.com/certificates/iframe/05e10170531d" target="_blank">HackerRank Cert 3</a></li>
-      <li><a href="https://www.hackerrank.com/certificates/iframe/e3d8f2ca2846" target="_blank">HackerRank Cert 4</a></li>
-      <li><a href="https://www.hackerrank.com/certificates/1def17ab3966" target="_blank">HackerRank Cert 5</a></li>
-    </ul>
-  </div>
+    <!-- ======================================================
+         VOLTAR AO TOPO
+    ======================================================= -->
 
-  <!-- 5 ▸ Tech credit -->
-  <p class="credit">
-    Built with PHP · HTML · CSS · JavaScript
-    <i data-lucide="heart" class="heart" aria-hidden="true"></i>
-  </p>
+    <button
+        type="button"
+        id="adcFooterTop"
+        class="adc-footer-top"
+        aria-label="<?= $e(t('footer.back_top')) ?>"
+        title="<?= $e(t('footer.back_top')) ?>"
+    >
 
-  <!-- 6 ▸ Back-to-top -->
-  <button id="topBtn" class="top-btn" aria-label="Back to top">
-    <i data-lucide="arrow-up"></i>
-  </button>
+        <i
+            class="fa-solid fa-arrow-up"
+            aria-hidden="true"
+        ></i>
+
+    </button>
+
 </footer>
 
-<!-- Assets -->
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-<script src="https://unpkg.com/lucide@latest"></script>
-<script src="assets/js/temas.js"></script>
+
 
 <script>
-  lucide.createIcons();
+(() => {
 
-  // Smooth back-to-top
-  const topBtn = document.getElementById('topBtn');
-  topBtn.addEventListener('click', () =>
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  );
-  window.addEventListener('scroll', () =>
-    topBtn.classList.toggle('show', window.scrollY > 300)
-  );
+    'use strict';
 
-  // Toggle certificados
-  function toggleCertificados() {
-    document.getElementById("cert-list").classList.toggle("show");
-  }
+    const button =
+        document.getElementById('adcFooterTop');
+
+    if (!button) {
+        return;
+    }
+
+
+    const reducedMotion =
+        window.matchMedia(
+            '(prefers-reduced-motion: reduce)'
+        );
+
+
+    const updateButton = () => {
+
+        button.classList.toggle(
+            'is-visible',
+            window.scrollY > 420
+        );
+
+    };
+
+
+    updateButton();
+
+
+    window.addEventListener(
+        'scroll',
+        updateButton,
+        {
+            passive: true
+        }
+    );
+
+
+    button.addEventListener(
+        'click',
+        () => {
+
+            window.scrollTo({
+
+                top: 0,
+
+                behavior:
+                    reducedMotion.matches
+                        ? 'auto'
+                        : 'smooth'
+
+            });
+
+        }
+    );
+
+})();
 </script>
 
-<!-- Footer-specific styles -->
+
+
 <style>
-.footer {
-  background: var(--dark);
-  color: var(--text);
-  padding: 2rem 1rem 1.2rem;
-  border-top: 4px solid var(--accent);
-  position: relative;
-  overflow: hidden;
+
+/* ==========================================================
+   ALEXDEVCODE
+   FOOTER GLOBAL
+   MOBILE-FIRST
+========================================================== */
+
+.adc-footer {
+
+    --adc-footer-bg: #111111;
+
+    --adc-footer-text:
+        #f5f1ed;
+
+    --adc-footer-muted:
+        rgba(245, 241, 237, .64);
+
+    --adc-footer-border:
+        rgba(245, 241, 237, .11);
+
+    --adc-footer-surface:
+        rgba(255, 255, 255, .055);
+
+
+    position: relative;
+
+    overflow: hidden;
+
+
+    background:
+
+        radial-gradient(
+            circle at 5% 0%,
+            rgba(139, 115, 93, .16),
+            transparent 32%
+        ),
+
+        var(--adc-footer-bg);
+
+
+    color:
+        var(--adc-footer-text);
+
+
+    border-top:
+        3px solid
+        var(--accent, #8b735d);
+
+
+    padding:
+        2.7rem 1.15rem
+        1.15rem;
+
 }
-.footer::before {
-  content: ''; position: absolute; inset: 0;
-  background: linear-gradient(135deg, transparent 70%, rgba(0,0,0,.1));
-  pointer-events: none;
+
+
+
+/* ==========================================================
+   CONTAINER
+========================================================== */
+
+.adc-footer-shell {
+
+    width: 100%;
+
+    max-width: 1180px;
+
+    margin: 0 auto;
+
 }
-.footer-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-  justify-content: space-between;
-  align-items: flex-start;
+
+
+
+/* ==========================================================
+   ESTRUTURA PRINCIPAL
+========================================================== */
+
+.adc-footer-main {
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr);
+
+    gap: 2.25rem;
+
 }
-.logo {
-  font-family: 'Oswald', sans-serif;
-  font-size: 1.5rem;
-  display: flex;
-  align-items: center;
-  gap: .4rem;
-  color: var(--accent);
+
+
+
+/* ==========================================================
+   MARCA
+========================================================== */
+
+.adc-footer-brand {
+
+    max-width: 430px;
+
 }
-.logo i { font-size: 1.3rem }
-.reg { font-size: .7rem; vertical-align: super; margin-left: 1px }
-.small {
-  font-size: .8rem;
-  color: var(--light-accent);
-  margin-top: .3rem;
-  line-height: 1.4;
+
+
+.adc-footer-logo {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: .72rem;
+
+
+    color: #fff;
+
+    text-decoration: none;
+
 }
-.quick a {
-  display: flex;
-  align-items: center;
-  gap: .4rem;
-  color: var(--text);
-  font-size: .9rem;
-  margin: .1rem 0;
-  transition: color .3s;
+
+
+.adc-footer-logo-symbol {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+    width: 42px;
+
+    height: 42px;
+
+    flex: 0 0 42px;
+
+
+    border-radius: 12px;
+
+
+    background:
+        var(--accent, #8b735d);
+
+
+    color: #fff;
+
+
+    font-family:
+        Consolas,
+        Monaco,
+        monospace;
+
+
+    font-size: .8rem;
+
+    font-weight: 800;
+
+
+    box-shadow:
+        0 8px 22px
+        rgba(0, 0, 0, .22);
+
 }
-.quick a:hover { color: var(--accent) }
-.quick i { font-size: 1rem }
-.social a {
-  font-size: 1.3rem;
-  margin-right: .8rem;
-  color: var(--light-accent);
-  transition: color .3s;
+
+
+.adc-footer-logo-text {
+
+    font-family:
+        'Oswald',
+        sans-serif;
+
+
+    font-size: 1.72rem;
+
+    font-weight: 700;
+
+    line-height: 1;
+
+
+    letter-spacing: -.035em;
+
 }
-.social a:hover { color: var(--accent) }
-.credit {
-  text-align: center;
-  margin-top: 1.4rem;
-  font-size: .85rem;
-  color: var(--light-accent);
+
+
+.adc-footer-logo-text span {
+
+    color:
+        var(
+            --light-accent,
+            #c6b8a9
+        );
+
 }
-.heart {
-  color: #e45858;
-  vertical-align: middle;
+
+
+
+/* ==========================================================
+   DESCRIÇÃO
+========================================================== */
+
+.adc-footer-description {
+
+    max-width: 400px;
+
+
+    margin:
+        1rem 0 0;
+
+
+    color:
+        var(--adc-footer-muted);
+
+
+    font-size: .87rem;
+
+    line-height: 1.65;
+
 }
-.top-btn {
-  position: fixed;
-  right: 1.2rem;
-  bottom: 1.2rem;
-  background: var(--accent);
-  border: none;
-  color: #fff;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: var(--shadow);
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(20px);
-  transition: .3s;
+
+
+
+/* ==========================================================
+   DISPONIBILIDADE
+========================================================== */
+
+.adc-footer-status {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: .55rem;
+
+
+    margin-top: 1rem;
+
+
+    color:
+        var(--adc-footer-text);
+
+
+    text-decoration: none;
+
+
+    font-size: .8rem;
+
+    font-weight: 600;
+
+
+    transition:
+        color .2s ease;
+
 }
-.top-btn i { font-size: 1.2rem }
-.top-btn.show {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
+
+
+.adc-footer-status:hover {
+
+    color:
+        var(
+            --light-accent,
+            #c6b8a9
+        );
+
 }
-.certificados {
-  text-align: center;
-  margin-top: 1.5rem;
+
+
+.adc-footer-status-dot {
+
+    width: 8px;
+
+    height: 8px;
+
+    flex: 0 0 8px;
+
+
+    border-radius: 50%;
+
+
+    background:
+        #66c987;
+
+
+    box-shadow:
+        0 0 0 4px
+        rgba(102, 201, 135, .11);
+
 }
-.cert-btn {
-  background: none;
-  color: var(--light-accent);
-  border: none;
-  cursor: pointer;
-  font-size: 0.9rem;
-  text-decoration: underline;
-  padding: 0.4rem;
+
+
+
+/* ==========================================================
+   NAVEGAÇÃO
+========================================================== */
+
+.adc-footer-navigation {
+
+    display: grid;
+
+
+    grid-template-columns:
+        repeat(
+            2,
+            minmax(0, 1fr)
+        );
+
+
+    gap: 1.7rem;
+
 }
-.cert-list {
-  display: none;
-  margin-top: 0.7rem;
-  list-style: none;
-  padding: 0;
-  font-size: 0.85rem;
+
+
+.adc-footer-column h2,
+.adc-footer-connect h2 {
+
+    margin:
+        0 0 .85rem;
+
+
+    color: #fff;
+
+
+    font-family:
+        'Poppins',
+        sans-serif;
+
+
+    font-size: .7rem;
+
+    font-weight: 700;
+
+
+    letter-spacing: .1em;
+
+
+    text-transform: uppercase;
+
 }
-.cert-list.show { display: block; }
+
+
+.adc-footer-column nav {
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+
+    gap: .64rem;
+
+}
+
+
+.adc-footer-column a {
+
+    color:
+        var(--adc-footer-muted);
+
+
+    text-decoration: none;
+
+
+    font-size: .84rem;
+
+    line-height: 1.4;
+
+
+    transition:
+        color .2s ease,
+        transform .2s ease;
+
+}
+
+
+.adc-footer-column a:hover {
+
+    color: #fff;
+
+
+    transform:
+        translateX(3px);
+
+}
+
+
+.adc-footer-demo {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: .4rem;
+
+}
+
+
+.adc-footer-demo i {
+
+    font-size: .62rem;
+
+}
+
+
+
+/* ==========================================================
+   CONTACTO
+========================================================== */
+
+.adc-footer-connect {
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+}
+
+
+
+/* ==========================================================
+   CTA
+========================================================== */
+
+.adc-footer-cta {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+    gap: .7rem;
+
+
+    min-height: 42px;
+
+
+    padding:
+        .68rem .95rem;
+
+
+    border-radius: 10px;
+
+
+    background:
+        #f7f5f2;
+
+
+    color:
+        #171717;
+
+
+    text-decoration: none;
+
+
+    font-size: .8rem;
+
+    font-weight: 700;
+
+
+    transition:
+        transform .2s ease,
+        background .2s ease;
+
+}
+
+
+.adc-footer-cta:hover {
+
+    transform:
+        translateY(-2px);
+
+
+    background:
+        var(
+            --light-accent,
+            #c6b8a9
+        );
+
+}
+
+
+
+/* ==========================================================
+   EMAIL
+========================================================== */
+
+.adc-footer-email {
+
+    margin-top: .9rem;
+
+
+    color:
+        var(--adc-footer-muted);
+
+
+    text-decoration: none;
+
+
+    font-size: .78rem;
+
+
+    overflow-wrap: anywhere;
+
+
+    transition:
+        color .2s ease;
+
+}
+
+
+.adc-footer-email:hover {
+
+    color: #fff;
+
+}
+
+
+
+/* ==========================================================
+   REDES SOCIAIS
+========================================================== */
+
+.adc-footer-social {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+
+    gap: .5rem;
+
+
+    margin-top: 1rem;
+
+}
+
+
+.adc-footer-social a {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+    width: 36px;
+
+    height: 36px;
+
+
+    border:
+        1px solid
+        var(--adc-footer-border);
+
+
+    border-radius: 10px;
+
+
+    background:
+        var(--adc-footer-surface);
+
+
+    color: #fff;
+
+
+    text-decoration: none;
+
+
+    transition:
+        background .2s ease,
+        border-color .2s ease,
+        transform .2s ease;
+
+}
+
+
+.adc-footer-social a:hover {
+
+    transform:
+        translateY(-2px);
+
+
+    background:
+        rgba(139, 115, 93, .25);
+
+
+    border-color:
+        rgba(198, 184, 169, .35);
+
+}
+
+
+.adc-footer-social i {
+
+    font-size: .95rem;
+
+}
+
+
+
+/* ==========================================================
+   LOCALIZAÇÃO
+========================================================== */
+
+.adc-footer-location {
+
+    display: inline-flex;
+
+    align-items: center;
+
+
+    gap: .45rem;
+
+
+    margin:
+        1rem 0 0;
+
+
+    color:
+        var(--adc-footer-muted);
+
+
+    font-size: .77rem;
+
+}
+
+
+.adc-footer-location i {
+
+    color:
+        var(
+            --light-accent,
+            #c6b8a9
+        );
+
+
+    font-size: .75rem;
+
+}
+
+
+
+/* ==========================================================
+   RODAPÉ INFERIOR
+========================================================== */
+
+.adc-footer-bottom {
+
+    display: flex;
+
+    flex-direction: column;
+
+
+    gap: .75rem;
+
+
+    margin-top: 2.4rem;
+
+
+    padding-top: 1.1rem;
+
+
+    border-top:
+        1px solid
+        var(--adc-footer-border);
+
+
+    color:
+        var(--adc-footer-muted);
+
+
+    font-size: .72rem;
+
+}
+
+
+.adc-footer-bottom p {
+
+    margin: 0;
+
+}
+
+
+.adc-footer-bottom strong {
+
+    color:
+        var(
+            --light-accent,
+            #c6b8a9
+        );
+
+
+    font-weight: 600;
+
+}
+
+
+
+/* ==========================================================
+   LEGAL
+========================================================== */
+
+.adc-footer-legal {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+
+    gap: 1rem;
+
+}
+
+
+.adc-footer-legal a {
+
+    color:
+        var(--adc-footer-muted);
+
+
+    text-decoration: none;
+
+
+    transition:
+        color .2s ease;
+
+}
+
+
+.adc-footer-legal a:hover {
+
+    color: #fff;
+
+}
+
+
+
+/* ==========================================================
+   VOLTAR AO TOPO
+========================================================== */
+
+.adc-footer-top {
+
+    position: fixed;
+
+
+    right: 1rem;
+
+    bottom: 1rem;
+
+
+    z-index: 900;
+
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+    width: 42px;
+
+    height: 42px;
+
+
+    padding: 0;
+
+
+    border:
+        1px solid
+        rgba(255, 255, 255, .18);
+
+
+    border-radius: 50%;
+
+
+    background:
+        var(
+            --accent,
+            #8b735d
+        );
+
+
+    color: #fff;
+
+
+    cursor: pointer;
+
+
+    box-shadow:
+        0 8px 22px
+        rgba(0, 0, 0, .25);
+
+
+    opacity: 0;
+
+    visibility: hidden;
+
+
+    transform:
+        translateY(12px);
+
+
+    transition:
+        opacity .2s ease,
+        visibility .2s ease,
+        transform .2s ease,
+        background .2s ease;
+
+}
+
+
+.adc-footer-top.is-visible {
+
+    opacity: 1;
+
+    visibility: visible;
+
+
+    transform:
+        translateY(0);
+
+}
+
+
+.adc-footer-top:hover {
+
+    background:
+        var(
+            --accent-dk,
+            #6e5845
+        );
+
+}
+
+
+
+/* ==========================================================
+   FOCO / ACESSIBILIDADE
+========================================================== */
+
+.adc-footer a:focus-visible,
+.adc-footer button:focus-visible {
+
+    outline:
+        2px solid
+        var(
+            --light-accent,
+            #c6b8a9
+        );
+
+
+    outline-offset: 4px;
+
+}
+
+
+
+/* ==========================================================
+   TABLET
+========================================================== */
+
+@media (min-width: 720px) {
+
+    .adc-footer {
+
+        padding:
+            3rem 1.6rem
+            1.2rem;
+
+    }
+
+
+    .adc-footer-main {
+
+        grid-template-columns:
+            minmax(0, 1.2fr)
+            minmax(0, 1fr);
+
+
+        column-gap: 3rem;
+
+        row-gap: 2.2rem;
+
+    }
+
+
+    .adc-footer-connect {
+
+        grid-column:
+            1 / -1;
+
+    }
+
+
+    .adc-footer-bottom {
+
+        flex-direction: row;
+
+
+        justify-content:
+            space-between;
+
+
+        align-items:
+            center;
+
+    }
+
+}
+
+
+
+/* ==========================================================
+   DESKTOP
+========================================================== */
+
+@media (min-width: 980px) {
+
+    .adc-footer {
+
+        padding:
+            3rem 2rem
+            1.25rem;
+
+    }
+
+
+    .adc-footer-main {
+
+        grid-template-columns:
+            minmax(0, 1.25fr)
+            minmax(300px, 1fr)
+            minmax(230px, .75fr);
+
+
+        align-items: start;
+
+
+        gap: 4rem;
+
+    }
+
+
+    .adc-footer-connect {
+
+        grid-column: auto;
+
+    }
+
+}
+
+
+
+/* ==========================================================
+   MOBILE PEQUENO
+========================================================== */
+
+@media (max-width: 420px) {
+
+    .adc-footer {
+
+        padding-left: 1rem;
+
+        padding-right: 1rem;
+
+    }
+
+
+    .adc-footer-navigation {
+
+        gap: 1.15rem;
+
+    }
+
+
+    .adc-footer-logo-text {
+
+        font-size: 1.55rem;
+
+    }
+
+
+    .adc-footer-cta {
+
+        width: 100%;
+
+    }
+
+}
+
+
+
+/* ==========================================================
+   REDUCED MOTION
+========================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .adc-footer *,
+    .adc-footer *::before,
+    .adc-footer *::after {
+
+        transition:
+            none !important;
+
+
+        scroll-behavior:
+            auto !important;
+
+    }
+
+}
+
 </style>

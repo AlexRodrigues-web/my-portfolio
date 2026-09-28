@@ -1,23 +1,33 @@
-# Ignorar arquivos de log
-log_erros.txt
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+/includes/smtp_config.php
+/backup.sql
 
-# Ignorar a pasta vendor (dependências do Composer)
-vendor/
+# Dependencies
+/vendor/
+/composer/
 
-# Ignorar pasta composer (se existir)
-composer/
-
-# Ignorar arquivos temporários do sistema
+# Runtime and generated data
+/storage/
+/_cache/
+/_tmp/
+/_backup/
+/_growth/
 *.log
 *.cache
 
-# Ignorar arquivos de sistema do Windows
-Thumbs.db
-Desktop.ini
+# Local/legacy working copies
+*.OLD/
+*.bak
+*.bak-*
+*.backup*
 
-# Ignorar arquivos do editor
+# IDE / OS
 .vscode/
 .idea/
-
-# Ignorar arquivos temporários do PHPStorm
 *.iml
+Thumbs.db
+Desktop.ini
+.DS_Store

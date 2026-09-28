@@ -4,7 +4,10 @@ RewriteEngine On
 # Define base se necessário (ajuste para sua pasta, se não estiver na raiz do Apache)
 RewriteBase /
 
-# Redireciona URLs amigáveis
+# Ignora arquivos PHP reais
+RewriteCond %{REQUEST_URI} !\.php$
+
+# Redireciona URLs amigáveis para index.php
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
@@ -16,4 +19,30 @@ Options -Indexes
 <FilesMatch "\.(env|htaccess|ini|log|sql|sh|bak)$">
   Require all denied
 </FilesMatch>
+
+# Página de erro personalizada
 ErrorDocument 404 /404.php
+
+# ==========================================================
+# ALEXDEVCODE - STATIC PERFORMANCE
+# ==========================================================
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/avif "access plus 1 month"
+  ExpiresByType image/webp "access plus 1 month"
+  ExpiresByType image/jpeg "access plus 1 month"
+  ExpiresByType image/png "access plus 1 month"
+  ExpiresByType image/svg+xml "access plus 1 month"
+  ExpiresByType text/css "access plus 7 days"
+  ExpiresByType application/javascript "access plus 7 days"
+  ExpiresByType font/woff2 "access plus 1 month"
+</IfModule>
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css application/javascript application/json application/xml image/svg+xml
+</IfModule>
+<IfModule mod_headers.c>
+  <FilesMatch "\.(?:webp|avif|jpg|jpeg|png|svg|ico|css|js|woff2)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+</IfModule>
+

@@ -418,10 +418,9 @@ body[data-tema="escuro"] {
   color: #eeeeee;
 }
 
-body[data-tema="coloradd"] {
-  background-color: #f9f9f2;
-  color: #2e2e2e;
-}
+/* ColorADD não é tema.
+   A acessibilidade ColorADD é controlada separadamente por
+   body[data-coloradd="on"] no coloradd.css. */
 .oportunidades h1, .oportunidades h2, .oportunidades h3 {
   color: var(--cor-principal);
   margin-top: 2rem;
@@ -511,4 +510,11 @@ body[data-tema="coloradd"] {
   .conteudo-centro {
     margin-top: 1rem;
   }
+}
+/* Logo-friendly */
+.img-container.logo img{
+  object-fit: contain;           /* não corta a marca */
+  height: 200px;                 /* mantém altura da grade */
+  padding: 18px;                 /* respiro ao redor da logo */
+  background: linear-gradient(180deg,#f6f7f9,#eef1f4); /* leve contraste */
 }

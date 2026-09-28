@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://alexdevcode.com/?lang=pt</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://alexdevcode.com/?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://alexdevcode.com/?lang=en" />
+    <xhtml:link rel="alternate" hreflang="es-ES" href="https://alexdevcode.com/?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alexdevcode.com/?lang=pt" />
+  </url>
+  <url>
+    <loc>https://alexdevcode.com/?lang=en</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://alexdevcode.com/?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://alexdevcode.com/?lang=en" />
+    <xhtml:link rel="alternate" hreflang="es-ES" href="https://alexdevcode.com/?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alexdevcode.com/?lang=pt" />
+  </url>
+  <url>
+    <loc>https://alexdevcode.com/?lang=es</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://alexdevcode.com/?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://alexdevcode.com/?lang=en" />
+    <xhtml:link rel="alternate" hreflang="es-ES" href="https://alexdevcode.com/?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alexdevcode.com/?lang=pt" />
+  </url>
+  <url>
+    <loc>https://alexdevcode.com/solucoes.php?lang=pt</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://alexdevcode.com/solucoes.php?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://alexdevcode.com/solucoes.php?lang=en" />
+    <xhtml:link rel="alternate" hreflang="es-ES" href="https://alexdevcode.com/solucoes.php?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alexdevcode.com/solucoes.php?lang=pt" />
+  </url>
+  <url>
+    <loc>https://alexdevcode.com/solucoes.php?lang=en</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://alexdevcode.com/solucoes.php?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://alexdevcode.com/solucoes.php?lang=en" />
+    <xhtml:link rel="alternate" hreflang="es-ES" href="https://alexdevcode.com/solucoes.php?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alexdevcode.com/solucoes.php?lang=pt" />
+  </url>
+  <url>
+    <loc>https://alexdevcode.com/solucoes.php?lang=es</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://alexdevcode.com/solucoes.php?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://alexdevcode.com/solucoes.php?lang=en" />
+    <xhtml:link rel="alternate" hreflang="es-ES" href="https://alexdevcode.com/solucoes.php?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alexdevcode.com/solucoes.php?lang=pt" />
+  </url>
+  <url>
+    <loc>https://alexdevcode.com/projetos.php?lang=pt</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://alexdevcode.com/projetos.php?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://alexdevcode.com/projetos.php?lang=en" />
+    <xhtml:link rel="alternate" hreflang="es-ES" href="https://alexdevcode.com/projetos.php?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alexdevcode.com/projetos.php?lang=pt" />
+  </url>
+  <url>
+    <loc>https://alexdevcode.com/projetos.php?lang=en</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://alexdevcode.com/projetos.php?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://alexdevcode.com/projetos.php?lang=en" />
+    <xhtml:link rel="alternate" hreflang="es-ES" href="https://alexdevcode.com/projetos.php?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alexdevcode.com/projetos.php?lang=pt" />
+  </url>
+  <url>
+    <loc>https://alexdevcode.com/projetos.php?lang=es</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://alexdevcode.com/projetos.php?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://alexdevcode.com/projetos.php?lang=en" />
+    <xhtml:link rel="alternate" hreflang="es-ES" href="https://alexdevcode.com/projetos.php?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alexdevcode.com/projetos.php?lang=pt" />
+  </url>
+  <url>
+    <loc>https://alexdevcode.com/contato.php?lang=pt</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.90</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://alexdevcode.com/contato.php?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://alexdevcode.com/contato.php?lang=en" />
+    <xhtml:link rel="alternate" hreflang="es-ES" href="https://alexdevcode.com/contato.php?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alexdevcode.com/contato.php?lang=pt" />
+  </url>
+  <url>
+    <loc>https://alexdevcode.com/contato.php?lang=en</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.90</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://alexdevcode.com/contato.php?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://alexdevcode.com/contato.php?lang=en" />
+    <xhtml:link rel="alternate" hreflang="es-ES" href="https://alexdevcode.com/contato.php?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alexdevcode.com/contato.php?lang=pt" />
+  </url>
+  <url>
+    <loc>https://alexdevcode.com/contato.php?lang=es</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.90</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://alexdevcode.com/contato.php?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://alexdevcode.com/contato.php?lang=en" />
+    <xhtml:link rel="alternate" hreflang="es-ES" href="https://alexdevcode.com/contato.php?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alexdevcode.com/contato.php?lang=pt" />
+  </url>
+  <url>
+    <loc>https://alexdevcode.com/sobre.php?lang=pt</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://alexdevcode.com/sobre.php?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://alexdevcode.com/sobre.php?lang=en" />
+    <xhtml:link rel="alternate" hreflang="es-ES" href="https://alexdevcode.com/sobre.php?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alexdevcode.com/sobre.php?lang=pt" />
+  </url>
+  <url>
+    <loc>https://alexdevcode.com/sobre.php?lang=en</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://alexdevcode.com/sobre.php?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://alexdevcode.com/sobre.php?lang=en" />
+    <xhtml:link rel="alternate" hreflang="es-ES" href="https://alexdevcode.com/sobre.php?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alexdevcode.com/sobre.php?lang=pt" />
+  </url>
+  <url>
+    <loc>https://alexdevcode.com/sobre.php?lang=es</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://alexdevcode.com/sobre.php?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://alexdevcode.com/sobre.php?lang=en" />
+    <xhtml:link rel="alternate" hreflang="es-ES" href="https://alexdevcode.com/sobre.php?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alexdevcode.com/sobre.php?lang=pt" />
+  </url>
+  <url>
+    <loc>https://alexdevcode.com/templates.php?lang=pt</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://alexdevcode.com/templates.php?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://alexdevcode.com/templates.php?lang=en" />
+    <xhtml:link rel="alternate" hreflang="es-ES" href="https://alexdevcode.com/templates.php?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alexdevcode.com/templates.php?lang=pt" />
+  </url>
+  <url>
+    <loc>https://alexdevcode.com/templates.php?lang=en</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://alexdevcode.com/templates.php?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://alexdevcode.com/templates.php?lang=en" />
+    <xhtml:link rel="alternate" hreflang="es-ES" href="https://alexdevcode.com/templates.php?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alexdevcode.com/templates.php?lang=pt" />
+  </url>
+  <url>
+    <loc>https://alexdevcode.com/templates.php?lang=es</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://alexdevcode.com/templates.php?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://alexdevcode.com/templates.php?lang=en" />
+    <xhtml:link rel="alternate" hreflang="es-ES" href="https://alexdevcode.com/templates.php?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alexdevcode.com/templates.php?lang=pt" />
+  </url>
+  <url>
+    <loc>https://alexdevcode.com/oportunidades.php?lang=pt</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.75</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://alexdevcode.com/oportunidades.php?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://alexdevcode.com/oportunidades.php?lang=en" />
+    <xhtml:link rel="alternate" hreflang="es-ES" href="https://alexdevcode.com/oportunidades.php?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alexdevcode.com/oportunidades.php?lang=pt" />
+  </url>
+  <url>
+    <loc>https://alexdevcode.com/oportunidades.php?lang=en</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.75</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://alexdevcode.com/oportunidades.php?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://alexdevcode.com/oportunidades.php?lang=en" />
+    <xhtml:link rel="alternate" hreflang="es-ES" href="https://alexdevcode.com/oportunidades.php?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alexdevcode.com/oportunidades.php?lang=pt" />
+  </url>
+  <url>
+    <loc>https://alexdevcode.com/oportunidades.php?lang=es</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.75</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://alexdevcode.com/oportunidades.php?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://alexdevcode.com/oportunidades.php?lang=en" />
+    <xhtml:link rel="alternate" hreflang="es-ES" href="https://alexdevcode.com/oportunidades.php?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alexdevcode.com/oportunidades.php?lang=pt" />
+  </url>
+  <url>
+    <loc>https://alexdevcode.com/performance-mini-guide.php?lang=pt</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://alexdevcode.com/performance-mini-guide.php?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://alexdevcode.com/performance-mini-guide.php?lang=en" />
+    <xhtml:link rel="alternate" hreflang="es-ES" href="https://alexdevcode.com/performance-mini-guide.php?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alexdevcode.com/performance-mini-guide.php?lang=pt" />
+  </url>
+  <url>
+    <loc>https://alexdevcode.com/performance-mini-guide.php?lang=en</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://alexdevcode.com/performance-mini-guide.php?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://alexdevcode.com/performance-mini-guide.php?lang=en" />
+    <xhtml:link rel="alternate" hreflang="es-ES" href="https://alexdevcode.com/performance-mini-guide.php?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alexdevcode.com/performance-mini-guide.php?lang=pt" />
+  </url>
+  <url>
+    <loc>https://alexdevcode.com/performance-mini-guide.php?lang=es</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://alexdevcode.com/performance-mini-guide.php?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://alexdevcode.com/performance-mini-guide.php?lang=en" />
+    <xhtml:link rel="alternate" hreflang="es-ES" href="https://alexdevcode.com/performance-mini-guide.php?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alexdevcode.com/performance-mini-guide.php?lang=pt" />
+  </url>
+  <url>
+    <loc>https://alexdevcode.com/criacao-sites-gaia.php?lang=pt</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://alexdevcode.com/criacao-sites-gaia.php?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://alexdevcode.com/criacao-sites-gaia.php?lang=en" />
+    <xhtml:link rel="alternate" hreflang="es-ES" href="https://alexdevcode.com/criacao-sites-gaia.php?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alexdevcode.com/criacao-sites-gaia.php?lang=pt" />
+  </url>
+  <url>
+    <loc>https://alexdevcode.com/criacao-sites-gaia.php?lang=en</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://alexdevcode.com/criacao-sites-gaia.php?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://alexdevcode.com/criacao-sites-gaia.php?lang=en" />
+    <xhtml:link rel="alternate" hreflang="es-ES" href="https://alexdevcode.com/criacao-sites-gaia.php?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alexdevcode.com/criacao-sites-gaia.php?lang=pt" />
+  </url>
+  <url>
+    <loc>https://alexdevcode.com/criacao-sites-gaia.php?lang=es</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://alexdevcode.com/criacao-sites-gaia.php?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://alexdevcode.com/criacao-sites-gaia.php?lang=en" />
+    <xhtml:link rel="alternate" hreflang="es-ES" href="https://alexdevcode.com/criacao-sites-gaia.php?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alexdevcode.com/criacao-sites-gaia.php?lang=pt" />
+  </url>
+  <url>
+    <loc>https://alexdevcode.com/programador-freelancer-porto.php?lang=pt</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://alexdevcode.com/programador-freelancer-porto.php?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://alexdevcode.com/programador-freelancer-porto.php?lang=en" />
+    <xhtml:link rel="alternate" hreflang="es-ES" href="https://alexdevcode.com/programador-freelancer-porto.php?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alexdevcode.com/programador-freelancer-porto.php?lang=pt" />
+  </url>
+  <url>
+    <loc>https://alexdevcode.com/programador-freelancer-porto.php?lang=en</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://alexdevcode.com/programador-freelancer-porto.php?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://alexdevcode.com/programador-freelancer-porto.php?lang=en" />
+    <xhtml:link rel="alternate" hreflang="es-ES" href="https://alexdevcode.com/programador-freelancer-porto.php?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alexdevcode.com/programador-freelancer-porto.php?lang=pt" />
+  </url>
+  <url>
+    <loc>https://alexdevcode.com/programador-freelancer-porto.php?lang=es</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://alexdevcode.com/programador-freelancer-porto.php?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://alexdevcode.com/programador-freelancer-porto.php?lang=en" />
+    <xhtml:link rel="alternate" hreflang="es-ES" href="https://alexdevcode.com/programador-freelancer-porto.php?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alexdevcode.com/programador-freelancer-porto.php?lang=pt" />
+  </url>
+  <url>
+    <loc>https://alexdevcode.com/sistemas-personalizados.php?lang=pt</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://alexdevcode.com/sistemas-personalizados.php?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://alexdevcode.com/sistemas-personalizados.php?lang=en" />
+    <xhtml:link rel="alternate" hreflang="es-ES" href="https://alexdevcode.com/sistemas-personalizados.php?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alexdevcode.com/sistemas-personalizados.php?lang=pt" />
+  </url>
+  <url>
+    <loc>https://alexdevcode.com/sistemas-personalizados.php?lang=en</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://alexdevcode.com/sistemas-personalizados.php?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://alexdevcode.com/sistemas-personalizados.php?lang=en" />
+    <xhtml:link rel="alternate" hreflang="es-ES" href="https://alexdevcode.com/sistemas-personalizados.php?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alexdevcode.com/sistemas-personalizados.php?lang=pt" />
+  </url>
+  <url>
+    <loc>https://alexdevcode.com/sistemas-personalizados.php?lang=es</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://alexdevcode.com/sistemas-personalizados.php?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://alexdevcode.com/sistemas-personalizados.php?lang=en" />
+    <xhtml:link rel="alternate" hreflang="es-ES" href="https://alexdevcode.com/sistemas-personalizados.php?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alexdevcode.com/sistemas-personalizados.php?lang=pt" />
+  </url>
+  <url>
+    <loc>https://alexdevcode.com/auditoria-express.php?lang=pt</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://alexdevcode.com/auditoria-express.php?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://alexdevcode.com/auditoria-express.php?lang=en" />
+    <xhtml:link rel="alternate" hreflang="es-ES" href="https://alexdevcode.com/auditoria-express.php?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alexdevcode.com/auditoria-express.php?lang=pt" />
+  </url>
+  <url>
+    <loc>https://alexdevcode.com/auditoria-express.php?lang=en</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://alexdevcode.com/auditoria-express.php?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://alexdevcode.com/auditoria-express.php?lang=en" />
+    <xhtml:link rel="alternate" hreflang="es-ES" href="https://alexdevcode.com/auditoria-express.php?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alexdevcode.com/auditoria-express.php?lang=pt" />
+  </url>
+  <url>
+    <loc>https://alexdevcode.com/auditoria-express.php?lang=es</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://alexdevcode.com/auditoria-express.php?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://alexdevcode.com/auditoria-express.php?lang=en" />
+    <xhtml:link rel="alternate" hreflang="es-ES" href="https://alexdevcode.com/auditoria-express.php?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alexdevcode.com/auditoria-express.php?lang=pt" />
+  </url>
+  <url>
+    <loc>https://alexdevcode.com/automacoes.php?lang=pt</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://alexdevcode.com/automacoes.php?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://alexdevcode.com/automacoes.php?lang=en" />
+    <xhtml:link rel="alternate" hreflang="es-ES" href="https://alexdevcode.com/automacoes.php?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alexdevcode.com/automacoes.php?lang=pt" />
+  </url>
+  <url>
+    <loc>https://alexdevcode.com/automacoes.php?lang=en</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://alexdevcode.com/automacoes.php?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://alexdevcode.com/automacoes.php?lang=en" />
+    <xhtml:link rel="alternate" hreflang="es-ES" href="https://alexdevcode.com/automacoes.php?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alexdevcode.com/automacoes.php?lang=pt" />
+  </url>
+  <url>
+    <loc>https://alexdevcode.com/automacoes.php?lang=es</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+    <xhtml:link rel="alternate" hreflang="pt-PT" href="https://alexdevcode.com/automacoes.php?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://alexdevcode.com/automacoes.php?lang=en" />
+    <xhtml:link rel="alternate" hreflang="es-ES" href="https://alexdevcode.com/automacoes.php?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alexdevcode.com/automacoes.php?lang=pt" />
+  </url>
+</urlset>

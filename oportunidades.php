@@ -1,318 +1,300 @@
 <?php
-/*********************************************************************
- *  oportunidades.php  ·  Alex Oliveira portfolio
- *  - Job & CV board with 15-day auto-expiry and delete option
- *********************************************************************/
-
-session_start();
-if (!isset($_SESSION['csrf_token'])) {
-  $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
-$token = $_SESSION['csrf_token'];
+/**
+ * oportunidades.php · AlexDevCode
+ * Public, real opportunity radar powered by verified external sources.
+ * No demonstration vacancies and no database access.
+ */
 
 include_once 'includes/header.php';
-require_once  'includes/conexao.php';
 
-/*–– remove vacancies older than 15 days –––––––––––––––––––––––––––*/
-$pdo->exec("DELETE FROM vagas
-            WHERE data_expira IS NOT NULL
-              AND data_expira < NOW()");
-
-/*–– fetch data –––––––––––––––––––––––––––––––––––––––––––––––––––*/
-$vagas = $pdo->query("SELECT * FROM vagas ORDER BY data_publicacao DESC")
-             ->fetchAll(PDO::FETCH_ASSOC);
-
-$cvs   = $pdo->query("SELECT * FROM profissionais ORDER BY data_publicacao DESC")
-             ->fetchAll(PDO::FETCH_ASSOC);
+$radarConfig = json_encode(
+    array(
+        'apiUrl' => 'api/opportunities.php',
+        'initialRegion' => 'portugal'
+    ),
+    JSON_UNESCAPED_UNICODE |
+    JSON_UNESCAPED_SLASHES |
+    JSON_HEX_TAG |
+    JSON_HEX_AMP |
+    JSON_HEX_APOS |
+    JSON_HEX_QUOT
+);
 ?>
-<!-- Google-fonts & FontAwesome -->
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Fira+Code&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
-<style>
-/* –––––––––––––––––– DESIGN TOKENS –––––––––––––––––– */
-:root{
-  --dark:#1e1e1e;
-  --accent:#8b735d; --accent-dk:#715d4b;
-  --light-accent:#c6b8a9;
-  --bg:#d7d9dd;
-  --text:#ece8e1;
-  --radius:20px;
-  --transition:.3s ease;
-  --shadow:0 4px 14px rgba(0,0,0,.15);
-  --shadow-hov:0 8px 28px rgba(0,0,0,.25);
-}
-*{box-sizing:border-box}
-body{margin:0;font-family:Poppins,sans-serif;background:var(--bg);color:var(--dark)}
-.container{max-width:1100px;margin:auto;padding:2.5rem 1rem}
+<link rel="stylesheet" href="assets/css/opportunities-radar.css?v=20260803-3">
+<script src="assets/js/opportunities-radar.js?v=20260803-3" defer></script>
 
-/* ––––– Tabs ––––– */
-.tabs{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;
-      background:var(--dark);padding:.9rem 1.2rem;border-radius:var(--radius);box-shadow:var(--shadow)}
-.tabs button{all:unset;display:flex;align-items:center;gap:.45rem;color:var(--text);
-             padding:.45rem 1.1rem;border-radius:12px;font-weight:500;cursor:pointer;
-             transition:background var(--transition),transform var(--transition)}
-.tabs button:hover,
-.tabs button.active{background:var(--accent);transform:translateY(-2px)}
-.tabs i{font-size:1rem}
+<div class="job-scroll-progress" id="jobScrollProgress" aria-hidden="true"></div>
 
-/* ––––– Cards grid ––––– */
-.grid{display:grid;gap:2rem;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
-.card{background:var(--dark);color:var(--text);padding:1.4rem;border-radius:var(--radius);
-      box-shadow:var(--shadow);display:flex;flex-direction:column;position:relative;overflow:hidden}
-.card:hover{box-shadow:var(--shadow-hov);transform:translateY(-3px);transition:var(--transition)}
-.card h3{margin:.05rem 0 .45rem;font-size:1.15rem}
-.card small{color:var(--light-accent)}
-.card p{margin:.6rem 0 1.1rem;line-height:1.55}
+<main class="job-radar" id="main-content">
+    <section class="job-hero" aria-labelledby="jobRadarTitle">
+        <div class="job-hero-copy">
+            <span class="job-kicker">
+                <i data-lucide="radar" aria-hidden="true"></i>
+                Opportunity radar
+            </span>
 
-/* small buttons */
-.btn-mini{background:var(--accent);border:none;color:#fff;font-size:.85rem;
-          padding:.45rem 1rem;border-radius:12px;cursor:pointer;transition:background var(--transition);
-          text-decoration:none}
-.btn-mini:hover{background:var(--accent-dk)}
-.btn-trash{background:#b33939;margin-left:.4rem}
-.btn-trash:hover{background:#992d2d}
+            <h1 id="jobRadarTitle">
+                Find tech opportunities <span>closer to your reality.</span>
+            </h1>
 
-/* progress-bar + countdown */
-.bar{height:4px;width:100%;position:absolute;left:0;bottom:0;
-     background:var(--light-accent);border-radius:3px;transform-origin:left;
-     transform:scaleX(var(--perc));transition:transform .6s linear}
-.countdown{position:absolute;top:.7rem;right:.9rem;font-size:.75rem;color:var(--light-accent);
-           font-family:"Fira Code",monospace}
+            <p>
+                Search selected jobs, internships and freelance projects focused on Portugal,
+                Europe and Brazil — organised in one clear, practical experience.
+            </p>
 
-/* ––––– Modal wizard ––––– */
-#modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;
-       align-items:center;justify-content:center;z-index:1000}
-.modal-box{background:var(--dark);color:var(--text);width:95%;max-width:520px;
-           padding:2rem 2.2rem;border-radius:var(--radius);box-shadow:var(--shadow);
-           position:relative;animation:pop .25s}
-@keyframes pop{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
-.close{all:unset;position:absolute;top:.7rem;right:.9rem;font-size:1.3rem;
-       color:var(--text);cursor:pointer}
-.step-indic{display:flex;gap:.5rem;margin-bottom:1.3rem}
-.step-indic span{width:14px;height:14px;border-radius:50%;background:var(--light-accent);opacity:.5;transition:opacity var(--transition)}
-.step-indic span.active{opacity:1;background:var(--accent)}
+            <form class="job-search" id="jobSearchForm" role="search">
+                <label class="job-sr-only" for="jobSearchInput">Search opportunities</label>
 
-label{font-weight:600;margin-top:.35rem}
-input,textarea,select{width:100%;padding:.75rem;margin-top:.4rem;font-size:.95rem;
-  border-radius:12px;border:1px solid #555;background:#2a2a2a;color:var(--text)}
-textarea{min-height:110px;resize:vertical}
-.modal-btn{background:var(--accent);border:none;color:#fff;padding:.7rem 1.3rem;
-           border-radius:12px;font-weight:600;cursor:pointer;transition:background var(--transition)}
-.modal-btn:hover{background:var(--accent-dk)}
-.footer-btns{display:flex;gap:.8rem;justify-content:flex-end;margin-top:1rem}
-.toggle-email{display:flex;align-items:center;gap:.6rem;margin:.4rem 0;font-weight:600;font-size:.9rem}
+                <span class="job-search-icon" aria-hidden="true">
+                    <i data-lucide="search"></i>
+                </span>
 
-@media(max-width:600px){
-  .grid{grid-template-columns:1fr}
-  .tabs button{font-size:.9rem}
-}
-</style>
+                <input
+                    id="jobSearchInput"
+                    name="query"
+                    type="search"
+                    autocomplete="off"
+                    placeholder="Job title, technology or company..."
+                >
 
-<!-- ––––––––– HTML ––––––––– -->
-<main class="container">
+                <button type="submit">
+                    <span>Search</span>
+                    <i data-lucide="arrow-right" aria-hidden="true"></i>
+                </button>
+            </form>
 
-  <!-- Tabs -->
-  <nav class="tabs">
-    <button data-tab="vagas" class="active"><i class="fa-solid fa-briefcase"></i> Jobs</button>
-    <button data-tab="cvs"><i class="fa-solid fa-user"></i> CVs</button>
-    <button id="btn-novo"><i class="fa-solid fa-circle-plus"></i> New</button>
-  </nav>
+            <div class="job-quick-filters" id="jobQuickFilters" aria-label="Quick filters">
+                <button type="button" class="is-active" data-quick="all">
+                    <i data-lucide="layout-grid"></i>
+                    All
+                </button>
+                <button type="button" data-quick="remote">
+                    <i data-lucide="wifi"></i>
+                    Remote
+                </button>
+                <button type="button" data-quick="junior">
+                    <i data-lucide="sprout"></i>
+                    Junior
+                </button>
+                <button type="button" data-quick="php">PHP</button>
+                <button type="button" data-quick="react">React</button>
+                <button type="button" data-quick="frontend">Frontend</button>
+                <button type="button" data-quick="full stack">Full Stack</button>
+            </div>
+        </div>
 
-  <!-- Vacancies -->
-  <section id="vagas" class="grid">
-  <?php foreach($vagas as $v):
-        $exp=$v['data_expira'];
-        $perc=$exp?max(0,min(1,(strtotime($exp)-time())/1296000)):1; ?>
-    <div class="card" data-expira="<?= $exp ?>">
-      <?php if($exp):?>
-        <span class="countdown"></span>
-        <div class="bar" style="--perc:<?= $perc?>"></div>
-      <?php endif; ?>
+        <div class="job-radar-visual" aria-hidden="true">
+            <div class="job-radar-orbit orbit-one"></div>
+            <div class="job-radar-orbit orbit-two"></div>
+            <div class="job-radar-orbit orbit-three"></div>
+            <div class="job-radar-sweep"></div>
+            <span class="job-radar-dot dot-one"></span>
+            <span class="job-radar-dot dot-two"></span>
+            <span class="job-radar-dot dot-three"></span>
+            <span class="job-radar-center"></span>
+        </div>
+    </section>
 
-      <h3><?= htmlspecialchars($v['titulo']) ?></h3>
-      <small><?= htmlspecialchars($v['empresa']) ?> •
-             <?= (new DateTime($v['data_publicacao']))->format('d/m/Y') ?></small>
-      <p><?= nl2br(htmlspecialchars($v['descricao'])) ?></p>
+    <section class="job-region-shell" aria-label="Opportunity regions">
+        <div class="job-region-tabs" id="jobRegionTabs" role="tablist" aria-label="Select a region">
+            <button type="button" class="is-active" data-region="portugal" role="tab" aria-selected="true">
+                <span class="job-flag">PT</span>
+                Portugal
+            </button>
+            <button type="button" data-region="europe" role="tab" aria-selected="false">
+                <span class="job-flag">EU</span>
+                Europe
+            </button>
+            <button type="button" data-region="brazil" role="tab" aria-selected="false">
+                <span class="job-flag">BR</span>
+                Brazil
+            </button>
+            <button type="button" data-region="freelance" role="tab" aria-selected="false">
+                <i data-lucide="briefcase-business"></i>
+                Freelance
+            </button>
+        </div>
 
-      <div>
-        <?php if($v['link']): ?>
-          <a class="btn-mini" target="_blank"
-             href="<?= htmlspecialchars($v['link']) ?>">Open link</a>
-        <?php endif; ?>
-        <?php if(!empty($v['email'])): ?>
-          <a class="btn-mini" href="mailto:<?= htmlspecialchars($v['email']) ?>">Email</a>
-        <?php endif; ?>
+        <p class="job-region-note" id="jobRegionNote">
+            Showing opportunities located in Portugal or clearly open to candidates based in Portugal.
+        </p>
+    </section>
 
-        <!-- delete vacancy -->
-        <form action="excluir_vaga.php" method="POST" style="display:inline">
-          <input type="hidden" name="csrf" value="<?= $token ?>">
-          <input type="hidden" name="id"   value="<?= $v['id'] ?>">
-          <button type="submit" class="btn-mini btn-trash" title="Delete"
-                  onclick="return confirm('Delete this post?');">
-            <i class="fa-solid fa-trash"></i>
-          </button>
-        </form>
-      </div>
-    </div>
-  <?php endforeach; ?>
-  </section>
+    <section class="job-stats" aria-label="Radar summary">
+        <article>
+            <span class="job-stat-icon"><i data-lucide="briefcase"></i></span>
+            <div>
+                <strong id="jobStatTotal">0</strong>
+                <span>Opportunities</span>
+            </div>
+        </article>
 
-  <!-- CVs -->
-  <section id="cvs" class="grid" style="display:none">
-  <?php foreach($cvs as $cv): ?>
-    <div class="card">
-      <h3>👤 <?= htmlspecialchars($cv['nome']) ?></h3>
-      <small><?= htmlspecialchars($cv['email']) ?> •
-             <?= (new DateTime($cv['data_publicacao']))->format('d/m/Y') ?></small>
-      <p><?= nl2br(htmlspecialchars($cv['descricao'])) ?></p>
-      <a href="mailto:<?= htmlspecialchars($cv['email']) ?>" class="btn-mini">Contact</a>
-    </div>
-  <?php endforeach; ?>
-  </section>
+        <article>
+            <span class="job-stat-icon"><i data-lucide="clock-3"></i></span>
+            <div>
+                <strong id="jobStatUpdated">Updating…</strong>
+                <span>Last live sync</span>
+            </div>
+        </article>
 
+        <article>
+            <span class="job-stat-icon"><i data-lucide="database"></i></span>
+            <div>
+                <strong id="jobStatSources">0</strong>
+                <span>Sources represented</span>
+            </div>
+        </article>
+    </section>
+
+    <section class="job-browser" aria-labelledby="jobResultsTitle">
+        <div class="job-browser-head">
+            <div>
+                <span class="job-section-kicker">Selected opportunities</span>
+                <h2 id="jobResultsTitle">Recently added to the radar</h2>
+                <p id="jobResultsSummary" aria-live="polite">Connecting to verified opportunity sources…</p>
+            </div>
+
+            <button type="button" class="job-filter-toggle" id="jobFilterToggle" aria-expanded="false" aria-controls="jobFilterPanel">
+                <i data-lucide="sliders-horizontal"></i>
+                Filters
+                <span id="jobFilterCount">0</span>
+            </button>
+        </div>
+
+        <div class="job-filter-panel" id="jobFilterPanel" hidden>
+            <div class="job-filter-grid">
+                <label>
+                    <span>Work model</span>
+                    <select id="jobModeFilter">
+                        <option value="all">All models</option>
+                        <option value="remote">Remote</option>
+                        <option value="hybrid">Hybrid</option>
+                        <option value="onsite">On-site</option>
+                    </select>
+                </label>
+
+                <label>
+                    <span>Experience</span>
+                    <select id="jobLevelFilter">
+                        <option value="all">All levels</option>
+                        <option value="junior">Junior</option>
+                        <option value="mid">Mid-level</option>
+                        <option value="senior">Senior</option>
+                        <option value="any">Open level</option>
+                    </select>
+                </label>
+
+                <label>
+                    <span>Published</span>
+                    <select id="jobDateFilter">
+                        <option value="all">Any date</option>
+                        <option value="1">Last 24 hours</option>
+                        <option value="3">Last 3 days</option>
+                        <option value="7">Last 7 days</option>
+                    </select>
+                </label>
+
+                <label>
+                    <span>Sort by</span>
+                    <select id="jobSortFilter">
+                        <option value="recent">Most recent</option>
+                        <option value="title">Job title</option>
+                        <option value="company">Company</option>
+                    </select>
+                </label>
+            </div>
+
+            <button type="button" class="job-clear-filters" id="jobClearFilters">
+                <i data-lucide="rotate-ccw"></i>
+                Reset filters
+            </button>
+        </div>
+
+        <div class="job-featured-host" id="jobFeaturedHost"></div>
+
+        <div class="job-list-head">
+            <div class="job-list-copy">
+                <h3>More opportunities</h3>
+                <span id="jobVisibleCount" aria-live="polite">0 results</span>
+            </div>
+
+            <label class="job-page-size" for="jobPageSize">
+                <span>Jobs per page</span>
+                <select id="jobPageSize">
+                    <option value="5">5</option>
+                    <option value="10" selected>10</option>
+                    <option value="20">20</option>
+                    <option value="40">40</option>
+                </select>
+            </label>
+        </div>
+
+        <div class="job-results-grid" id="jobResultsGrid"></div>
+
+        <div class="job-pagination-shell" id="jobPaginationShell" hidden>
+            <p class="job-pagination-summary" id="jobPaginationSummary">Page 1 of 1</p>
+            <nav class="job-pagination" id="jobPagination" aria-label="Opportunity result pages"></nav>
+        </div>
+
+        <div class="job-empty" id="jobEmptyState" hidden>
+            <span><i data-lucide="search-x"></i></span>
+            <h3>No verified opportunities found</h3>
+            <p>Try another keyword, remove a filter or select a different region. Only opportunities with a real source link are displayed.</p>
+            <button type="button" id="jobEmptyReset">Reset search</button>
+        </div>
+    </section>
+
+    <section class="job-transparency" aria-labelledby="jobTransparencyTitle">
+        <span class="job-transparency-icon"><i data-lucide="shield-check"></i></span>
+        <div>
+            <span class="job-section-kicker">Transparent by design</span>
+            <h2 id="jobTransparencyTitle">The original source remains in control.</h2>
+            <p>
+                The radar organises public opportunities and sends the candidate to the original page to apply.
+                Salary, location and availability are only displayed when supplied by the source.
+            </p>
+        </div>
+        <div class="job-transparency-points">
+            <span><i data-lucide="external-link"></i> External application</span>
+            <span><i data-lucide="copy-check"></i> Duplicate control</span>
+            <span><i data-lucide="calendar-clock"></i> Recent results first</span>
+        </div>
+    </section>
+
+    <section class="job-demofirst" aria-labelledby="jobDemoFirstTitle">
+        <div class="job-demofirst-icon"><i data-lucide="play"></i></div>
+        <div>
+            <span class="job-section-kicker">Technical case study</span>
+            <h2 id="jobDemoFirstTitle">See how this live opportunity radar was engineered.</h2>
+            <p>
+                Explore the architecture, source normalisation, regional filtering and product experience behind this real public radar.
+            </p>
+        </div>
+        <a href="https://demofirst.alexdevcode.com/pt/demofirst" target="_blank" rel="noopener">
+            View on DemoFirst
+            <i data-lucide="arrow-up-right"></i>
+        </a>
+    </section>
 </main>
 
-<!-- ––––– Modal Wizard ––––– -->
-<div id="modal">
-  <div class="modal-box">
-    <button class="close" title="Close">&times;</button>
+<div class="job-drawer-backdrop" id="jobDrawerBackdrop" aria-hidden="true" hidden></div>
 
-    <div class="step-indic"><span id="dot1" class="active"></span><span id="dot2"></span></div>
-
-    <!-- step 1 -->
-    <div id="s1">
-      <h2>New opportunity</h2>
-      <label>Type</label>
-      <select id="tipoSel" required>
-        <option value="" disabled selected hidden>Choose…</option>
-        <option value="emprego">Job</option>
-        <option value="estagio">Internship</option>
-        <option value="outra">Other</option>
-        <option value="cv">CV</option>
-      </select>
-      <div class="footer-btns">
-        <button id="next" class="modal-btn" disabled>Next</button>
-      </div>
-    </div>
-
-    <!-- step 2 -->
-    <div id="s2" style="display:none">
-      <h2 id="formTitle"></h2>
-      <form id="dynForm" method="POST">
-        <input type="hidden" name="csrf" value="<?= $token ?>">
-        <!-- fields injected by JS -->
-        <div class="footer-btns">
-          <button type="button" id="back" class="modal-btn" style="background:#777">Back</button>
-          <button id="publish" class="modal-btn">Publish</button>
+<aside class="job-drawer" id="jobDrawer" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="jobDrawerTitle" tabindex="-1">
+    <div class="job-drawer-head">
+        <div>
+            <span class="job-section-kicker">Opportunity details</span>
+            <h2 id="jobDrawerTitle">Selected opportunity</h2>
         </div>
-      </form>
+
+        <button type="button" id="jobDrawerClose" aria-label="Close opportunity details">
+            <i data-lucide="x"></i>
+        </button>
     </div>
 
-  </div>
-</div>
+    <div class="job-drawer-body" id="jobDrawerBody"></div>
+</aside>
 
-<!-- ––––––––– JS ––––––––– -->
-<script>
-/* Tabs */
-document.querySelectorAll('.tabs button[data-tab]').forEach(btn=>{
-  btn.onclick=()=>{
-    document.querySelectorAll('.tabs button[data-tab]')
-            .forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    document.querySelectorAll('section')
-            .forEach(sec=>sec.style.display='none');
-    document.getElementById(btn.dataset.tab).style.display='grid';
-  };
-});
-
-/* Modal open / close */
-const modal=document.getElementById('modal');
-document.getElementById('btn-novo').onclick=()=>modal.style.display='flex';
-document.querySelector('.close').onclick=closeModal;
-window.onclick=e=>{ if(e.target===modal) closeModal(); };
-function closeModal(){ modal.style.display='none'; resetWizard(); }
-
-/* Wizard navigation */
-const dot1=document.getElementById('dot1'), dot2=document.getElementById('dot2');
-const s1=document.getElementById('s1'),  s2=document.getElementById('s2');
-const tipoSel=document.getElementById('tipoSel');
-tipoSel.onchange = ()=> document.getElementById('next').disabled=false;
-
-document.getElementById('next').onclick=()=>{
-  buildForm(tipoSel.value);
-  s1.style.display='none'; s2.style.display='block';
-  dot1.classList.remove('active'); dot2.classList.add('active');
-};
-document.getElementById('back').onclick=resetWizard;
-function resetWizard(){
-  s2.style.display='none'; s1.style.display='block';
-  dot2.classList.remove('active'); dot1.classList.add('active');
-  tipoSel.value=''; document.getElementById('next').disabled=true;
-}
-
-/* dynamic form builder */
-const form=document.getElementById('dynForm');
-function field(label,name,type='text',required=true){
-  return `<label>${label}${required?'*':''}</label>
-          <input name="${name}" type="${type}" ${required?'required':''}>`;
-}
-function buildForm(t){
-  form.action = (t==='cv') ? 'receber_profissional.php' : 'receber_vaga.php';
-  let html = `<input type="hidden" name="tipo" value="${t}">`;
-
-  const emailToggle = `
-    <label class="toggle-email">
-      <input type="checkbox" id="chkEmail"> Include contact e-mail
-    </label>
-    <div id="wrapEmail" style="display:none">
-      ${field('Contact e-mail','email','email',false)}
-    </div>`;
-
-  if(t==='emprego' || t==='estagio'){
-    html += field('Company','empresa')
-         + field(t==='emprego'?'Job title':'Area / Course','titulo')
-         + `<label>Description*</label><textarea name="descricao" required></textarea>`
-         + field('Link','link','url',false)
-         + emailToggle;
-    formTitle.textContent = t==='emprego' ? 'Publish a job' : 'Publish an internship';
-  }else if(t==='outra'){
-    html += field('Title','titulo')
-         + `<label>Description*</label><textarea name="descricao" required></textarea>`
-         + field('Link','link','url',false)
-         + emailToggle;
-    formTitle.textContent = 'Publish an opportunity';
-  }else{ /* cv */
-    html += field('Name','nome')
-         + field('E-mail','email','email')
-         + `<label>About you*</label><textarea name="descricao" required></textarea>`;
-    formTitle.textContent = 'Publish a CV';
-  }
-
-  /* clear previous dynamic fields */
-  form.querySelectorAll('input:not([type=hidden]),textarea,label.toggle-email,div#wrapEmail')
-      .forEach(el=>el.remove());
-  form.insertAdjacentHTML('afterbegin',html);
-
-  /* toggle optional email */
-  const chk=document.getElementById('chkEmail');
-  if(chk){
-    chk.onchange = ()=> document.getElementById('wrapEmail').style.display =
-                      chk.checked ? 'block' : 'none';
-  }
-}
-
-/* countdown + bar refresh */
-function tick(){
-  document.querySelectorAll('.card[data-expira]').forEach(card=>{
-    const exp=new Date(card.dataset.expira), diff=exp-new Date();
-    if(diff<=0){ card.remove(); return; }
-    const d=Math.floor(diff/86400000), h=Math.floor((diff%86400000)/3600000);
-    card.querySelector('.countdown').textContent = `${d}d ${h}h`;
-    card.style.setProperty('--perc', Math.max(0, Math.min(1, diff/1296000000)));
-  });
-}
-tick(); setInterval(tick,60000);
-</script>
+<script id="jobRadarConfig" type="application/json"><?= $radarConfig ?: '{}' ?></script>
 
 <?php include_once 'includes/footer.php'; ?>

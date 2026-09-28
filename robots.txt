@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+
+Disallow: /api/
+Disallow: /dados/
+Disallow: /storage/
+Disallow: /vendor/
+Disallow: /_backup/
+Disallow: /_cache/
+Disallow: /_tmp/
+
+Disallow: /enviar.php
+Disallow: /receber_profissional.php
+Disallow: /receber_vaga.php
+Disallow: /renovar_vaga.php
+Disallow: /excluir_vaga.php
+Disallow: /phpinfo.php
+
+Sitemap: https://alexdevcode.com/sitemap.xml
